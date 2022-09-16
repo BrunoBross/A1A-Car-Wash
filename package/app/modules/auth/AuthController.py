@@ -1,4 +1,4 @@
-from views.auth_view import AuthView
+from package.app.modules.auth.AuthView import AuthView
 
 
 class AuthController:

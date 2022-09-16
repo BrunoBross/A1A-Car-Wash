@@ -1,12 +1,12 @@
-from controllers.auth_controller import AuthController
+from package.app.modules.auth.AuthController import AuthController
 
 
-class SystemController:
+class App:
     def __init__(self):
         self.__auth_controller = AuthController()
         return
 
-    def start_system(self):
+    def start(self):
         self.open_initial_view()
 
     def open_initial_view(self):
