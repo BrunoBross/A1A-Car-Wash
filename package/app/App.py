@@ -1,13 +1,9 @@
-from package.app.modules.auth.AuthController import AuthController
+from package.Process import Process
+from package.app.modules.auth.AuthService import AuthService
 
 
-class App:
-    def __init__(self):
-        self.__auth_controller = AuthController()
-        return
+class App(Process):
 
-    def start(self):
-        self.open_initial_view()
-
-    def open_initial_view(self):
-        self.__auth_controller.open_view()
+    @staticmethod
+    def start():
+        AuthService.start()
