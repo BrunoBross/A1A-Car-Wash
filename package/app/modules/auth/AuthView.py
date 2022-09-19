@@ -1,21 +1,25 @@
 from PySimpleGUI import Button, Column, Text
 from package.app.gui.WindowService import WindowService
+from package.app.meta.Singleton import Singleton
 
 
-class AuthView:
+class AuthView(metaclass=Singleton):
 
-    @staticmethod
-    def login():
+    def __init__(self):
+        self.__windowService = WindowService()
+
+    def login(self):
 
         layout = [
             [Column([
-                [Text('Hello')],
-                [Button('OK')]
+                [Text('Login')],
+                [Button('OK')],
+                [Button('NAO OK')]
             ],
             pad=(0, 50),
             element_justification='c')
             ]
         ]
-        val = WindowService.form('Auth', layout)
+        val = self.__windowService.form('Auth', layout, closeable=True)
 
         return val
