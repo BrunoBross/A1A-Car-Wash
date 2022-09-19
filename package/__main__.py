@@ -1,23 +1,26 @@
 import sys
-from typing import Optional
+from typing import Type
+from package.Process import Process
 from package.app.App import App
 from package.Config import Config
+from package.app.exception.InvalidArgumentException import InvalidArgumentException
 from package.database.Database import Database
 
-def parseInput(argv: list[str]) -> Optional[int]:
+COMMAND_LINE_OPTION_MAP = {
+    Config.OPTION_APP: App,
+    Config.OPTION_DATABASE: Database
+}
+
+def parseInput(argv: list[str]) -> Type[Process]:
     argc = len(sys.argv)
-    match argc: 
-        case 1:
-            return 0
-        case 2:
-            if argv[1] == Config.MIGRATION_CODE: return 1
-        case _:
-            exit(1)
+    if argc != 2 or argv[1] not in Config.OPTIONS:
+        raise InvalidArgumentException
+
+    return COMMAND_LINE_OPTION_MAP[argv[1]]
 
 def main() -> None:
     argv = sys.argv
-    is_migration = parseInput(argv)
-    process = Database if is_migration else App
+    process = parseInput(argv)
     process.start()
 
 if __name__ == '__main__':

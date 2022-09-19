@@ -9,23 +9,23 @@ pip install -r requirements.txt
 Para conectar ao banco de dados:
 
 ```python
-# Após subir serviço de banco SQLite/Postgres/etc..
-# Editar em package/Config.py
+# Exportar endereço do banco em variável de ambiente "A1A_DATABASE"
+# ex.: "sqlite:///nome_do_banco.db"
 
 class Config:
     ...
-    SQLALCHEMY_DB_URI = "uri do banco/port/whatever..."
+    SQLALCHEMY_DB_URI = os.environ.get('A1A_DATABASE')
     ...
 ```
 
 Executar migrações de banco:
 
 ```
-python -m package --migrate
+python -m package database
 ```
 
 Executar o projeto:
 
 ```
-python -m package
+python -m package app
 ```
