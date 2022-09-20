@@ -1,5 +1,5 @@
 from PySimpleGUI import Column, Text
-from package.app.gui.WindowService import WindowService
+from package.app.client.gui.WindowService import WindowService
 from package.app.meta.Singleton import Singleton
 
 

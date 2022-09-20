@@ -1,5 +1,5 @@
 from package.app import sqlalchemy_session
 
 
-class Dao:
+class DAO:
     __session = sqlalchemy_session

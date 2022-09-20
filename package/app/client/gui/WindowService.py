@@ -4,7 +4,7 @@ from package.Config import Config
 from package.app.meta.Singleton import Singleton
 
 
-class WindowService(metaclass=Singleton):
+class WindowService(metaclass=Singleton):   # TODO: Portar para GTK
 
     @staticmethod
     def form(title: str, layout: list[Any], closeable: bool = False) -> tuple:

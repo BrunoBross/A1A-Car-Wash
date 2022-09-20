@@ -1,14 +1,14 @@
 from PySimpleGUI import Button, Column, Text
-from package.app.gui.WindowService import WindowService
+from package.app.client.gui.WindowService import WindowService
 from package.app.meta.Singleton import Singleton
 
 
-class AuthView(metaclass=Singleton):
+class LoginView(metaclass=Singleton):
 
     def __init__(self):
         self.__windowService = WindowService()
 
-    def login(self):
+    def getInfo(self):
 
         layout = [
             [Column([
