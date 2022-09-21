@@ -1,4 +1,4 @@
-from PySimpleGUI import Button, Column, Text
+from PySimpleGUI import Button, Column, InputText, Text
 from package.app.client.gui.WindowService import WindowService
 from package.app.meta.Singleton import Singleton
 
@@ -13,8 +13,9 @@ class LoginView(metaclass=Singleton):
         layout = [
             [Column([
                 [Text('Login')],
+                [Text('username', size =(15, 1)), InputText()],
+                [Text('password', size =(15, 1)), InputText()],
                 [Button('OK')],
-                [Button('NAO OK')]
             ],
             pad=(0, 50),
             element_justification='c')
