@@ -12,3 +12,4 @@ class Config:
     OPTION_DATABASE = "database"
     OPTION_APP = "app"
     OPTIONS = { OPTION_APP, OPTION_DATABASE }
+    EMPLOYEE_WAGE_DEFAULT = 1000

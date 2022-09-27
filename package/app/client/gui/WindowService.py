@@ -7,28 +7,16 @@ from package.app.meta.Singleton import Singleton
 class WindowService(metaclass=Singleton):   # TODO: Portar para GTK
 
     @staticmethod
-    def form(title: str, layout: list[Any], closeable: bool = False) -> tuple:
-        input = WindowService.__open(title, layout, closeable)
+    def form(title: str, layout: list[Any]) -> tuple:
+        input = WindowService.__open(title, layout)
         return input
 
     @staticmethod
     def message(title: str, layout: list[Any], closeable: bool = False) -> None:
-        WindowService.__open(title, layout, closeable)
+        WindowService.__open(title, layout)
 
     @staticmethod
-    def __makeCloseable(layout: list[Any]):
-        layout.append(
-        [Column([
-            [Button(
-                button_text=Config.CLOSE_BTN_TXT,
-                key=Config.CLOSE_BTN_VAL
-            )],
-        ])])
-
-    @staticmethod
-    def __open(title: str, layout: list[Any], closeable: bool = False):
-        if closeable: WindowService.__makeCloseable(layout)
-
+    def __open(title: str, layout: list[Any]):
         window = Window(
             f"{Config.APP_NAME} - {title}",
             element_justification='c',
@@ -42,6 +30,3 @@ class WindowService(metaclass=Singleton):   # TODO: Portar para GTK
         if Config.CLOSE_BTN_VAL in input:
             WindowService.__quit()
         return input
-
-    @staticmethod
-    def __quit(): exit(0)

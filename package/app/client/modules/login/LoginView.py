@@ -21,6 +21,6 @@ class LoginView(metaclass=Singleton):
             element_justification='c')
             ]
         ]
-        val = self.__windowService.form('Auth', layout, closeable=True)
+        val = self.__windowService.form('Auth', layout)
 
         return val

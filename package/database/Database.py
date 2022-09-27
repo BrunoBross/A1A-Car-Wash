@@ -1,12 +1,9 @@
-import bcrypt
-
 from package.Process import Process
-from package.Config import Config
-from package.app.exception.DatabaseConnectionFailedException import DatabaseConnectionFailedException
 from package.app.api.crypt.utils import encrypt
 from package.app import sqlalchemy_base, sqlalchemy_engine, sqlalchemy_session
 
 from package.database.imports import *
+from package.database.migration import createMigration
 
 class Database(Process):
 
@@ -28,10 +25,8 @@ class Database(Process):
 
     @staticmethod
     def __migrate():
-        sqlalchemy_session.add(User(
-            username="admin",
-            password=encrypt("senha")
-        ))
-
+        migrations = createMigration()
+        for element in migrations:
+            sqlalchemy_session.add(element)
         sqlalchemy_session.commit()
 

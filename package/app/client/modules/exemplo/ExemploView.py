@@ -16,7 +16,7 @@ class ExemploView(metaclass=Singleton):
             element_justification='c')
             ]
         ]
-        self.__windowService.message('Home Screen', layout, closeable=True)
+        self.__windowService.message('Home Screen', layout)
 
     def unableToAccessModule(self):
         layout = [
@@ -27,4 +27,4 @@ class ExemploView(metaclass=Singleton):
             element_justification='c')
             ]
         ]
-        self.__windowService.message('Unable to access module', layout, closeable=True)
+        self.__windowService.message('Unable to access module', layout)
