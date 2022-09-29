@@ -1,18 +1,21 @@
-from typing import Any, Optional, Type
-from package.app.client.modules.login.LoginComponent import LoginComponent
+from typing import Type
+from package.app.api.enum.RoleEnum import RoleEnum
+from package.app.client.gui.WindowService import WindowService
+from package.app.client.layout.Builder import Builder
 from package.app.meta.Singleton import Singleton
-from package.app.template.IAppComponent import IAppComponent
 from package.app.template.IAppModule import IAppModule
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 
 class Client(IAppModule, metaclass=Singleton):
-
-
     def __init__(self):
-        self.__component: Optional[Type[IAppComponent]] = LoginComponent
+        self.__windowService = WindowService()
+        self.__builder = Builder()
 
     def start(self):
-        while True:
-            if not self.__component: exit(0)
-            self.__component = self.__component().start()
-
+        window = self.__builder.buildView(RoleEnum.GERENTE)
+        self.__windowService.displayWindow(window)
+        Gtk.main()

@@ -1,26 +1,18 @@
-from PySimpleGUI import Button, Column, InputText, Text
-from package.app.client.gui.WindowService import WindowService
 from package.app.meta.Singleton import Singleton
+import gi
+
+from package.app.template.IAppComponent import IAppComponent
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 
-class LoginView(metaclass=Singleton):
+class LoginView(IAppComponent, metaclass=Singleton):
+    @staticmethod
+    def get() -> Gtk.Box:
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        label = Gtk.Label()
+        label.set_text("Hello!")
+        box.pack_start(label, False, False, 0)
 
-    def __init__(self):
-        self.__windowService = WindowService()
-
-    def getInfo(self):
-
-        layout = [
-            [Column([
-                [Text('Login')],
-                [Text('username', size =(15, 1)), InputText()],
-                [Text('password', size =(15, 1)), InputText()],
-                [Button('OK')],
-            ],
-            pad=(0, 50),
-            element_justification='c')
-            ]
-        ]
-        val = self.__windowService.form('Auth', layout)
-
-        return val
+        return box

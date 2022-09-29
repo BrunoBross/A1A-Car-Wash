@@ -1,32 +1,17 @@
-from typing import Any
-from PySimpleGUI import Button, Column, Window
-from package.Config import Config
+from typing import Type
 from package.app.meta.Singleton import Singleton
+from package.app.client.gui.Window import Window
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 
-class WindowService(metaclass=Singleton):   # TODO: Portar para GTK
+class WindowService(metaclass=Singleton):
+    def getWindow(self) -> Type[Gtk.Window]:
+        window = Window()
+        window.connect("destroy", Gtk.main_quit)
+        return window
 
-    @staticmethod
-    def form(title: str, layout: list[Any]) -> tuple:
-        input = WindowService.__open(title, layout)
-        return input
-
-    @staticmethod
-    def message(title: str, layout: list[Any], closeable: bool = False) -> None:
-        WindowService.__open(title, layout)
-
-    @staticmethod
-    def __open(title: str, layout: list[Any]):
-        window = Window(
-            f"{Config.APP_NAME} - {title}",
-            element_justification='c',
-            size=(
-                Config.WINDOW_WIDTH,
-                Config.WINDOW_HEIGHT
-        )).Layout(layout)
-
-        input = window.Read()
-        window.Close()
-        if Config.CLOSE_BTN_VAL in input:
-            WindowService.__quit()
-        return input
+    def displayWindow(self, window: Type[Gtk.Window]) -> None:
+        window.show_all()
