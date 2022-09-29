@@ -5,11 +5,10 @@ from package.app.template.IAppComponent import IAppComponent
 
 
 class ExemploComponent(IAppComponent, metaclass=Singleton):
-
     def __init__(self):
         self.__exemploController = ExemploController()
         self.__view = ExemploView()
 
     def start(self):
-        data = self.__exemploController.getExampleInfo()
-        self.__view.showHomeScreen(data)
+        # data = self.__exemploController.getExampleInfo()
+        pass

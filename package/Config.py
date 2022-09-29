@@ -11,6 +11,7 @@ class Config:
     WINDOW_HEIGHT = 700
     SIDEBAR_WIDTH = 350
     BORDER_WIDTH = 10
+    GTK_VERSION = "3.0"
     OPTION_DATABASE = "database"
     OPTION_APP = "app"
     OPTIONS = {OPTION_APP, OPTION_DATABASE}

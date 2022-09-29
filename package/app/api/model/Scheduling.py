@@ -15,7 +15,9 @@ class Scheduling(sqlalchemy_base):
     job_id = Column(Integer, ForeignKey("tb_job.id"), primary_key=True)
     vehicle_id = Column(Integer, ForeignKey("tb_vehicle.id"), primary_key=True)
     date = Column(Date, primary_key=True)
-    job_state_id = Column(Integer, ForeignKey("tb_scheduling_state.id"))
+    job_state_id = Column(
+        Integer, ForeignKey("tb_scheduling_state.id"), nullable=False, default=1
+    )
 
     employee = relationship(Employee)
     job = relationship(Job)

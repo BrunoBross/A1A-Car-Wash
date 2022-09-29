@@ -4,9 +4,9 @@ from package.app.meta.Singleton import Singleton
 
 
 class AuthController(metaclass=Singleton):
-
     def __init__(self):
         self.__authService = AuthService()
 
     def authenticate(self, data: AuthDto) -> bool:
+        print(data)
         return self.__authService.authenticate(data)

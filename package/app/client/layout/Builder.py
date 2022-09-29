@@ -1,40 +1,28 @@
 from package.Config import Config
-from package.app.api.enum.RoleEnum import RoleEnum
-from package.app.client.gui.WindowService import WindowService
-from package.app.client.layout.sidebar import sidebarItems
+from package.app.client.gui.window.Window import Window
+from package.app.client.gui.window.WindowService import WindowService
+from package.app.client.layout.Layout import Layout
+from package.app.client.modules.login.LoginView import LoginView
 from package.app.meta.Singleton import Singleton
-import gi
+from package.app.client.gui.imports import Gtk
 
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+LAYOUT = Layout
+AUTH = LoginView
 
 
 class Builder(metaclass=Singleton):
     def __init__(self):
         self.__windowService = WindowService()
 
-    def buildView(self, role: RoleEnum) -> Gtk.Window:
-        window = self.__windowService.getWindow()
-        box = Gtk.Box(Gtk.Orientation.HORIZONTAL)
+    def buildAuthView(self) -> Window:
+        window = self.__windowService.getWindow(essential=True)
+        window.add(AUTH().get())
+        window.set_resizable(False)
+        return window
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
-        stack.set_transition_duration(500)
-        for key, value in sidebarItems.items():
-            print(key, value)
-            if role in value.roles:
-                stack.add_titled(value.component.get(), key, key)
-
-        switcher = Gtk.StackSwitcher()
-        switcher.set_orientation(orientation=Gtk.Orientation.VERTICAL)
-        switcher.set_stack(stack)
-
-        box.pack_start(switcher, False, True, 0)
-        box.pack_start(stack, True, True, 0)
-
-        Gtk.Widget.set_size_request(switcher, Config.SIDEBAR_WIDTH, -1)
+    def buildMainView(self) -> Window:
+        window = self.__windowService.getWindow(essential=True)
+        window.add(LAYOUT().get())
         Gtk.Window.set_size_request(window, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT)
-
-        window.add(box)
 
         return window

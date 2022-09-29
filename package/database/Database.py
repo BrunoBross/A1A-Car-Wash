@@ -1,12 +1,11 @@
 from package.Process import Process
-from package.app.api.crypt.utils import encrypt
 from package.app import sqlalchemy_base, sqlalchemy_engine, sqlalchemy_session
 
 from package.database.imports import *
 from package.database.migration import createMigration
 
-class Database(Process):
 
+class Database(Process):
     @staticmethod
     def start():
         Database.__dropAll()
@@ -29,4 +28,3 @@ class Database(Process):
         for element in migrations:
             sqlalchemy_session.add(element)
         sqlalchemy_session.commit()
-
