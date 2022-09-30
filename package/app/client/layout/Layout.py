@@ -7,7 +7,7 @@ from package.app.meta.Singleton import Singleton
 from package.app.template.IAppComponent import IAppComponent
 
 
-class Layout(IAppComponent, metaclass=Singleton):
+class MainView(IAppComponent, metaclass=Singleton):
     @staticmethod
     def get() -> Gtk.Box:
         role = RoleEnum.GERENTE  # TODO: trocar
