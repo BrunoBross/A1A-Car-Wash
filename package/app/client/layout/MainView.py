@@ -2,15 +2,20 @@ from package.Config import Config
 from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
+from package.app.client.layout.MainComponent import MainComponent
 from package.app.client.layout.sidebar import sidebarItems
+from package.app.client.state.ComponentState import ComponentState
 from package.app.meta.Singleton import Singleton
 from package.app.template.IAppComponent import IAppComponent
 
 
 class MainView(IAppComponent, metaclass=Singleton):
-    @staticmethod
-    def get() -> Gtk.Box:
-        role = RoleEnum.GERENTE  # TODO: trocar
+    def __init__(self):
+        self.__component = MainComponent()
+        self.__state = ComponentState()
+
+    def get(self) -> Gtk.Box:
+        role = self.__component.getUserContext().getRole()
 
         box = Box(Gtk.Orientation.HORIZONTAL)
 
