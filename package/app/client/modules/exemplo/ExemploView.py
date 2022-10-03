@@ -1,30 +1,19 @@
-from PySimpleGUI import Column, Text
-from package.app.client.gui.WindowService import WindowService
+from package.app.client.modules.exemplo.ExemploComponent import ExemploComponent
 from package.app.meta.Singleton import Singleton
+from package.app.client.gui.imports import Gtk
+from package.app.template.IAppComponent import IAppComponent
 
 
-class ExemploView(metaclass=Singleton):
+class ExemploView(IAppComponent, metaclass=Singleton):
     def __init__(self):
-        self.__windowService = WindowService()
+        self.__component = ExemploComponent()
 
-    def showHomeScreen(self, info):
-        layout = [
-            [Column([
-                [Text(info)],
-            ],
-            pad=(0, 50),
-            element_justification='c')
-            ]
-        ]
-        self.__windowService.message('Home Screen', layout)
+    def get(self) -> Gtk.Box:
+        text = self.__component.getText()
 
-    def unableToAccessModule(self):
-        layout = [
-            [Column([
-                [Text("garaio senhor white 💀")],
-            ],
-            pad=(0, 50),
-            element_justification='c')
-            ]
-        ]
-        self.__windowService.message('Unable to access module', layout)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        label = Gtk.Label()
+        label.set_text(text)
+        box.pack_start(label, False, False, 0)
+
+        return box

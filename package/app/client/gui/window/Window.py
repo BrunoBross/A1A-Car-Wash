@@ -1,12 +1,8 @@
-import gi
-
 from package.Config import Config
-
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from package.app.client.gui.imports import Gtk
 
 
 class Window(Gtk.Window):
     def __init__(self):
-        super().__init__(title=Config.APP_NAME)
+        super().__init__()
         self.set_border_width(Config.BORDER_WIDTH)

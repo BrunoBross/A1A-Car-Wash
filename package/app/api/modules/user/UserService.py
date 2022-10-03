@@ -6,11 +6,12 @@ from package.app.meta.Singleton import Singleton
 
 
 class UserService(metaclass=Singleton):
-
     def __init__(self):
         self.__query = UserQuery()
         self.__userDtoMapper = UserDtoMapper()
 
     def getUserByUsername(self, username: str) -> Optional[UserDto]:
-        return self.__userDtoMapper.mapUserToDto(self.__query.getUserByUsername(username))
-
+        user = self.__query.getUserByUsername(username)
+        if user:
+            return self.__userDtoMapper.mapUserToDto(user)
+        return None
