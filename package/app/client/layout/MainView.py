@@ -15,7 +15,10 @@ class MainView(IAppComponent, metaclass=Singleton):
         self.__state = ComponentState()
 
     def get(self) -> Gtk.Box:
-        role = self.__component.getUserContext().getRole()
+        userContext = self.__component.getUserContext().get()
+        if not userContext:
+            return
+        role = userContext.role
 
         box = Box(Gtk.Orientation.HORIZONTAL)
 

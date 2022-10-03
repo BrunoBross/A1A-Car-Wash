@@ -1,4 +1,4 @@
-from typing import Any, Type
+from typing import Type
 
 from sqlalchemy.orm import Query
 
@@ -12,4 +12,3 @@ class DAO(metaclass=Singleton):
 
     def query(self, model: Type[sqlalchemy_base]) -> Query:
         return self.__session.query(model)
-

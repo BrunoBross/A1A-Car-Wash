@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class LoginEventEnum(Enum):
+class EventEnum(Enum):
     STARTUP = auto()
     LOGIN = auto()
     LOGOUT = auto()

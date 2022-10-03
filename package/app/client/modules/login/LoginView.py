@@ -54,13 +54,11 @@ class LoginView(IAppComponent, metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        print(
-            self.__component.requestAuth(
-                Gtk.EntryBuffer.get_text(
-                    Gtk.Entry.get_buffer(self.__state.getReferenceById("username"))
-                ),
-                Gtk.EntryBuffer.get_text(
-                    Gtk.Entry.get_buffer(self.__state.getReferenceById("password"))
-                ),
-            )
+        self.__component.requestAuth(
+            Gtk.EntryBuffer.get_text(
+                Gtk.Entry.get_buffer(self.__state.getReferenceById("username"))
+            ),
+            Gtk.EntryBuffer.get_text(
+                Gtk.Entry.get_buffer(self.__state.getReferenceById("password"))
+            ),
         )

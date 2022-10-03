@@ -1,5 +1,5 @@
-from package.app.client.modules.login.LoginEventEnum import LoginEventEnum
-from package.app.client.modules.login.LoginEventManager import LoginEventManager
+from package.app.client.event.EventEnum import EventEnum
+from package.app.client.event.EventManager import EventManager
 from package.app.meta.Singleton import Singleton
 from package.app.template.IAppModule import IAppModule
 from package.app.client.gui.imports import Gtk
@@ -7,8 +7,8 @@ from package.app.client.gui.imports import Gtk
 
 class Client(IAppModule, metaclass=Singleton):
     def __init__(self):
-        self.__eventManager = LoginEventManager()
+        self.__eventManager = EventManager()
 
     def start(self):
-        self.__eventManager.post(LoginEventEnum.STARTUP)
+        self.__eventManager.post(EventEnum.STARTUP)
         Gtk.main()
