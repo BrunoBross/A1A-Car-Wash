@@ -1,14 +1,17 @@
 from typing import Optional
-from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.api.modules.user.dto.UserDto import UserDto
 from package.app.client.event.EventEnum import EventEnum
 from package.app.client.event.EventManager import EventData, EventManager
 from package.app.meta.Singleton import Singleton
 
 
+def getEmptyUser():
+    return UserDto(None, None, None)
+
+
 class UserContext(metaclass=Singleton):
     def __init__(self):
-        self.__data: UserDto = UserDto(None, None, None)
+        self.__data: UserDto = getEmptyUser()
         self.__eventManager = EventManager()
         self.__subscribeSetup()
 
@@ -24,7 +27,7 @@ class UserContext(metaclass=Singleton):
             self.__eventManager.post(EventEnum.CONTEXT_SET)
 
     def __unsetUserContext(self, _: EventData):
-        self.__data = None
+        self.__data = getEmptyUser()
 
     def __subscribeSetup(self):
         self.__eventManager.subscribe(EventEnum.LOGIN, self.__setUserContext)

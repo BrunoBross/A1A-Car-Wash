@@ -18,20 +18,6 @@ class MainView(IAppComponent, metaclass=Singleton):  # TODO: logout
         user = self.__component.getUserContext().get()
 
         box = Box(Gtk.Orientation.HORIZONTAL)
-
-        menuBar = Gtk.MenuBar()
-        sessionMenu = Gtk.Menu()
-        sessionMenuDropdown = Gtk.MenuItem("Session")
-        sessionExit = Gtk.MenuItem("Exit session")
-        sessionQuit = Gtk.MenuItem(f"Quit {Config.APP_NAME}")
-        sessionAppInfo = Gtk.MenuItem("About app")
-        sessionMenu.append(sessionExit)
-        sessionMenu.append(sessionQuit)
-        sessionMenu.append(Gtk.SeparatorMenuItem())
-        sessionMenu.append(sessionAppInfo)
-        sessionMenuDropdown.set_submenu(sessionMenu)
-        menuBar.append(sessionMenuDropdown)
-
         stack = Gtk.Stack()
         stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
         stack.set_transition_duration(500)
@@ -46,7 +32,6 @@ class MainView(IAppComponent, metaclass=Singleton):  # TODO: logout
 
         Gtk.Widget.set_size_request(switcher, Config.SIDEBAR_WIDTH, -1)
 
-        box.pack_start(menuBar, False, False, 0)
         box.pack_start(switcher, False, True, 0)
         box.pack_default(stack)
 

@@ -16,3 +16,4 @@ class Config:
     OPTION_APP = "app"
     OPTIONS = {OPTION_APP, OPTION_DATABASE}
     EMPLOYEE_WAGE_DEFAULT = 1000
+    LOG_OUT = print
