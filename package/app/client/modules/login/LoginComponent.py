@@ -15,4 +15,4 @@ class LoginComponent(metaclass=Singleton):
     def requestAuth(self, username: str, password: str):
         userData = self.__authController.authenticate(AuthDto(username, password))
         if userData:
-            self.__eventManager.post(EventEnum.LOGIN, EventData(userData))
+            self.__eventManager.post(EventEnum.LOGIN, userData)

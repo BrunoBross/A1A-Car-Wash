@@ -9,23 +9,25 @@ class EventData:
     data: Optional[Any]
 
 
-EventHandler = Callable[[EventData], Optional[Any]]
+EventHandlerCallback = Callable[[EventData], Optional[Any]]
 
 
 class EventManager(metaclass=Singleton):
     def __init__(self):
-        self.__subscribers: Dict[EventEnum, Set[EventHandler]] = {
+        self.__subscribers: Dict[EventEnum, Set[EventHandlerCallback]] = {
             EventEnum.STARTUP: set(),
             EventEnum.LOGIN: set(),
             EventEnum.LOGOUT: set(),
+            EventEnum.CONTEXT_SET: set(),
         }
 
-    def subscribe(self, event: EventEnum, callback: EventHandler):
+    def subscribe(self, event: EventEnum, callback: EventHandlerCallback):
         self.__subscribers[event].add(callback)
 
-    def unsubscribe(self, event: EventEnum, callback: EventHandler):
+    def unsubscribe(self, event: EventEnum, callback: EventHandlerCallback):
         self.__subscribers[event].remove(callback)
 
-    def post(self, event: EventEnum, data: EventData = EventData(data=None)):
+    def post(self, event: EventEnum, data: Optional[Any] = None):
+        eventData = EventData(data=data)
         for fn in self.__subscribers[event]:
-            fn(data)
+            fn(eventData)

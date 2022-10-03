@@ -11,8 +11,8 @@ from package.app.client.gui.imports import Gtk
 class Builder(metaclass=Singleton):
     def __init__(self):
         self.__windowService = WindowService()
-        self.__mainView = self.__buildMainView()
-        self.__authView = self.__buildAuthView()
+        self.__mainView: Gtk.Window
+        self.__authView: Gtk.Window
         self.__eventManager = EventManager()
         self.__subscribeSetup()
 
@@ -20,6 +20,7 @@ class Builder(metaclass=Singleton):
         window = self.__windowService.getWindow(essential=False)
         window.add(AUTH.get())
         window.set_resizable(False)
+        self.__authView = window
 
         return window
 
@@ -27,24 +28,27 @@ class Builder(metaclass=Singleton):
         window = self.__windowService.getWindow(essential=True)
         window.add(MAIN.get())
         Gtk.Window.set_size_request(window, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT)
+        self.__mainView = window
 
         return window
 
     def __displayMainView(self, _: EventData):
-        self.__windowService.displayWindow(self.__mainView)
+        self.__windowService.displayWindow(self.__buildMainView())
 
     def __displayAuthView(self, _: EventData):
-        self.__windowService.displayWindow(self.__authView)
+        self.__windowService.displayWindow(self.__buildAuthView())
 
     def __closeMainView(self, _: EventData):
         self.__windowService.closeWindow(self.__mainView)
+        self.__mainView = None
 
     def __closeAuthView(self, _: EventData):
         self.__windowService.closeWindow(self.__authView)
+        self.__authView = None
 
     def __subscribeSetup(self):
         self.__eventManager.subscribe(EventEnum.STARTUP, self.__displayAuthView)
-        self.__eventManager.subscribe(EventEnum.LOGIN, self.__displayMainView)
-        self.__eventManager.subscribe(EventEnum.LOGIN, self.__closeAuthView)
+        self.__eventManager.subscribe(EventEnum.CONTEXT_SET, self.__displayMainView)
+        self.__eventManager.subscribe(EventEnum.CONTEXT_SET, self.__closeAuthView)
         self.__eventManager.subscribe(EventEnum.LOGOUT, self.__displayAuthView)
         self.__eventManager.subscribe(EventEnum.LOGOUT, self.__closeMainView)

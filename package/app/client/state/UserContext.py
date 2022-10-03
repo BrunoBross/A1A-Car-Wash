@@ -8,23 +8,23 @@ from package.app.meta.Singleton import Singleton
 
 class UserContext(metaclass=Singleton):
     def __init__(self):
-        self.__data: Optional[UserDto]
+        self.__data: UserDto = UserDto(None, None, None)
         self.__eventManager = EventManager()
         self.__subscribeSetup()
 
     def isAuthenticated(self) -> bool:
-        return bool(self.__data)
+        return bool(self.__data.role)
 
     def get(self) -> Optional[UserDto]:
         return self.__data
 
     def __setUserContext(self, data: EventData):
-        self.__data = data.data
-        print("Setting user context ...")
+        if isinstance(data.data, UserDto):
+            self.__data = data.data
+            self.__eventManager.post(EventEnum.CONTEXT_SET)
 
     def __unsetUserContext(self, _: EventData):
         self.__data = None
-        print("Unsetting user context ...")
 
     def __subscribeSetup(self):
         self.__eventManager.subscribe(EventEnum.LOGIN, self.__setUserContext)

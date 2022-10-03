@@ -5,3 +5,4 @@ class EventEnum(Enum):
     STARTUP = auto()
     LOGIN = auto()
     LOGOUT = auto()
+    CONTEXT_SET = auto()
