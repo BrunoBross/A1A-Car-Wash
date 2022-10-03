@@ -14,7 +14,7 @@ class AuthService(metaclass=Singleton):
 
     def authenticate(self, data: AuthDto) -> Optional[UserDto]:
         user = self.__query.getUserByUsername(data.username)
-        if not user:
-            return
-        if matchHash(data.password, user.password):
-            return self.__userDtoMapper.mapUserToDto(user)
+        if user:
+            if matchHash(data.password, user.password):
+                return self.__userDtoMapper.mapUserToDto(user)
+        return None

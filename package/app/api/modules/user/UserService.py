@@ -14,3 +14,4 @@ class UserService(metaclass=Singleton):
         user = self.__query.getUserByUsername(username)
         if user:
             return self.__userDtoMapper.mapUserToDto(user)
+        return None

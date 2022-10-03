@@ -1,5 +1,4 @@
 from package.Config import Config
-from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
 from package.app.client.layout.MainComponent import MainComponent

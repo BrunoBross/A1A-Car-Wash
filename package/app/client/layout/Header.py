@@ -19,27 +19,31 @@ class Header(IAppComponent, metaclass=Singleton):
 
         sessionMenu = Gtk.Menu()
         sessionMenuDropdown = Gtk.MenuItem("Session")
-
-        sessionExit = Gtk.MenuItem(f"Exit session '{self.__userContext.get().role}'")
+        sessionExit = Gtk.MenuItem(
+            f"Exit session 'ACESSO {self.__userContext.get().role.name}'"
+        )
         sessionExit.connect("activate", self.__onExit)
-
         sessionQuit = Gtk.MenuItem(f"Quit {Config.APP_NAME}")
         sessionQuit.connect("activate", self.__onQuit)
-
-        sessionAppInfo = Gtk.MenuItem("About app")
-
         sessionMenuDropdown.set_submenu(sessionMenu)
-
         sessionMenu.append(sessionExit)
         sessionMenu.append(sessionQuit)
-        sessionMenu.append(Gtk.SeparatorMenuItem())
-        sessionMenu.append(sessionAppInfo)
+
+        viewMenu = Gtk.Menu()
+        viewMenuDropdown = Gtk.MenuItem("View")
+        viewAppInfo = Gtk.MenuItem("About app")
+        viewAppInfo.connect("activate", self.__onAppInfo)
+        viewMenuDropdown.set_submenu(viewMenu)
+        viewMenu.append(viewAppInfo)
 
         menuBar.append(sessionMenuDropdown)
-
+        menuBar.append(viewMenuDropdown)
         box.add(menuBar)
 
         return box
+
+    def __onAppInfo(self, _: Gtk.Widget) -> None:  # TODO
+        print("viewing app info ...")
 
     def __onExit(self, _: Gtk.Widget) -> None:
         self.__eventManager.post(EventEnum.LOGOUT)

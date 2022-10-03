@@ -29,6 +29,7 @@ class Builder(metaclass=Singleton):
     def __buildMainView(self) -> Window:
         window = self.__windowService.getWindow(essential=False)
         header = Gtk.HeaderBar()
+        header.set_title(Config.APP_NAME)
         header.set_show_close_button(True)
         header.pack_start(HEAD.get())
         window.set_titlebar(header)
