@@ -1,8 +1,7 @@
-from abc import abstractmethod
-from typing import Any, Optional
+from __future__ import annotations
+from typing import Protocol
 
 
-class IAppModule:
-    @abstractmethod
-    def start(_: Optional[Any]) -> None:
-        pass
+class IAppModule(Protocol):
+    def start(self) -> None:
+        ...

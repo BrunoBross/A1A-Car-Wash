@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Protocol
 
 
-class Process(ABC):
-    @abstractmethod
-    def start(_: Optional[Any] = None) -> None:
-        pass
+class Process(Protocol):
+    @staticmethod
+    def start() -> None:
+        ...
