@@ -1,11 +1,10 @@
-from package.Process import Process
 from package.app import sqlalchemy_base, sqlalchemy_engine, sqlalchemy_session
 
 from package.database.imports import *
 from package.database.migration import createMigration
 
 
-class Database(Process):
+class Database:
     @staticmethod
     def start():
         Database.__dropAll()
