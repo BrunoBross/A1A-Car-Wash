@@ -1,3 +1,4 @@
+from enum import Enum
 import os
 
 
@@ -12,8 +13,9 @@ class Config:
     SIDEBAR_WIDTH = 350
     BORDER_WIDTH = 10
     GTK_VERSION = "3.0"
-    OPTION_DATABASE = "database"
-    OPTION_APP = "app"
-    OPTIONS = {OPTION_APP, OPTION_DATABASE}
     EMPLOYEE_WAGE_DEFAULT = 1000
     LOG_OUT = print
+
+    class CommandLineArgument(Enum):
+        APP = "app"
+        DATABASE = "database"

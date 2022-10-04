@@ -1,10 +1,9 @@
 from package.app.client.modules.exemplo.ExemploComponent import ExemploComponent
 from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
-from package.app.template.IAppComponent import IAppComponent
 
 
-class ExemploView(IAppComponent, metaclass=Singleton):
+class ExemploView(metaclass=Singleton):
     def __init__(self):
         self.__component = ExemploComponent()
 

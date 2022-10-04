@@ -5,10 +5,9 @@ from package.app.client.layout.MainComponent import MainComponent
 from package.app.client.layout.sidebar import sidebarItems
 from package.app.client.state.ComponentState import ComponentState
 from package.app.meta.Singleton import Singleton
-from package.app.template.IAppComponent import IAppComponent
 
 
-class MainView(IAppComponent, metaclass=Singleton):  # TODO: logout
+class MainView(metaclass=Singleton):  # TODO: logout
     def __init__(self):
         self.__component = MainComponent()
         self.__state = ComponentState()
