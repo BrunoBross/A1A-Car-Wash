@@ -4,10 +4,9 @@ from package.app.client.state.ComponentState import ComponentState
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 from package.app.client.gui.box.Box import Box
-from package.app.template.IAppComponent import IAppComponent
 
 
-class RegisterEmployeeView(IAppComponent, metaclass=Singleton):
+class RegisterEmployeeView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterEmployeeComponent()
         self.__state = ComponentState()
