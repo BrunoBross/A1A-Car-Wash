@@ -5,7 +5,7 @@ from package.app.template.IAppModule import IAppModule
 from package.app.client.gui.imports import Gtk
 
 
-class Client(IAppModule, metaclass=Singleton):
+class Client(metaclass=Singleton):
     def __init__(self):
         self.__eventManager = EventManager()
 
