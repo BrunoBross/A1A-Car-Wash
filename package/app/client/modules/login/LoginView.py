@@ -1,16 +1,13 @@
 from package.app.client.gui.box.Box import Box
 from package.app.client.modules.login.LoginComponent import LoginComponent
-from package.app.client.state.ComponentState import ComponentState
 from package.app.meta.Singleton import Singleton
-from package.app.template.IAppComponent import IAppComponent
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 
 
-class LoginView(IAppComponent, metaclass=Singleton):
+class LoginView(metaclass=Singleton):
     def __init__(self):
         self.__component = LoginComponent()
-        self.__state = ComponentState()
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -44,8 +41,8 @@ class LoginView(IAppComponent, metaclass=Singleton):
         confirmButton = Gtk.Button(label="Confirm")
         confirmButton.connect("clicked", self.__onConfirm)
 
-        self.__state.addReference("username", usernameFieldInput)
-        self.__state.addReference("password", passwordFieldInput)
+        self.__component.getState().addReference("username", usernameFieldInput)
+        self.__component.getState().addReference("password", passwordFieldInput)
 
         mainBox.pack_default(usernameFieldBox)
         mainBox.pack_default(passwordFieldBox)
@@ -54,11 +51,4 @@ class LoginView(IAppComponent, metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        self.__component.requestAuth(
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("username"))
-            ),
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("password"))
-            ),
-        )
+        self.__component.requestAuth()

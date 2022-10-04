@@ -3,11 +3,10 @@ from package.app.client.event.EventEnum import EventEnum
 from package.app.client.event.EventManager import EventManager
 from package.app.client.state.UserContext import UserContext
 from package.app.meta.Singleton import Singleton
-from package.app.template.IAppComponent import IAppComponent
 from package.app.client.gui.imports import Gtk
 
 
-class Header(IAppComponent, metaclass=Singleton):
+class Header(metaclass=Singleton):
     def __init__(self):
         self.__userContext = UserContext()
         self.__eventManager = EventManager()
