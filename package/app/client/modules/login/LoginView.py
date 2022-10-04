@@ -2,12 +2,11 @@ from random import random
 from package.app.client.gui.box.Box import Box
 from package.app.client.modules.login.LoginComponent import LoginComponent
 from package.app.meta.Singleton import Singleton
-from package.app.template.IAppComponent import IAppComponent
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 
 
-class LoginView(IAppComponent, metaclass=Singleton):
+class LoginView(metaclass=Singleton):
     def __init__(self):
         self.__component = LoginComponent()
 
