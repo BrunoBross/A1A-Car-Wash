@@ -3,7 +3,6 @@ from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
 from package.app.client.layout.MainComponent import MainComponent
 from package.app.client.layout.sidebar import sidebarItems
-from package.app.client.state.ComponentState import ComponentState
 from package.app.meta.Singleton import Singleton
 from package.app.template.IAppComponent import IAppComponent
 
@@ -11,7 +10,6 @@ from package.app.template.IAppComponent import IAppComponent
 class MainView(IAppComponent, metaclass=Singleton):  # TODO: logout
     def __init__(self):
         self.__component = MainComponent()
-        self.__state = ComponentState()
 
     def get(self) -> Gtk.Box:
         user = self.__component.getUserContext().get()

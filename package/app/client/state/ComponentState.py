@@ -20,3 +20,6 @@ class ComponentState:
 
     def getKeys(self):
         return self.__data.keys()
+
+    def reset(self):
+        self.__data = {}

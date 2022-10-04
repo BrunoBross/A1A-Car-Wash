@@ -9,4 +9,4 @@ class UserQuery(metaclass=Singleton):
         self.__dao = DAO()
 
     def getUserByUsername(self, username: str) -> Optional[User]:
-        return self.__dao.query(User).where(User.username == username).first()
+        return self.__dao.select(User).where(User.username == username).first()
