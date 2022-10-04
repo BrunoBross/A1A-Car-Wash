@@ -10,5 +10,16 @@ class DAO(metaclass=Singleton):
     def __init__(self):
         self.__session = sqlalchemy_session
 
-    def query(self, model: Type[sqlalchemy_base]) -> Query:
+    def select(self, model: Type[sqlalchemy_base]) -> Query:
         return self.__session.query(model)
+
+    def insert(self, model: Type[sqlalchemy_base]) -> None:
+        self.__session.add(model)
+        self.__session.commit()
+
+    def delete(self, model: Type[sqlalchemy_base]) -> None:
+        self.__session.delete(model)
+        self.__session.commit()
+
+    def update(self):  # TODO
+        pass
