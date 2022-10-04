@@ -15,3 +15,7 @@ class UserService(metaclass=Singleton):
         if user:
             return self.__userDtoMapper.mapUserToDto(user)
         return None
+
+    def createEmployee(self, username: str, fullname: str, password: str, salary: str):
+        self.__query.createEmployee(username, fullname, password, salary)
+
