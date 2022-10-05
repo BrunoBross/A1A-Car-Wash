@@ -1,6 +1,5 @@
 from package.app.client.modules.registeremployee.RegisterEmployeeComponent import RegisterEmployeeComponent
 from package.app.meta.Singleton import Singleton
-from package.app.client.state.ComponentState import ComponentState
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 from package.app.client.gui.box.Box import Box
@@ -9,7 +8,10 @@ from package.app.client.gui.box.Box import Box
 class RegisterEmployeeView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterEmployeeComponent()
-        self.__state = ComponentState()
+        self.__usernameFieldInput: Gtk.Widget
+        self.__fullnameFieldInput: Gtk.Widget
+        self.__passwordFieldInput: Gtk.Widget
+        self.__salaryFieldInput: Gtk.Widget
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -67,10 +69,10 @@ class RegisterEmployeeView(metaclass=Singleton):
         confirmButton.set_margin_top(30)
         confirmButton.connect("clicked", self.__onConfirm)
 
-        self.__state.addReference("username", usernameFieldInput)
-        self.__state.addReference("fullname", fullnameFieldInput)
-        self.__state.addReference("password", passwordFieldInput)
-        self.__state.addReference("salary", salaryFieldInput)
+        self.__usernameFieldInput = usernameFieldInput
+        self.__fullnameFieldInput = fullnameFieldInput
+        self.__passwordFieldInput = passwordFieldInput
+        self.__salaryFieldInput = salaryFieldInput
 
         mainBox.pack_start(usernameFieldBox, False, False, 0)
         mainBox.pack_start(fullnameFieldBox, False, False, 0)
@@ -81,17 +83,8 @@ class RegisterEmployeeView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        self.__component.registerEmployee(
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("username"))
-            ),
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("fullname"))
-            ),
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("password"))
-            ),
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("salary"))
-            ),
-        )
+        self.__component.getState().addReference("username", self.__usernameFieldInput)
+        self.__component.getState().addReference("fullname", self.__fullnameFieldInput)
+        self.__component.getState().addReference("password", self.__passwordFieldInput)
+        self.__component.getState().addReference("salary", self.__salaryFieldInput)
+        self.__component.registerEmployee()
