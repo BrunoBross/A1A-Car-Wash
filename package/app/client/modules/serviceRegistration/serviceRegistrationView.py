@@ -23,7 +23,7 @@ class ServiceRegistrationView(metaclass=Singleton):
 
         serviceNameBox = Box(Gtk.Orientation.HORIZONTAL)
         serviceNameFieldLabel = Gtk.Label()
-        serviceNameFieldLabel.set_text("Nome do serviço")
+        serviceNameFieldLabel.set_text("Nome do serviço*")
         serviceNameFieldLabel.set_margin_top(5)
         serviceNameFieldLabel.set_margin_left(5)
         serviceNameFieldLabel.set_margin_bottom(5)
@@ -38,7 +38,7 @@ class ServiceRegistrationView(metaclass=Singleton):
 
         priceBox = Box(Gtk.Orientation.HORIZONTAL)
         priceFieldLabel = Gtk.Label()
-        priceFieldLabel.set_text("Preço do serviço")
+        priceFieldLabel.set_text("Preço do serviço*")
         priceFieldLabel.set_margin_top(5)
         priceFieldLabel.set_margin_left(5)
         priceFieldLabel.set_margin_bottom(5)
