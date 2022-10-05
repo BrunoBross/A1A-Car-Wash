@@ -5,8 +5,5 @@ from package.app.meta.Singleton import Singleton
 
 
 class UserDtoMapper(metaclass=Singleton):
-    def __init__(self):
-        pass
-
     def mapUserToDto(self, user: User) -> UserDto:
         return UserDto(id=user.id, username=user.username, role=RoleEnum(user.role.id))
