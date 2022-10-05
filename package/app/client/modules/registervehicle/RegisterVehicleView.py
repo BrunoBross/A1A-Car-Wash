@@ -2,14 +2,13 @@ from package.app.client.gui.box.Box import Box
 from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
-from package.app.client.state.ComponentState import ComponentState
+
 from package.app.client.modules.registervehicle.RegisterVehicleComponent import RegisterVehicleComponent
 
 
 class RegisterVehicleView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterVehicleComponent()
-        self.__state = ComponentState()
         self.__boardFieldInput : Gtk.Widget
 
     def get(self) -> Gtk.Box:
@@ -41,9 +40,5 @@ class RegisterVehicleView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        self.__state.addReference("board", self.__boardFieldInput)
-        self.__component.createVehicle(
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("board"))
-            )
-        )
+        self.__component.getState().addReference("board", self.__boardFieldInput)
+        self.__component.requestCreateVehicle()

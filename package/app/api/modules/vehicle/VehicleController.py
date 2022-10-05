@@ -9,5 +9,5 @@ class VehicleController(metaclass=Singleton):
     def createVehicle(self, board:str):     
         self.__vehicleService.createVehicle(board)
         
-
+    
         
