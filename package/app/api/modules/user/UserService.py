@@ -1,4 +1,5 @@
 from typing import Optional
+
 from package.app.api.modules.user.UserDtoMapper import UserDtoMapper
 from package.app.api.modules.user.UserQuery import UserQuery
 from package.app.api.modules.user.dto.UserDto import UserDto
@@ -16,3 +17,5 @@ class UserService(metaclass=Singleton):
             return self.__userDtoMapper.mapUserToDto(user)
         return None
 
+    def createUser(self, userDto: UserDto):
+        return self.__query.createUser(self.__userDtoMapper.mapDtoToUser(userDto))

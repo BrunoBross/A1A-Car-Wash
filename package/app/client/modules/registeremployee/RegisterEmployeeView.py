@@ -1,4 +1,6 @@
-from package.app.client.modules.registeremployee.RegisterEmployeeComponent import RegisterEmployeeComponent
+from package.app.client.modules.registeremployee.RegisterEmployeeComponent import (
+    RegisterEmployeeComponent,
+)
 from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
@@ -87,4 +89,4 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__component.getState().addReference("fullname", self.__fullnameFieldInput)
         self.__component.getState().addReference("password", self.__passwordFieldInput)
         self.__component.getState().addReference("salary", self.__salaryFieldInput)
-        self.__component.registerEmployee()
+        self.__component.requestRegisterEmployee()

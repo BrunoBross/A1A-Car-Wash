@@ -14,14 +14,12 @@ class EmployeeView(metaclass=Singleton):
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
         label = Gtk.Label()
-        label.set_markup(toBig(f"Tela do Funcionário: {self.getEmployeeFullNameByUsername()}"))
+        label.set_markup(toBig(f"Tela do Funcionário: {self.__getEmployeeFullName()}"))
         label.set_margin_bottom(30)
         mainBox.pack_start(label, False, False, 0)
 
         return mainBox
 
-    # APENAS PARA TESTE E DIZER QUE ESTA LOGANDO COM O CARA CERTO
-    def getEmployeeFullNameByUsername(self):
-        username = self.__userContext.get().username
-        return self.__component.getEmployeeFullNameByUsername(username)
-
+    def __getEmployeeFullName(self) -> str:
+        user_id = self.__userContext.get().id
+        return self.__component.getEmployeeByUserId(user_id).legalName
