@@ -8,7 +8,7 @@ class Database:
     @staticmethod
     def start():
         Database.__dropAll()
-        Database.__creaeteAll()
+        Database.__createAll()
         Database.__migrate()
 
     @staticmethod
@@ -17,7 +17,7 @@ class Database:
         sqlalchemy_session.commit()
 
     @staticmethod
-    def __creaeteAll():
+    def __createAll():
         sqlalchemy_base.metadata.create_all(sqlalchemy_engine)
         sqlalchemy_session.commit()
 

@@ -10,3 +10,6 @@ class UserQuery(metaclass=Singleton):
 
     def getUserByUsername(self, username: str) -> Optional[User]:
         return self.__dao.select(User).where(User.username == username).first()
+
+    def createUser(self, user: User):
+        return self.__dao.insert(user)

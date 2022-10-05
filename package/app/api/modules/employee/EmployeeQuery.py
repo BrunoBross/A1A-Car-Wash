@@ -1,0 +1,15 @@
+from typing import Optional
+from package.app.api.model.Employee import Employee
+from package.app.api.orm.DAO import DAO
+from package.app.meta.Singleton import Singleton
+
+
+class EmployeeQuery(metaclass=Singleton):
+    def __init__(self):
+        self.__dao = DAO()
+
+    def getEmployeeByUserId(self, user_id: int) -> Optional[Employee]:
+        return self.__dao.select(Employee).where(Employee.user_id == user_id).first()
+
+    def registerEmployee(self, employee: Employee):
+        self.__dao.insert(employee)

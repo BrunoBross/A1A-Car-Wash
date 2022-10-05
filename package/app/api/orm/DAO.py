@@ -12,6 +12,7 @@ def safe_query(transaction: Callable):
         try:
             return transaction(*args, **kwargs)
         except Exception:
+            sqlalchemy_session.rollback()
             raise DatabaseIntegrityException
 
     return wrapper
@@ -21,6 +22,7 @@ class DAO(metaclass=Singleton):
     def __init__(self):
         self.__session = sqlalchemy_session
 
+    @safe_query
     def select(self, model: Type[sqlalchemy_base]) -> Query:
         return self.__session.query(model)
 
