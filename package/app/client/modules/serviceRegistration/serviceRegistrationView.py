@@ -65,5 +65,12 @@ class ServiceRegistrationView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        pass
+        self.__component.serviceRegistration(
+            Gtk.EntryBuffer.get_text(
+                Gtk.Entry.get_buffer(self.__state.getReferenceById("service_name"))
+            ),
+            Gtk.EntryBuffer.get_text(
+                Gtk.Entry.get_buffer(self.__state.getReferenceById("price"))
+            ),
+        )
 
