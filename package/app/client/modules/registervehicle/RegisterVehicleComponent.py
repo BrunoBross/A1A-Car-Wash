@@ -19,7 +19,7 @@ class RegisterVehicleComponent(metaclass=Singleton):
             numberPlate=getEntryBuffer(self.__state.getReferenceById("numberPlate"))
         )
         if self.__validator.execute(dto):
-            self.__controller.requestCreateVehicle()
+            self.__controller.requestCreateVehicle(dto)
         else:
             print("ATENÇAO! Placa invalida, por favor insira outro valor!")
 
