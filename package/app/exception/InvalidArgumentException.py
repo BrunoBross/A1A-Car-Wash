@@ -1,3 +1,4 @@
 class InvalidArgumentException(Exception):
-    """ Invalid command line arguments """
+    """Invalid command line arguments"""
+
     pass

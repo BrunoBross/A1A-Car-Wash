@@ -1,7 +1,7 @@
 from typing import Optional
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
+from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.api.modules.user.UserQuery import UserQuery
-from package.app.api.modules.user.dto.EmployeeDto import EmployeeDto
 from package.app.meta.Singleton import Singleton
 
 
@@ -17,6 +17,7 @@ class EmployeeService(metaclass=Singleton):
             return employee.legal_name
         return None
 
-    def registerEmployee(self, username: str, fullname: str, password: str, salary: str):
+    def registerEmployee(
+        self, username: str, fullname: str, password: str, salary: str
+    ):
         self.__employeeQuery.registerEmployee(username, fullname, password, salary)
-
