@@ -53,18 +53,20 @@ class Builder(metaclass=Singleton):
     def __closeMainView(self, _: Optional[EventData] = None):
         self.__windowService.closeWindow(self.__mainView)
         self.__mainView = None
+        self.__eventManager.post(EventEnum.WINDOW_CLOSED)
 
     def __closeAuthView(self, _: Optional[EventData] = None):
         self.__windowService.closeWindow(self.__authView)
         self.__authView = None
+        self.__eventManager.post(EventEnum.WINDOW_CLOSED)
 
     def __onLogin(self, _: EventData):
-        self.__displayMainView()
         self.__closeAuthView()
+        self.__displayMainView()
 
     def __onLogout(self, _: EventData):
-        self.__displayAuthView()
         self.__closeMainView()
+        self.__displayAuthView()
 
     def __subscribeSetup(self):
         self.__eventManager.subscribe(EventEnum.STARTUP, self.__displayAuthView)

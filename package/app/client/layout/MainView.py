@@ -1,3 +1,4 @@
+from typing import Any
 from package.Config import Config
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
@@ -25,6 +26,7 @@ class MainView(metaclass=Singleton):  # TODO: logout
         switcher = Gtk.StackSwitcher(spacing=10)
         switcher.set_orientation(orientation=Gtk.Orientation.VERTICAL)
         switcher.set_stack(stack)
+        stack.connect("notify::visible-child", self.__onViewChanged)
 
         Gtk.Widget.set_size_request(switcher, Config.SIDEBAR_WIDTH, -1)
 
@@ -32,3 +34,6 @@ class MainView(metaclass=Singleton):  # TODO: logout
         box.pack_default(stack)
 
         return box
+
+    def __onViewChanged(self, _widget: Gtk.Widget, _paramspec: Any):
+        self.__component.notifyViewChange()
