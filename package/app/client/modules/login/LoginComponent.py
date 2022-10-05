@@ -21,7 +21,6 @@ class LoginComponent(metaclass=Singleton):
         userData = self.__authController.authenticate(AuthDto(username, password))
         if userData:
             self.__eventManager.post(EventEnum.LOGIN, userData)
-            self.__state.reset()
 
     def getState(self) -> ComponentState:
         return self.__state
