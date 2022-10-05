@@ -14,7 +14,7 @@ class RegisterEmployeeView(metaclass=Singleton):
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
         label = Gtk.Label()
-        label.set_markup(toBig("Cadastrar Funcionários"))
+        label.set_markup(toBig("Cadastrar Funcionário"))
         label.set_margin_bottom(30)
         mainBox.pack_start(label, False, False, 0)
 

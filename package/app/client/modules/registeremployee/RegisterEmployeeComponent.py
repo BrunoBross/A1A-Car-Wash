@@ -1,11 +1,13 @@
 from package.app.api.crypt.utils import encrypt
 from package.app.meta.Singleton import Singleton
 from package.app.api.modules.user.UserService import UserService
+from package.app.api.modules.employee.EmployeeController import EmployeeController
 
 
 class RegisterEmployeeComponent(metaclass=Singleton):
     def __init__(self):
         self.__userService = UserService()
+        self.__employeeController = EmployeeController()
 
     def registerEmployee(self, username: str, fullname: str, password: str, salary: str):
         if username == '' or fullname == '' or password == '' or salary == '':
@@ -17,7 +19,7 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         if self.__userService.getUserByUsername(username):
             return print('\033[1;32m Username já cadastrado')
         try:
-            self.__userService.createEmployee(username, fullname, encrypt(password), salary)
+            self.__employeeController.registerEmployee(username, fullname, encrypt(password), salary)
         except Exception as error:
             print(error)
         finally:

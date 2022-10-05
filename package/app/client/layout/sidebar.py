@@ -13,7 +13,7 @@ class SidebarItem:
 
 
 sidebarItems: Dict[str, SidebarItem] = {
-    "Cadastrar Funcionários": SidebarItem(
+    "Cadastrar Funcionário": SidebarItem(
         component=RegisterEmployeeView,
         roles={RoleEnum.GERENTE},
     ),
