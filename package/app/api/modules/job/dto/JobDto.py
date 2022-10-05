@@ -3,7 +3,7 @@ from typing import Optional
 
 
 @dataclass
-class ServiceDto:
+class JobDto:
     id: Optional[int] = field(default=None)
     description: Optional[str] = field(default=None)
     cost_value: Optional[float] = field(default=None)

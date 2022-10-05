@@ -1,17 +1,17 @@
 from typing import Optional
-from package.app.api.model.Vehicle import Vehicle
-from package.app.api.orm.DAO import DAO
+from package.app.api.model.Job import Job
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
+from package.app.api.orm.DAO import DAO
 
 
-class VehicleQuery(metaclass=Singleton):
+class JobQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
-    def createVehicle(self, vehicle: Vehicle) -> Optional[Vehicle]:
+    def registerJob(self, job: Job) -> Optional[Job]:
         try:
-            self.__dao.insert(vehicle)
-            return vehicle
+            self.__dao.insert(job)
+            return job
         except DatabaseIntegrityException:
             return None
