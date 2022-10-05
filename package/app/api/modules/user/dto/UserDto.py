@@ -8,4 +8,5 @@ from package.app.api.enum.RoleEnum import RoleEnum
 class UserDto:
     id: Optional[int] = field(default=None)
     username: Optional[str] = field(default=None)
+    password: Optional[str] = field(default=None)
     role: Optional[RoleEnum] = field(default=None)
