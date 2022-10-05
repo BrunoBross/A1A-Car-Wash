@@ -1,6 +1,7 @@
 from typing import Optional
 from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.api.model.Employee import Employee
+from package.app.api.modules import employee
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.EmployeeDtoMapper import EmployeeDtoMapper
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
@@ -21,7 +22,9 @@ class EmployeeService(metaclass=Singleton):
         if employee:
             return self.__mapper.mapEmployeeToDto(employee)
 
-    def createEmployee(self, employeeDto: EmployeeDto, authDto: AuthDto):
+    def createEmployee(
+        self, employeeDto: EmployeeDto, authDto: AuthDto
+    ) -> Optional[EmployeeDto]:
         userDto = UserDto(
             username=authDto.username,
             password=authDto.password,
@@ -29,11 +32,14 @@ class EmployeeService(metaclass=Singleton):
         )
         self.__userService.createUser(userDto)
         userId = self.__userService.getUserByUsername(authDto.username).id
-
-        self.__employeeQuery.registerEmployee(
+        employee = self.__employeeQuery.registerEmployee(
             Employee(
                 user_id=userId,
                 legal_name=employeeDto.legalName,
                 wage=employeeDto.wage,
             )
         )
+
+        if employee:
+            return self.__mapper.mapEmployeeToDto(employee)
+        return None

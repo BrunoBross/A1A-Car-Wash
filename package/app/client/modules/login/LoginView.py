@@ -1,3 +1,4 @@
+from random import random
 from package.app.client.gui.box.Box import Box
 from package.app.client.modules.login.LoginComponent import LoginComponent
 from package.app.meta.Singleton import Singleton
@@ -20,7 +21,7 @@ class LoginView(metaclass=Singleton):
         usernameFieldBox = Box(Gtk.Orientation.HORIZONTAL)
         usernameFieldLabel = Gtk.Label()
         usernameFieldInput = Gtk.Entry()
-        usernameFieldLabel.set_text("Username")
+        usernameFieldLabel.set_text("Username*")
         usernameFieldInput.set_margin_top(5)
         usernameFieldInput.set_margin_right(5)
         usernameFieldInput.set_margin_bottom(5)
@@ -32,7 +33,7 @@ class LoginView(metaclass=Singleton):
         passwordFieldLabel = Gtk.Label()
         passwordFieldInput = Gtk.Entry()
         passwordFieldInput.set_visibility(False)
-        passwordFieldLabel.set_text("Password")
+        passwordFieldLabel.set_text("Password*")
         passwordFieldInput.set_margin_top(5)
         passwordFieldInput.set_margin_right(5)
         passwordFieldInput.set_margin_bottom(5)

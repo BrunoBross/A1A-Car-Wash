@@ -13,5 +13,5 @@ class VehicleService(metaclass=Singleton):
     def createVehicle(self, vehicleDto: VehicleDto) -> Optional[VehicleDto]:
         vehicle = self.__query.createVehicle(self.__mapper.mapDtoToVehicle(vehicleDto))
         if vehicle:
-            return self.__mapper.mapVehicleToDto(vehicle)
+            return vehicleDto
         return None
