@@ -12,6 +12,8 @@ class ServiceRegistrationView(metaclass=Singleton):
     def __init__(self):
         self.__component = ServiceRegistrationComponent()
         self.__state = ComponentState() 
+        self.__service_name_input = Gtk.Widget
+        self.__price_input = Gtk.Widget
 
     def get(self) -> Gtk.Box:
 
@@ -22,41 +24,41 @@ class ServiceRegistrationView(metaclass=Singleton):
         mainBox.pack_start(label, False, False, 0)
 
         serviceNameBox = Box(Gtk.Orientation.HORIZONTAL)
-        serviceNameFieldLabel = Gtk.Label()
-        serviceNameFieldLabel.set_text("Nome do serviço*")
-        serviceNameFieldLabel.set_margin_top(5)
-        serviceNameFieldLabel.set_margin_left(5)
-        serviceNameFieldLabel.set_margin_bottom(5)
-        serviceNameFieldLabel.set_margin_right(5)
-        serviceNameBox.pack_default(serviceNameFieldLabel)
-        serviceNameFieldInput = Gtk.Entry()
-        serviceNameFieldInput.set_margin_top(5)
-        serviceNameFieldInput.set_margin_left(5)
-        serviceNameFieldInput.set_margin_bottom(5)
-        serviceNameFieldInput.set_margin_right(5)
-        serviceNameBox.pack_default(serviceNameFieldInput)
+        serviceNameLabel = Gtk.Label()
+        serviceNameLabel.set_text("Nome do serviço*")
+        serviceNameLabel.set_margin_top(5)
+        serviceNameLabel.set_margin_left(5)
+        serviceNameLabel.set_margin_bottom(5)
+        serviceNameLabel.set_margin_right(5)
+        serviceNameBox.pack_default(serviceNameLabel)
+        serviceNameInput = Gtk.Entry()
+        serviceNameInput.set_margin_top(5)
+        serviceNameInput.set_margin_left(5)
+        serviceNameInput.set_margin_bottom(5)
+        serviceNameInput.set_margin_right(5)
+        serviceNameBox.pack_default(serviceNameInput)
 
         priceBox = Box(Gtk.Orientation.HORIZONTAL)
-        priceFieldLabel = Gtk.Label()
-        priceFieldLabel.set_text("Preço do serviço*")
-        priceFieldLabel.set_margin_top(5)
-        priceFieldLabel.set_margin_left(5)
-        priceFieldLabel.set_margin_bottom(5)
-        priceFieldLabel.set_margin_right(5)
-        priceBox.pack_default(priceFieldLabel)
-        priceFieldInput = Gtk.Entry()
-        priceFieldInput.set_margin_top(5)
-        priceFieldInput.set_margin_left(5)
-        priceFieldInput.set_margin_bottom(5)
-        priceFieldInput.set_margin_right(5)
-        priceBox.pack_default(priceFieldInput)    
+        priceLabel = Gtk.Label()
+        priceLabel.set_text("Preço do serviço*")
+        priceLabel.set_margin_top(5)
+        priceLabel.set_margin_left(5)
+        priceLabel.set_margin_bottom(5)
+        priceLabel.set_margin_right(5)
+        priceBox.pack_default(priceLabel)
+        priceInput = Gtk.Entry()
+        priceInput.set_margin_top(5)
+        priceInput.set_margin_left(5)
+        priceInput.set_margin_bottom(5)
+        priceInput.set_margin_right(5)
+        priceBox.pack_default(priceInput)    
 
         confirmButton = Gtk.Button(label="Cadastrar")
         confirmButton.set_margin_top(30)
         confirmButton.connect("clicked", self.__onConfirm)
 
-        self.__state.addReference("service_name", serviceNameFieldInput)
-        self.__state.addReference("price", priceFieldInput)
+        self.__service_name_input = serviceNameInput
+        self.__price_input = priceInput
 
         mainBox.pack_start(serviceNameBox, False, False, 0)
         mainBox.pack_start(priceBox, False, False, 0)
@@ -65,12 +67,6 @@ class ServiceRegistrationView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        self.__component.serviceRegistration(
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("service_name"))
-            ),
-            Gtk.EntryBuffer.get_text(
-                Gtk.Entry.get_buffer(self.__state.getReferenceById("price"))
-            ),
-        )
-
+        self.__component.getState().addReference("service_name", self.__service_name_input)
+        self.__component.getState().addReference("price", self.__price_input)
+        self.__component.serviceRegistration()
