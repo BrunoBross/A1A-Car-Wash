@@ -19,7 +19,8 @@ class EmployeeController(metaclass=Singleton):
         if not (self.validateNullFields(username, fullname, password, salary) and
                 self.validateSalary(salary) and
                 self.validatePassword(password) and
-                self.validateHasUsername(username)):
+                self.validateUsername(username) and
+                self.validateFullName(fullname)):
             return
         try:
             self.registerEmployeeQuery(username, fullname, encrypt(password), salary)
@@ -35,8 +36,11 @@ class EmployeeController(metaclass=Singleton):
         return True
 
     def validateSalary(self, salary: str):
-        if not salary.isnumeric() or int(salary) < 1000:
+        if not salary.isnumeric():
             print('\033[1;91m Digite um valor inteiro para o salário \033[0m')
+            return False
+        elif int(salary) < 1200:
+            print('\033[1;91m Digite um salário maior que 1200 \033[0m')
             return False
         return True
 
@@ -46,8 +50,25 @@ class EmployeeController(metaclass=Singleton):
             return False
         return True
 
-    def validateHasUsername(self, username: str):
+    def validateUsername(self, username: str):
         if self.__userService.getUserByUsername(username):
             print('\033[1;91m Username já cadastrado \033[0m')
+            return False
+        if len(username) < 5:
+            print('\033[1;91m Digite um username com pelo menos 5 caracteres \033[0m')
+            return False
+        if " " in username:
+            print('\033[1;91m Não deve conter espaço no nome de usuário \033[0m')
+            return False
+        return True
+
+    def validateFullName(self, fullname: str):
+        name_split: [] = fullname.split(" ")
+        for name in name_split:
+            if len(name) < 2:
+                print('\033[1;91m Cada nome deve ter pelo menos 2 caracteres \033[0m')
+                return False
+        if len(name_split) < 2:
+            print('\033[1;91m Digite um nome completo \033[0m')
             return False
         return True
