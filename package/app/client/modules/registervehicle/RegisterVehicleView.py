@@ -5,10 +5,12 @@ from package.app.client.utils.markup import toBig
 from package.app.client.state.ComponentState import ComponentState
 from package.app.client.modules.registervehicle.RegisterVehicleComponent import RegisterVehicleComponent
 
+
 class RegisterVehicleView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterVehicleComponent()
         self.__state = ComponentState()
+        self.__boardFieldInput : Gtk.Widget
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -27,12 +29,11 @@ class RegisterVehicleView(metaclass=Singleton):
         boardFieldBox.pack_default(boardFieldLabel)
         boardFieldBox.pack_default(boardFieldInput)
 
-        
+        self.__boardFieldInput = boardFieldInput
 
         confirmButton = Gtk.Button(label="Cadastrar")
         confirmButton.connect("clicked", self.__onConfirm)
 
-        self.__state.addReference("board", boardFieldInput)
 
         mainBox.pack_start(boardFieldBox, False, False, 0)
         mainBox.pack_start(confirmButton, False, False, 0)
@@ -40,6 +41,7 @@ class RegisterVehicleView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
+        self.__state.addReference("board", self.__boardFieldInput)
         self.__component.createVehicle(
             Gtk.EntryBuffer.get_text(
                 Gtk.Entry.get_buffer(self.__state.getReferenceById("board"))
