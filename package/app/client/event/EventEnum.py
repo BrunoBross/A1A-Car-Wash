@@ -6,3 +6,5 @@ class EventEnum(Enum):
     LOGIN = auto()
     LOGOUT = auto()
     CONTEXT_SET = auto()
+    SWITCH_VIEW = auto()
+    WINDOW_CLOSED = auto()
