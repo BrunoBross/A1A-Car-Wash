@@ -5,6 +5,7 @@ from package.app.client.gui.window.Window import Window
 from package.app.client.gui.window.WindowService import WindowService
 from package.app.client.event.EventEnum import EventEnum
 from package.app.client.event.EventManager import EventData, EventManager
+from package.app.client.state.UserContext import UserContext
 from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 
@@ -13,6 +14,7 @@ class Builder(metaclass=Singleton):
     def __init__(self):
         self.__windowService = WindowService()
         self.__eventManager = EventManager()
+        self.__userContext = UserContext()
         self.__mainView: Optional[Window]
         self.__authView: Optional[Window]
 
@@ -29,7 +31,9 @@ class Builder(metaclass=Singleton):
     def __buildMainView(self) -> Window:
         window = self.__windowService.getWindow(essential=False)
         header = Gtk.HeaderBar()
-        header.set_title(Config.APP_NAME)
+        header.set_title(
+            f"{Config.APP_NAME} - ACESSO {self.__userContext.get().role.name}"
+        )
         header.set_show_close_button(True)
         header.pack_start(HEAD.get())
         window.set_titlebar(header)
@@ -49,18 +53,20 @@ class Builder(metaclass=Singleton):
     def __closeMainView(self, _: Optional[EventData] = None):
         self.__windowService.closeWindow(self.__mainView)
         self.__mainView = None
+        self.__eventManager.post(EventEnum.WINDOW_CLOSED)
 
     def __closeAuthView(self, _: Optional[EventData] = None):
         self.__windowService.closeWindow(self.__authView)
         self.__authView = None
+        self.__eventManager.post(EventEnum.WINDOW_CLOSED)
 
     def __onLogin(self, _: EventData):
-        self.__displayMainView()
         self.__closeAuthView()
+        self.__displayMainView()
 
     def __onLogout(self, _: EventData):
-        self.__displayAuthView()
         self.__closeMainView()
+        self.__displayAuthView()
 
     def __subscribeSetup(self):
         self.__eventManager.subscribe(EventEnum.STARTUP, self.__displayAuthView)
