@@ -45,10 +45,14 @@ class Builder(metaclass=Singleton):
         return window
 
     def __displayMainView(self, _: Optional[EventData] = None):
-        self.__windowService.displayWindow(self.__buildMainView())
+        window = self.__buildMainView()
+        self.__windowService.displayWindow(window)
+        self.__eventManager.post(EventEnum.WINDOW_OPENED, window)
 
     def __displayAuthView(self, _: Optional[EventData] = None):
-        self.__windowService.displayWindow(self.__buildAuthView())
+        window = self.__buildAuthView()
+        self.__windowService.displayWindow(window)
+        self.__eventManager.post(EventEnum.WINDOW_OPENED, window)
 
     def __closeMainView(self, _: Optional[EventData] = None):
         self.__windowService.closeWindow(self.__mainView)
