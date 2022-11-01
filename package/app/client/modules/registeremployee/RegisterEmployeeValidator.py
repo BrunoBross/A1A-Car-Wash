@@ -13,9 +13,8 @@ class RegisterEmployeeValidator(metaclass=Singleton):
         )
 
     def __validateEmployeeDto(self, employeeDto: EmployeeDto) -> bool:
-        return self.__validateLegalName(employeeDto.legalName) and self.__validateWage(
-            employeeDto.wage
-        )
+        return self.__validateLegalName(employeeDto.legalName) and self.__validateWage(employeeDto.wage) \
+               and self.__validateJobLimit(employeeDto.jobLimit)
 
     def __validateAuthDto(self, authDto: AuthDto) -> bool:
         return self.__validateUsername(authDto.username) and self.__validatePassword(
@@ -30,15 +29,6 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             and bool(employeeDto.wage)
         ):
             print("\033[1;91m Preencha todos os campos!")
-            return False
-        return True
-
-    def __validateWage(self, salary: str):
-        if not salary.isnumeric():
-            print("\033[1;91m Digite um valor inteiro para o salário \033[0m")
-            return False
-        elif int(salary) < 1200:
-            print("\033[1;91m Digite um salário maior que 1200 \033[0m")
             return False
         return True
 
@@ -59,6 +49,15 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
+    def __validateWage(self, salary: str):
+        if not salary.isnumeric():
+            print("\033[1;91m Digite um valor inteiro para o salário \033[0m")
+            return False
+        elif int(salary) < 1200:
+            print("\033[1;91m Digite um salário maior que 1200 \033[0m")
+            return False
+        return True
+
     def __validateLegalName(self, fullname: str):
         name_split: List = fullname.split(" ")
         for name in name_split:
@@ -67,5 +66,15 @@ class RegisterEmployeeValidator(metaclass=Singleton):
                 return False
         if len(name_split) < 2:
             print("\033[1;91m Digite um nome completo \033[0m")
+            return False
+        return True
+
+    def __validateJobLimit(self, job_limit: str):
+        print("ENTROU")
+        if not job_limit.isnumeric():
+            print("\033[1;91m Digite um valor inteiro para o limite de serviços \033[0m")
+            return False
+        elif int(job_limit) > 10 or int(job_limit) < 5:
+            print("\033[1;91m O limite de serviços deve ser entre 5 e 10 serviços \033[0m")
             return False
         return True

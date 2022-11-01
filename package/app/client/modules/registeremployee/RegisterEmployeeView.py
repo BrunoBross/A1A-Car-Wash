@@ -14,6 +14,7 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__fullnameFieldInput: Gtk.Widget
         self.__passwordFieldInput: Gtk.Widget
         self.__salaryFieldInput: Gtk.Widget
+        self.__jobLimitFieldInput: Gtk.Widget
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -67,6 +68,17 @@ class RegisterEmployeeView(metaclass=Singleton):
         salaryFieldBox.pack_default(salaryFieldLabel)
         salaryFieldBox.pack_default(salaryFieldInput)
 
+        jobLimitFieldBox = Box(Gtk.Orientation.HORIZONTAL)
+        jobLimitFieldLabel = Gtk.Label()
+        jobLimitFieldInput = Gtk.Entry()
+        jobLimitFieldLabel.set_text("Limite de Serviços *")
+        jobLimitFieldInput.set_margin_top(5)
+        jobLimitFieldInput.set_margin_right(5)
+        jobLimitFieldInput.set_margin_bottom(5)
+        jobLimitFieldInput.set_margin_left(5)
+        jobLimitFieldBox.pack_default(jobLimitFieldLabel)
+        jobLimitFieldBox.pack_default(jobLimitFieldInput)
+
         confirmButton = Gtk.Button(label="Cadastrar")
         confirmButton.set_margin_top(30)
         confirmButton.connect("clicked", self.__onConfirm)
@@ -75,11 +87,13 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__fullnameFieldInput = fullnameFieldInput
         self.__passwordFieldInput = passwordFieldInput
         self.__salaryFieldInput = salaryFieldInput
+        self.__jobLimitFieldInput = jobLimitFieldInput
 
         mainBox.pack_start(usernameFieldBox, False, False, 0)
         mainBox.pack_start(fullnameFieldBox, False, False, 0)
         mainBox.pack_start(passwordFieldBox, False, False, 0)
         mainBox.pack_start(salaryFieldBox, False, False, 0)
+        mainBox.pack_start(jobLimitFieldBox, False, False, 0)
         mainBox.pack_start(confirmButton, False, False, 0)
 
         return mainBox
@@ -89,4 +103,5 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__component.getState().addReference("fullname", self.__fullnameFieldInput)
         self.__component.getState().addReference("password", self.__passwordFieldInput)
         self.__component.getState().addReference("salary", self.__salaryFieldInput)
+        self.__component.getState().addReference("limit", self.__jobLimitFieldInput)
         self.__component.requestRegisterEmployee()

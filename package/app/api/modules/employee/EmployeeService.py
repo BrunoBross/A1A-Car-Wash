@@ -36,6 +36,7 @@ class EmployeeService(metaclass=Singleton):
                 user_id=userId,
                 legal_name=employeeDto.legalName,
                 wage=employeeDto.wage,
+                job_limit=employeeDto.jobLimit
             )
         )
 
