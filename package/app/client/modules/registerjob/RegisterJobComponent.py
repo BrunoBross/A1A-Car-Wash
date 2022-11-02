@@ -16,9 +16,12 @@ class RegisterJobComponent(metaclass=Singleton):
 
     def requestRegistration(self):
 
+        description = getEntryBuffer(self.__state.getReferenceById("jobName"))
+        cost_value = getEntryBuffer(self.__state.getReferenceById("jobValue"))
+
         dto = JobDto(
-            description=getEntryBuffer(self.__state.getReferenceById("jobName")),
-            cost_value=float(getEntryBuffer(self.__state.getReferenceById("jobValue"))),
+            description=description,
+            cost_value=float((cost_value) if bool(cost_value) else 0),
         )
 
         if self.__validator.execute(dto):

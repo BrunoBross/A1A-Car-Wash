@@ -1,5 +1,6 @@
 from typing import Optional
 from dataclasses import dataclass, field
+from package.Config import Config
 from package.app.client.gui.imports import Gtk
 
 
@@ -27,4 +28,8 @@ class Modal(Gtk.Dialog):
 
         self.set_resizable(False)
         self.__content = self.get_content_area()
+
+        self.__content.set_margin(Config.BORDER_WIDTH)
+
         self.__content.add(props.content)
+        self.show_all()

@@ -1,4 +1,4 @@
 class DatabaseConnectionFailedException(Exception):
-    """Failed to connect to application database. Is 'A1A_DATABASE' environment variable set?"""
-
-    pass
+    def __str__(self):
+        return """
+Failed to connect to application database. Is 'A1A_DATABASE' environment variable set?"""

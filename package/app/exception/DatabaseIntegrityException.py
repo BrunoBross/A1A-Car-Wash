@@ -1,4 +1,4 @@
 class DatabaseIntegrityException(Exception):
-    """Failed transaction caused by integrity failure. Issuing database rollback."""
-
-    pass
+    def __str__(self):
+        return """
+Failed transaction caused by integrity failure. Issuing database rollback."""

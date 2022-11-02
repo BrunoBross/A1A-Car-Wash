@@ -1,4 +1,4 @@
 class InvalidArgumentException(Exception):
-    """Invalid command line arguments"""
-
-    pass
+    def __str__(self):
+        return """
+Invalid command line arguments"""

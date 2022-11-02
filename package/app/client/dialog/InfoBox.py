@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from package.app.client.gui.imports import Gtk
 
 
@@ -15,8 +15,6 @@ class InfoBox(Gtk.Dialog):
             parent,
             Gtk.DialogFlags.MODAL,
             (
-                Gtk.STOCK_CANCEL,
-                Gtk.ResponseType.CANCEL,
                 Gtk.STOCK_OK,
                 Gtk.ResponseType.OK,
             ),
@@ -25,3 +23,4 @@ class InfoBox(Gtk.Dialog):
         self.set_resizable(False)
         self.__content = self.get_content_area()
         self.__content.add(props.content)
+        self.show_all()
