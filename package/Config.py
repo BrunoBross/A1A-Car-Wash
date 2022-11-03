@@ -14,6 +14,8 @@ class Config:
     BORDER_WIDTH = 10
     GTK_VERSION = "3.0"
     EMPLOYEE_WAGE_DEFAULT = 1200
+    EMPLOYEE_MIN_JOBS_DEFAULT = 5
+    EMPLOYEE_MAX_JOBS_DEFAULT = 10
     LOG_OUT = print
 
     class CommandLineArgument(Enum):

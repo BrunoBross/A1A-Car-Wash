@@ -25,6 +25,7 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         employeeDto = EmployeeDto(
             legalName=getEntryBuffer(self.__state.getReferenceById("fullname")),
             wage=getEntryBuffer(self.__state.getReferenceById("salary")),
+            jobLimit=getEntryBuffer(self.__state.getReferenceById("limit")),
         )
         authDto = AuthDto(
             username=getEntryBuffer(self.__state.getReferenceById("username")),

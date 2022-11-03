@@ -35,12 +35,11 @@ class EmployeeService(metaclass=Singleton):
             role=RoleEnum.FUNCIONARIO,
         )
         self.__userService.createUser(userDto)
+
         userId = self.__userService.getUserByUsername(authDto.username).id
+        employeeDto.user = UserDto(id=userId)
+
         employee = self.__employeeQuery.registerEmployee(
-            Employee(
-                user_id=userId,
-                legal_name=employeeDto.legalName,
-                wage=employeeDto.wage,
-            )
+            self.__mapper.mapDtoToEmployee(employeeDto)
         )
         return self.__mapper.mapEmployeeToDto(employee)

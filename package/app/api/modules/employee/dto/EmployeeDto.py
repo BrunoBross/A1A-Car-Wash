@@ -11,3 +11,4 @@ class EmployeeDto:
     legalName: Optional[str] = field(default=None)
     wage: Optional[str] = field(default=None)
     activeRegister: Optional[bool] = field(default=None)
+    jobLimit: Optional[str] = field(default=None)

@@ -21,9 +21,11 @@ class RegisterEmployeeValidator(metaclass=Singleton):
     def __validateEmployeeDto(
         self, employeeDto: EmployeeDto, validation: ValidationObject
     ) -> bool:
-        return self.__validateLegalName(
-            employeeDto.legalName, validation
-        ) and self.__validateWage(employeeDto.wage, validation)
+        return (
+            self.__validateLegalName(employeeDto.legalName, validation)
+            and self.__validateWage(employeeDto.wage, validation)
+            and self.__validateJobLimit(employeeDto.jobLimit, validation)
+        )
 
     def __validateAuthDto(self, authDto: AuthDto, validation: ValidationObject) -> bool:
         return self.__validateUsername(
@@ -79,5 +81,16 @@ class RegisterEmployeeValidator(metaclass=Singleton):
                 return False
         if len(name_split) < 2:
             validation.errors.add("Digite um nome completo")
+            return False
+        return True
+
+    def __validateJobLimit(self, job_limit: str, validation: ValidationObject):
+        if not job_limit.isnumeric():
+            validation.errors.add("Digite um valor inteiro para o limite de serviços.")
+            return False
+        if not (5 < int(job_limit) < 10):
+            validation.errors.add(
+                f"O limite de serviços deve ser entre {Config.EMPLOYEE_MIN_JOBS_DEFAULT} e {Config.EMPLOYEE_MAX_JOBS_DEFAULT} serviços."
+            )
             return False
         return True
