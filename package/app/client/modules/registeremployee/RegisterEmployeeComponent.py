@@ -11,13 +11,14 @@ from package.app.api.modules.employee.EmployeeController import EmployeeControll
 from package.app.client.state.ComponentState import ComponentState
 from package.app.client.utils.form import getEntryBuffer
 from package.app.client.gui.imports import Gtk
+from package.app.validation.IValidator import IValidator
 
 
 class RegisterEmployeeComponent(metaclass=Singleton):
     def __init__(self):
         self.__employeeController = EmployeeController()
         self.__state = ComponentState()
-        self.__validator = RegisterEmployeeValidator()
+        self.__validator: IValidator = RegisterEmployeeValidator()
         self.__dialogService = DialogService()
 
     def requestRegisterEmployee(self):

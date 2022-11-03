@@ -10,12 +10,13 @@ from package.app.client.gui.imports import Gtk
 from package.app.client.modules.registervehicle.RegisterVehicleValidator import (
     RegisterVehicleValidator,
 )
+from package.app.validation.IValidator import IValidator
 
 
 class RegisterVehicleComponent(metaclass=Singleton):
     def __init__(self):
         self.__controller = VehicleController()
-        self.__validator = RegisterVehicleValidator()
+        self.__validator: IValidator = RegisterVehicleValidator()
         self.__dialogService = DialogService()
         self.__state = ComponentState()
 

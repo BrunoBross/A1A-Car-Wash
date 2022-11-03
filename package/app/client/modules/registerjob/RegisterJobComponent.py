@@ -10,12 +10,13 @@ from package.app.meta.Singleton import Singleton
 from package.app.client.utils.form import getEntryBuffer
 from package.app.api.modules.job.dto.JobDto import JobDto
 from package.app.client.gui.imports import Gtk
+from package.app.validation.IValidator import IValidator
 
 
 class RegisterJobComponent(metaclass=Singleton):
     def __init__(self):
         self.__state = ComponentState()
-        self.__validator = RegisterJobValidator()
+        self.__validator: IValidator = RegisterJobValidator()
         self.__controller = JobController()
         self.__dialogService = DialogService()
 

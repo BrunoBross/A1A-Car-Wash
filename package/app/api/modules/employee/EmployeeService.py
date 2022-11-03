@@ -9,6 +9,7 @@ from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.api.modules.user.UserService import UserService
 from package.app.api.modules.user.dto.UserDto import UserDto
 from package.app.meta.Singleton import Singleton
+from package.app.validation.IValidator import IValidator
 
 
 class EmployeeService(metaclass=Singleton):
@@ -16,7 +17,7 @@ class EmployeeService(metaclass=Singleton):
         self.__userService = UserService()
         self.__employeeQuery = EmployeeQuery()
         self.__mapper = EmployeeDtoMapper()
-        self.__validator = EmployeeValidator()
+        self.__validator: IValidator = EmployeeValidator()
 
     def getEmployeeByUserId(self, id: int) -> Optional[EmployeeDto]:
         employee = self.__employeeQuery.getEmployeeByUserId(id)
