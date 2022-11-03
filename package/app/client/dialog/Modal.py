@@ -28,8 +28,5 @@ class Modal(Gtk.Dialog):
 
         self.set_resizable(False)
         self.__content = self.get_content_area()
-
-        self.__content.set_margin(Config.BORDER_WIDTH)
-
-        self.__content.add(props.content)
+        self.__content.add(self.__wrapContents(props.content))
         self.show_all()

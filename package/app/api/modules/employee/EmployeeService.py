@@ -4,6 +4,7 @@ from package.app.api.model.Employee import Employee
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.EmployeeDtoMapper import EmployeeDtoMapper
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
+from package.app.api.modules.employee.EmployeeValidator import EmployeeValidator
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.api.modules.user.UserService import UserService
 from package.app.api.modules.user.dto.UserDto import UserDto
@@ -15,6 +16,7 @@ class EmployeeService(metaclass=Singleton):
         self.__userService = UserService()
         self.__employeeQuery = EmployeeQuery()
         self.__mapper = EmployeeDtoMapper()
+        self.__validator = EmployeeValidator()
 
     def getEmployeeByUserId(self, id: int) -> Optional[EmployeeDto]:
         employee = self.__employeeQuery.getEmployeeByUserId(id)
@@ -24,6 +26,8 @@ class EmployeeService(metaclass=Singleton):
     def createEmployee(
         self, employeeDto: EmployeeDto, authDto: AuthDto
     ) -> Optional[EmployeeDto]:
+        if not self.__validator.execute(authDto):
+            return None
         userDto = UserDto(
             username=authDto.username,
             password=authDto.password,
@@ -38,7 +42,4 @@ class EmployeeService(metaclass=Singleton):
                 wage=employeeDto.wage,
             )
         )
-
-        if employee:
-            return self.__mapper.mapEmployeeToDto(employee)
-        return None
+        return self.__mapper.mapEmployeeToDto(employee)

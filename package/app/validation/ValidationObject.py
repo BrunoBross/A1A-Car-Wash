@@ -4,7 +4,6 @@ from typing import Set
 
 @dataclass
 class ValidationObject:
-    field: str
     errors: Set[str] = field(default_factory=set)
 
     @property

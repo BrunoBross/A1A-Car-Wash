@@ -21,7 +21,7 @@ class MainView(metaclass=Singleton):  # TODO: logout
         for key, value in sidebarItems.items():
             view = value.component()
             if user.role in value.roles:
-                stack.add_titled(view.get(), key, key)
+                stack.add_titled(self.__wrapStackFrame(view.get()), key, key)
 
         switcher = Gtk.StackSwitcher(spacing=10)
         switcher.set_orientation(orientation=Gtk.Orientation.VERTICAL)
@@ -34,6 +34,13 @@ class MainView(metaclass=Singleton):  # TODO: logout
         box.pack_default(stack)
 
         return box
+
+    def __wrapStackFrame(self, frame: Gtk.Box) -> Box:
+        wrapper = Box()
+        wrapper.set_margin_left(5)
+        wrapper.set_margin_right(5)
+        wrapper.pack_default(frame)
+        return wrapper
 
     def __onViewChanged(self, _widget: Gtk.Widget, _paramspec: Any):
         self.__component.notifyViewChange()
