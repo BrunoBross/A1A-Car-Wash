@@ -15,3 +15,6 @@ class JobQuery(metaclass=Singleton):
             return job
         except DatabaseIntegrityException:
             return None
+
+    def getJobByDescription(self, description: str) -> Optional[Job]:
+        return self.__dao.select(Job).where(Job.description == description).first()

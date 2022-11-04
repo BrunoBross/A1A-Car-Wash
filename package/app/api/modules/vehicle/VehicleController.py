@@ -8,5 +8,5 @@ class VehicleController(metaclass=Singleton):
     def __init__(self):
         self.__vehicleService = VehicleService()
 
-    def requestCreateVehicle(self, vehicleDto: VehicleDto) -> Optional[VehicleDto]:
+    def createVehicle(self, vehicleDto: VehicleDto) -> Optional[VehicleDto]:
         return self.__vehicleService.createVehicle(vehicleDto)

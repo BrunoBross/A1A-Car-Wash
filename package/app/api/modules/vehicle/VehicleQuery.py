@@ -15,3 +15,8 @@ class VehicleQuery(metaclass=Singleton):
             return vehicle
         except DatabaseIntegrityException:
             return None
+
+    def getVehicleByNumberPlate(self, numberPlate: str) -> Optional[Vehicle]:
+        return (
+            self.__dao.select(Vehicle).where(Vehicle.numberPlate == numberPlate).first()
+        )

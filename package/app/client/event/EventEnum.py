@@ -9,3 +9,4 @@ class EventEnum(Enum):
     SWITCH_VIEW = auto()
     WINDOW_OPENED = auto()
     WINDOW_CLOSED = auto()
+    VALIDATION = auto()

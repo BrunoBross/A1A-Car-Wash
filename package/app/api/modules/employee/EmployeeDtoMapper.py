@@ -10,4 +10,13 @@ class EmployeeDtoMapper(metaclass=Singleton):
             legalName=employee.legal_name,
             wage=employee.wage,
             activeRegister=employee.active_register,
+            jobLimit=str(employee.job_limit),
+        )
+
+    def mapDtoToEmployee(self, dto: EmployeeDto) -> Employee:
+        return Employee(
+            user_id=dto.user.id,
+            legal_name=dto.legalName,
+            wage=dto.wage,
+            job_limit=dto.jobLimit,
         )
