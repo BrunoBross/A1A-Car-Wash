@@ -17,20 +17,20 @@ class Header(metaclass=Singleton):
         menuBar = Gtk.MenuBar()
 
         sessionMenu = Gtk.Menu()
-        sessionMenuDropdown = Gtk.MenuItem("Session")
+        sessionMenuDropdown = Gtk.MenuItem("Sessão")
         sessionExit = Gtk.MenuItem(
-            f"Exit session 'ACESSO {self.__userContext.get().role.name}'"
+            f"Sair da sessão 'ACESSO {self.__userContext.get().role.name}'"
         )
         sessionExit.connect("activate", self.__onExit)
-        sessionQuit = Gtk.MenuItem(f"Quit {Config.APP_NAME}")
+        sessionQuit = Gtk.MenuItem(f"Sair do {Config.APP_NAME}")
         sessionQuit.connect("activate", self.__onQuit)
         sessionMenuDropdown.set_submenu(sessionMenu)
         sessionMenu.append(sessionExit)
         sessionMenu.append(sessionQuit)
 
         viewMenu = Gtk.Menu()
-        viewMenuDropdown = Gtk.MenuItem("View")
-        viewAppInfo = Gtk.MenuItem("About app")
+        viewMenuDropdown = Gtk.MenuItem("Mais")
+        viewAppInfo = Gtk.MenuItem("Sobre o app")
         viewAppInfo.connect("activate", self.__onAppInfo)
         viewMenuDropdown.set_submenu(viewMenu)
         viewMenu.append(viewAppInfo)

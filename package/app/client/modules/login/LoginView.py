@@ -14,13 +14,13 @@ class LoginView(metaclass=Singleton):
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
         label = Gtk.Label()
-        label.set_markup(toBig("Login"))
+        label.set_markup(toBig("Entrar"))
         mainBox.pack_start(label, False, False, 0)
 
         usernameFieldBox = Box(Gtk.Orientation.HORIZONTAL)
         usernameFieldLabel = Gtk.Label()
         usernameFieldInput = Gtk.Entry()
-        usernameFieldLabel.set_text("Username*")
+        usernameFieldLabel.set_text("Usuário*")
         usernameFieldInput.set_margin_top(5)
         usernameFieldInput.set_margin_right(5)
         usernameFieldInput.set_margin_bottom(5)
@@ -32,7 +32,7 @@ class LoginView(metaclass=Singleton):
         passwordFieldLabel = Gtk.Label()
         passwordFieldInput = Gtk.Entry()
         passwordFieldInput.set_visibility(False)
-        passwordFieldLabel.set_text("Password*")
+        passwordFieldLabel.set_text("Senha*")
         passwordFieldInput.set_margin_top(5)
         passwordFieldInput.set_margin_right(5)
         passwordFieldInput.set_margin_bottom(5)
@@ -40,7 +40,7 @@ class LoginView(metaclass=Singleton):
         passwordFieldBox.pack_default(passwordFieldLabel)
         passwordFieldBox.pack_default(passwordFieldInput)
 
-        confirmButton = Gtk.Button(label="Confirm")
+        confirmButton = Gtk.Button(label="Entrar")
         confirmButton.connect("clicked", self.__onConfirm)
 
         self.__usernameInput = usernameFieldInput

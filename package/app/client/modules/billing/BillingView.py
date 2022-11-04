@@ -38,6 +38,10 @@ class BillingView(metaclass=Singleton):
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
+        label = Gtk.Label()
+        label.set_markup(toBig("Visualizar Faturamento"))
+        label.set_margin_bottom(30)
+        mainBox.pack_start(label, False, False, 0)
 
         monthSelectBox = Box(Gtk.Orientation.HORIZONTAL)
         monthSelectLabel = Gtk.Label()
@@ -81,7 +85,7 @@ class BillingView(metaclass=Singleton):
         self.__employeeWages = values[2]
         self.__taxes = values[3]
 
-        self.__grossRevenueLabel.set_markup(toBig(f"Faturamento Bruto: {self.__grossRevenues}"))
-        self.__employeeWagesLabel.set_markup(toBig(f"Salário de Funcionários: {self.__employeeWages}"))
-        self.__taxesLabel.set_markup(toBig(f"Impostos: {self.__taxes}"))
-        self.__netRevenueLabel.set_markup(toBig(f"Faturamento Líquido: {self.__netRevenues}"))
+        self.__grossRevenueLabel.set_markup(toBig(f"Faturamento Bruto: R$ {self.__grossRevenues}"))
+        self.__employeeWagesLabel.set_markup(toBig(f"Salário de Funcionários: R$ {self.__employeeWages}"))
+        self.__taxesLabel.set_markup(toBig(f"Impostos: R$ {self.__taxes}"))
+        self.__netRevenueLabel.set_markup(toBig(f"Faturamento Líquido: R$ {self.__netRevenues}"))
