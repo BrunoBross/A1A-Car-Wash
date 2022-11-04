@@ -1,4 +1,3 @@
-from random import random
 from package.app.client.gui.box.Box import Box
 from package.app.client.modules.login.LoginComponent import LoginComponent
 from package.app.meta.Singleton import Singleton

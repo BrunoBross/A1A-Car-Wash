@@ -3,7 +3,6 @@ from package.app.api.modules.moduloexemplo.ExemploService import ExemploService
 
 
 class ExemploController(metaclass=Singleton):
-
     def __init__(self):
         self.__exemploService = ExemploService()
 

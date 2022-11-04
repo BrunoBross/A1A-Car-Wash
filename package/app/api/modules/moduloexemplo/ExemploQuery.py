@@ -3,7 +3,6 @@ from package.app.api.orm.DAO import DAO
 
 
 class ExemploQuery(metaclass=Singleton):
-
     def __init__(self):
         self.__dao = DAO()
 

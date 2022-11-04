@@ -1,21 +1,8 @@
-from typing import Callable, Type
-
+from typing import Type
 from sqlalchemy.orm import Query
-
 from package.app import sqlalchemy_session, sqlalchemy_base
-from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
+from package.app.decorators import safe_query
 from package.app.meta.Singleton import Singleton
-
-
-def safe_query(transaction: Callable):
-    def wrapper(*args, **kwargs):
-        try:
-            return transaction(*args, **kwargs)
-        except Exception:
-            sqlalchemy_session.rollback()
-            raise DatabaseIntegrityException
-
-    return wrapper
 
 
 class DAO(metaclass=Singleton):
