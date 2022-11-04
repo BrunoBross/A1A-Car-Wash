@@ -6,14 +6,14 @@ class BillingController(metaclass=Singleton):
     def __init__(self):
         self.__billingService = BillingService()
 
-    def getGrossRevenue(self, month: str):
+    def getGrossRevenue(self, month: int):
         return self.__billingService.getGrossRevenue(month)
 
-    def getNetRevenue(self, month: str):
+    def getNetRevenue(self, month: int):
         return self.__billingService.getNetRevenue(month)
 
-    def getEmployeeWages(self, month: str):
-        return self.__billingService.getEmployeeWages(month)
+    def getEmployeeWages(self):
+        return self.__billingService.getEmployeeWages()
 
-    def getTaxes(self, month: str):
+    def getTaxes(self, month: int):
         return self.__billingService.getTaxes(month)
