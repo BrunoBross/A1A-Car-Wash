@@ -10,7 +10,7 @@ from package.app.client.modules.registeremployee.RegisterEmployeeView import (
     RegisterEmployeeView,
 )
 from package.app.template.IAppComponent import IAppComponent
-
+from package.app.client.modules.employee.components.EmployeeSchedulingView import EmployeeSchedulingView
 
 @dataclass
 class SidebarItem:
@@ -32,7 +32,7 @@ sidebarItems: Dict[str, SidebarItem] = {
         roles={RoleEnum.GERENTE},
     ),
     "Tela Teste Funcionário": SidebarItem(
-        component=EmployeeView,
+        component=EmployeeSchedulingView,
         roles={RoleEnum.FUNCIONARIO},
     ),
 }

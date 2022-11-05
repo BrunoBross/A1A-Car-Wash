@@ -17,7 +17,7 @@ class EmployeeView(metaclass=Singleton):
         label.set_markup(toBig(f"Tela do Funcionário: {self.__getEmployeeFullName()}"))
         label.set_margin_bottom(30)
         mainBox.pack_start(label, False, False, 0)
-
+        
         return mainBox
 
     def __getEmployeeFullName(self) -> str:
