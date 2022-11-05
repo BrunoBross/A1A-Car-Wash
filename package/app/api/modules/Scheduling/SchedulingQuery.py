@@ -10,3 +10,6 @@ class SchedulingQuery(metaclass=Singleton):
 
     def getAll(self) -> Optional[Scheduling]:
         return self.__dao.select(Scheduling).all()
+
+    def getByEmployeeId(self, employeeId:int) -> Optional[Scheduling]:
+        return self.__dao.select(Scheduling).where(Scheduling.employee_id == employeeId)

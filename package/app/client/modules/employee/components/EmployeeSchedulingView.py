@@ -4,6 +4,7 @@ from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 from package.app.client.modules.employee.components.EmployeeSchedullingComponent import EmployeeSchedulingComponent
 
+
 from package.app.client.state.UserContext import UserContext
 
 class EmployeeSchedulingView(metaclass=Singleton):
@@ -11,6 +12,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__userContext = UserContext()
         self.__component = EmployeeSchedulingComponent()
         #self.__Schedulign_component = 
+        
 
     def get(self) -> Gtk.Box:
             mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -53,18 +55,27 @@ class EmployeeSchedulingView(metaclass=Singleton):
             listBox.add(row_2)
             '''
 
-            agendamentos = self.__component.getAllScheduling()
-            for agendamento in agendamentos:
-                row = Gtk.ListBoxRow()
-                box= Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
-                row.add(box)
-                label = Gtk.Label(str(agendamento.date))
-                box.pack_start(label, True, True, 0)
-                row.set_margin_top(5)
-                row.set_margin_right(5)
-                row.set_margin_bottom(5)
-                row.set_margin_left(5)
-                listBox.add(row)
+            #agendamentos = self.__component.getAllScheduling()
+            userID = self.__userContext.get().id
+            userEmployee = self.__component.getEmployeeByUserID(userID)
+            userEmployeeID = userEmployee.id
+            agendamentos = self.__component.getSchedulingByEmployeeID(userEmployeeID)
+            
+
+            for agendamento in agendamentos:   
+                if agendamento.job_state_id == 1:
+                    row = Gtk.ListBoxRow()
+                    box= Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
+                    row.add(box)
+                    jobName = self.__component.getJobById(agendamento.job_id).description
+                    vehiclePlate = self.__component.getVehicleById(agendamento.vehicle_id).numberPlate
+                    label = Gtk.Label(jobName + " " + str(agendamento.date) + " " + str(vehiclePlate))
+                    box.pack_start(label, True, True, 0)
+                    row.set_margin_top(5)
+                    row.set_margin_right(5)
+                    row.set_margin_bottom(5)
+                    row.set_margin_left(5)
+                    listBox.add(row)
 
             #fazendo comboboxteste
             #justificativasTeste = ["Euro", "US Dollars","British Pound","Japanese Yen", "Russian Ruble", "Mexican peso", "Swiss franc",]
@@ -77,9 +88,6 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
 
             combo_justificativas = Gtk.ComboBoxText()
-            
-            
-            
             combo_justificativas.set_entry_text_column(0)
             #currency_combo.connect("changed", self.on_currency_combo_changed)
             for justificativa in justificativasTeste:

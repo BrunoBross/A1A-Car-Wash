@@ -10,3 +10,6 @@ class SchedulingService(metaclass=Singleton):
     def getAll(self) -> Optional[SchedulingDto]:
         return self.__SchedulingQuery.getAll()
 
+    def getByEmployeeId(self, employeeId:int) -> Optional[SchedulingDto]:
+        return self.__SchedulingQuery.getByEmployeeId(employeeId)
+

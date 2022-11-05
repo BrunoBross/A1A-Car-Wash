@@ -8,3 +8,6 @@ class SchedulingController(metaclass=Singleton):
 
     def getAll(self) -> SchedulingDto:
         return self.__SchedulingService.getAll()
+
+    def getByEmployeeId(self, employeeId:int) -> SchedulingDto:
+        return self.__SchedulingService.getByEmployeeId(employeeId)

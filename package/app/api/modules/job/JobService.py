@@ -18,3 +18,6 @@ class JobService(metaclass=Singleton):
             self.__query.registerJob(self.__mapper.mapDtoToJob(jobDto))
             return jobDto
         return None
+
+    def getJobById(self, id:int) -> Optional[JobDto]:
+        return self.__query.getJobNyId(id)

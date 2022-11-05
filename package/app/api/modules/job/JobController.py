@@ -10,3 +10,6 @@ class JobController(metaclass=Singleton):
 
     def registerJob(self, job: JobDto) -> Optional[JobDto]:
         return self.__jobService.registerJob(job)
+
+    def getJobById(self, id:int) -> Optional[JobDto]:
+        return self.__jobService.getJobById(id)

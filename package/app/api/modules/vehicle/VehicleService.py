@@ -18,3 +18,9 @@ class VehicleService(metaclass=Singleton):
             self.__query.createVehicle(self.__mapper.mapDtoToVehicle(vehicleDto))
             return vehicleDto
         return None
+
+    def getVehicleByPlate(self, plate:int) -> Optional[VehicleDto]:
+        return self.__query.getVehicleByNumberPlate(plate)
+
+    def getVehicleById(self, id:int) -> Optional[VehicleDto]:
+        return self.__query.getVehicleById(id)
