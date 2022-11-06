@@ -11,8 +11,11 @@ class BillingComponent(metaclass=Singleton):
     def getBilling(self, month: int):
         return [self.__billingController.getGrossRevenue(month),
                 self.__billingController.getNetRevenue(month),
-                self.__billingController.getEmployeeWages(),
+                self.__billingController.getEmployeeWages(month),
                 self.__billingController.getTaxes(month)]
+
+    def getMonths(self):
+        return self.__billingController.getMonths()
 
     def getState(self) -> ComponentState:
         return self.__state

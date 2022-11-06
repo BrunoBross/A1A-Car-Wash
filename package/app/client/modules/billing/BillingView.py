@@ -15,21 +15,7 @@ class BillingView(metaclass=Singleton):
         self.__employeeWagesLabel = Gtk.Label()
         self.__taxesLabel = Gtk.Label()
 
-        self.__months = {
-            "Selecione um mês": 0,
-            "Janeiro": 1,
-            "Fevereiro": 2,
-            "Março": 3,
-            "Abril": 4,
-            "Maio": 5,
-            "Junho": 6,
-            "Julho": 7,
-            "Agosto": 8,
-            "Setembro": 9,
-            "Outubro": 10,
-            "Novembro": 11,
-            "Dezembro": 12,
-        }
+        self.__months = self.__component.getMonths()
 
         self.__grossRevenues = 0
         self.__netRevenues = 0
@@ -45,7 +31,7 @@ class BillingView(metaclass=Singleton):
 
         monthSelectBox = Box(Gtk.Orientation.HORIZONTAL)
         monthSelectLabel = Gtk.Label()
-        monthSelectLabel.set_markup(toBig("Mes:"))
+        monthSelectLabel.set_markup(toBig("Selecione um mês:"))
         monthSelectComboBox = Gtk.ComboBoxText()
         monthSelectComboBox.set_entry_text_column(0)
         for month in self.__months:
@@ -87,5 +73,5 @@ class BillingView(metaclass=Singleton):
 
         self.__grossRevenueLabel.set_markup(toBig(f"Faturamento Bruto: R$ {self.__grossRevenues}"))
         self.__employeeWagesLabel.set_markup(toBig(f"Salário de Funcionários: R$ {self.__employeeWages}"))
-        self.__taxesLabel.set_markup(toBig(f"Impostos: R$ {self.__taxes}"))
+        self.__taxesLabel.set_markup(toBig(f"Impostos e Taxas: R$ {self.__taxes}"))
         self.__netRevenueLabel.set_markup(toBig(f"Faturamento Líquido: R$ {self.__netRevenues}"))

@@ -15,7 +15,7 @@ class BillingQuery(metaclass=Singleton):
         #TODO: filtrar pelo mes
         return self.__dao.select(Scheduling).join(Job, Scheduling.job_id == Job.id).all()
 
-    def getEmployeeWages(self):
+    def getActiveEmployeeWages(self, month: int):
         #TODO: filtrar pelo mes
         return self.__dao.select(Employee).where(Employee.active_register == 1).all()
 
