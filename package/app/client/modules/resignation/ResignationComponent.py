@@ -3,21 +3,23 @@ from package.app.api.modules.job.JobController import JobController
 from package.app.client.dialog.DialogService import DialogService
 from package.app.client.dialog.InfoBox import InfoBoxProps
 from package.app.client.gui.box.Box import Box
-from package.app.client.modules.registerjob.RegisterJobValidator import (
-    RegisterJobValidator,
+from package.app.client.modules.resignation.ResignationValidator import (
+    ResignationValidator,
 )
 from package.app.client.state.ComponentState import ComponentState
 from package.app.meta.Singleton import Singleton
 from package.app.client.utils.form import getEntryBuffer
-from package.app.api.modules.job.dto.JobDto import JobDto
+
+from package.app.api.modules.job.dto.JobDto import JobDto ### alterar ###
+
 from package.app.client.gui.imports import Gtk
 from package.app.validation.IValidator import IValidator
 
 
-class RegisterJobComponent(metaclass=Singleton):
+class ResignationComponent(metaclass=Singleton):
     def __init__(self):
         self.__state = ComponentState()
-        self.__validator: IValidator = RegisterJobValidator()
+        self.__validator: IValidator = ResignationValidator()
         self.__controller = JobController()
         self.__dialogService = DialogService()
 

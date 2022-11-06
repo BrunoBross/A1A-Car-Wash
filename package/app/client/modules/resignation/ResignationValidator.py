@@ -5,7 +5,7 @@ from package.app.meta.Singleton import Singleton
 from package.app.validation.ValidationObject import ValidationObject
 
 
-class RegisterJobValidator(metaclass=Singleton):
+class ResignationValidator(metaclass=Singleton):
     @validator_function
     def execute(self, jobDto: JobDto, validation: ValidationObject) -> bool:
         if not (bool(jobDto.description) and bool(jobDto.cost_value)):

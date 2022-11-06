@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, Set, Type
 from package.app.api.enum.RoleEnum import RoleEnum
+from package.app.client.modules.resignation.ResignationView import ResignationView
 from package.app.client.modules.registerjob.RegisterJobView import RegisterJobView
 from package.app.client.modules.registervehicle.RegisterVehicleView import (
     RegisterVehicleView,
@@ -34,5 +35,9 @@ sidebarItems: Dict[str, SidebarItem] = {
     "Tela Teste Funcionário": SidebarItem(
         component=EmployeeView,
         roles={RoleEnum.FUNCIONARIO},
+    ),
+    "Demitir Funcionário": SidebarItem(
+        component=ResignationView,
+        roles={RoleEnum.GERENTE},
     ),
 }

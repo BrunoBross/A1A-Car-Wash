@@ -1,17 +1,19 @@
-from sqlalchemy import Float
 from package.app.api.modules.job.dto.JobDto import JobDto
 from package.app.decorators import validator_function
 from package.app.meta.Singleton import Singleton
+from package.app.api.modules.job.JobQuery import JobQuery
 from package.app.validation.ValidationObject import ValidationObject
 
 
-class RegisterJobValidator(metaclass=Singleton):
+class JobValidator(metaclass=Singleton):
+    def __init__(self):
+        self.__query = JobQuery()
+
     @validator_function
     def execute(self, jobDto: JobDto, validation: ValidationObject) -> bool:
-        if not (bool(jobDto.description) and bool(jobDto.cost_value)):
-            validation.errors.add("Preencha todos os campos!")
-            return False
-        if not isinstance(jobDto.cost_value, float):
-            validation.errors.add("Insira um valor numérico para o custo!")
+        if self.__query.getJobByDescription(jobDto.description):
+            validation.errors.add(
+                f"Serviço '{jobDto.description}' já cadastrado. Por favor tente um valor diferente."
+            )
             return False
         return True
