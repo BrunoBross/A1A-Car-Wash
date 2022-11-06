@@ -1,12 +1,12 @@
 from typing import Optional
-from package.app.api.modules.job.dto.JobDto import JobDto
+from package.app.api.modules.resignation.dto.ResignationDto import ResignationDto
 from package.app.meta.Singleton import Singleton
-from package.app.api.modules.job.JobService import JobService
+from package.app.api.modules.resignation.ResignationService import ResignationService
 
 
-class JobController(metaclass=Singleton):
+class ResignationController(metaclass=Singleton):
     def __init__(self):
-        self.__jobService = JobService()
+        self.__resignationService = ResignationService()
 
-    def registerJob(self, job: JobDto) -> Optional[JobDto]:
-        return self.__jobService.registerJob(job)
+    def registerResignation(self, resignation: ResignationDto) -> Optional[ResignationDto]:
+        return self.__resignationService.registerResignation(resignation)

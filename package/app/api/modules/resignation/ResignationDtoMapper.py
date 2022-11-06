@@ -1,15 +1,26 @@
-from package.app.api.model.Job import Job
-from package.app.api.modules.job.dto.JobDto import JobDto
+from package.app.api.model.Resignation import Resignation
+from package.app.api.modules.resignation.dto.ResignationDto import ResignationDto
 from package.app.meta.Singleton import Singleton
 
 
-class JobDtoMapper(metaclass=Singleton):
-    def mapJobToDto(self, job: Job) -> JobDto:
-        return JobDto(
-            id=job.id,
-            description=job.description,
-            cost_value=job.cost_value,
+class ResignationDtoMapper(metaclass=Singleton):
+    def mapResignationToDto(self, resignation: Resignation) -> ResignationDto:
+        return ResignationDto(
+            id=resignation.id,
+            employee_id=resignation.employee_id,
+            resignation_type_id=resignation.resignation_type_id,
+            date=resignation.date,
+            memo=resignation.memo,
+            employee=resignation.employee,
+            resignation_type=resignation.resignation_type,
         )
 
-    def mapDtoToJob(self, dto: JobDto) -> Job:
-        return Job(description=dto.description, cost_value=dto.cost_value)
+    def mapDtoToResignation(self, dto: ResignationDto) -> Resignation:
+        return Resignation(
+            employee_id=dto.employee_id,
+            resignation_type_id=dto.resignation_type_id,
+            date=dto.date,
+            memo=dto.memo,
+            employee=dto.employee,
+            resignation_type=dto.resignation_type,
+        )
