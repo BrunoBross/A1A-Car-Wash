@@ -6,12 +6,12 @@ from package.app.api.modules.Scheduling.SchedulingQuery import SchedulingQuery
 
 
 
-class SchedulingValidator(metaclass=Singleton):
+class SchedulingToBeFinishedValidator(metaclass=Singleton):
     def __init__(self) -> None:
         self.__query = SchedulingQuery()
 
     @validator_function
-    def ValidadeSchedulingToBeFinished(self, schedulingKeys:str, schedulingStateId:int, validation: ValidationObject) -> bool:
+    def execute(self, schedulingKeys:str, schedulingStateId:int, validation: ValidationObject) -> bool:
         if schedulingKeys == None or schedulingStateId == None:
             validation.errors.add("Por favor, selecione um agendamento ou uma situação")
             return False

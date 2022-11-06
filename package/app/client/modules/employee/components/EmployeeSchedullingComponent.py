@@ -47,3 +47,6 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
 
     def getSchedulingByEmployeeID(self, employeeID:int):
         return self.__SchedulingController.getByEmployeeId(employeeID)
+    
+    def updateJobStateID(self, schedulingKeys:str, newJobStateID:int):
+        self.__SchedulingController.updateJobStateID(schedulingKeys, newJobStateID)

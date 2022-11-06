@@ -109,6 +109,14 @@ class EmployeeSchedulingView(metaclass=Singleton):
         print(self.__idAgendamento)
     
     def onFinalizadoClicked(self, button:Gtk.Widget):
+        #employeeID, jobID, vehicleID, SchedulingDate = self.__idAgendamento.split(" ")
+        #print(employeeID)
+        #print(jobID)
+        #print(vehicleID)
+        #print(SchedulingDate)
+        schedulingKeys = self.__idAgendamento
+        newJobStateId = self.__idJustificativa
+        self.__component.updateJobStateID(schedulingKeys, newJobStateId)
         print(button)
         print(self.__idAgendamento)
         print(self.__idJustificativa)

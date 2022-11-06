@@ -11,3 +11,6 @@ class SchedulingController(metaclass=Singleton):
 
     def getByEmployeeId(self, employeeId:int) -> SchedulingDto:
         return self.__SchedulingService.getByEmployeeId(employeeId)
+    
+    def updateJobStateID(self, schedulingKeys:str, newJobStateID:int):
+        self.__SchedulingService.updateJobStateID(schedulingKeys, newJobStateID)
