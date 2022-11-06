@@ -30,7 +30,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
             #Preenche a listBOX com os objs de agendamento OK
             #Poe a comboBOX embaixo 
             #Poe o botao em baixo
-            #VOCE TEM 4 DIAS!!!!!!!!!!!!!!
+            #VOCE TEM 3 DIAS!!!!!!!!!!!!!!
 
             listBox = Gtk.ListBox()
             listBox.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -44,9 +44,10 @@ class EmployeeSchedulingView(metaclass=Singleton):
             
            
 
-            for agendamento in agendamentos:   
+            for agendamento in agendamentos:
+                print("Agendamento: ", agendamento.job_state_id)   
                 if agendamento.job_state_id == 1:
-                    
+                    print("Agendamento: ", agendamento.job_state_id)  
                     jobName = self.__component.getJobById(agendamento.job_id).description
                     vehiclePlate = self.__component.getVehicleById(agendamento.vehicle_id).numberPlate
                     nomeAgendamento = jobName + " " + str(agendamento.date) + " " + str(vehiclePlate) 
@@ -62,18 +63,12 @@ class EmployeeSchedulingView(metaclass=Singleton):
                     buttonSelect.connect("clicked", self.onSchedulingListClicked)
                     box.pack_start(buttonSelect, True, True, 0)
 
-                    #label = Gtk.Label(nomeAgendamento)
-                    #box.pack_start(label, True, True, 0)
-
-                    #buttonSelect = Gtk.Button(label="Selecionar")
-                    #buttonSelect.connect("clicked", self.onSchedulingListClicked)
-                    #box.pack_start(buttonSelect, True, True, 0)
+            
                     row.set_margin_top(5)
                     row.set_margin_right(5)
                     row.set_margin_bottom(5)
                     row.set_margin_left(5)
 
-                    #row.connect("row_selected", self.onSchedulingListClicked)
                     listBox.add(row)
 
             comboBoxLabel = Gtk.Label()
@@ -93,6 +88,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
             botaoFinalizar = Gtk.Button(label="Finalizar Serviço")
             botaoFinalizar.connect("clicked", self.onFinalizadoClicked)
 
+            
             mainBox.pack_start(listBox, False, False, 0)
             mainBox.pack_start(comboBoxLabel, False, False, 0)
             mainBox.pack_start(comboJustificativas, False, False, 0)
@@ -109,14 +105,13 @@ class EmployeeSchedulingView(metaclass=Singleton):
         print(self.__idAgendamento)
     
     def onFinalizadoClicked(self, button:Gtk.Widget):
-        #employeeID, jobID, vehicleID, SchedulingDate = self.__idAgendamento.split(" ")
-        #print(employeeID)
-        #print(jobID)
-        #print(vehicleID)
-        #print(SchedulingDate)
         schedulingKeys = self.__idAgendamento
         newJobStateId = self.__idJustificativa
         self.__component.updateJobStateID(schedulingKeys, newJobStateId)
         print(button)
         print(self.__idAgendamento)
         print(self.__idJustificativa)
+        #self.refreshWindow()
+    
+    
+    #def removeListRow(self, listBox:Gtk.Widget, SchedulingKeys: str):
