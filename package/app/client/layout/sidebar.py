@@ -5,12 +5,11 @@ from package.app.client.modules.registerjob.RegisterJobView import RegisterJobVi
 from package.app.client.modules.registervehicle.RegisterVehicleView import (
     RegisterVehicleView,
 )
-from package.app.client.modules.employee.EmployeeView import EmployeeView
 from package.app.client.modules.registeremployee.RegisterEmployeeView import (
     RegisterEmployeeView,
 )
 from package.app.template.IAppComponent import IAppComponent
-from package.app.client.modules.employee.components.EmployeeSchedulingView import EmployeeSchedulingView
+from package.app.client.modules.schedulingemployee.EmployeeSchedulingView import EmployeeSchedulingView
 
 @dataclass
 class SidebarItem:
