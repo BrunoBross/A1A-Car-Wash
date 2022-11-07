@@ -19,15 +19,20 @@ class ResignationQuery(metaclass=Singleton):
             return None
 
     def getEmployees(self):
-        return self.__dao.select(Employee).all()
+        return self.__dao.select(Employee).where(Employee.active_register==True).all()
 
     def getResignationTypes(self):
         return self.__dao.select(ResignationType).all()
 
     def getEmployeeByUserId(self, employeeUserId: int) -> Employee:
-        return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()[0]
+        try:
+            return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()[0]
+        except IndexError:
+            return None
 
     def getResignationTypeById(self, resignationTypeId: str) -> ResignationType:
-        return self.__dao.select(ResignationType).where(
-            ResignationType.id == resignationTypeId).all()[0]
-        
+        try:
+            return self.__dao.select(ResignationType).where(
+                ResignationType.id == resignationTypeId).all()[0]
+        except IndexError:
+            return None

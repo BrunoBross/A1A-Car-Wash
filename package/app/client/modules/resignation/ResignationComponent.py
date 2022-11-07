@@ -30,14 +30,24 @@ class ResignationComponent(metaclass=Singleton):
         selectedResignationType = self.getResignationTypeById(
             selectedResignationTypeId)
 
-        dto = ResignationDto(
-            employee_id=selectedEmployee.user_id,
-            resignation_type_id=selectedResignationType.id,
-            date = datetime.now(),
-            memo = str(Memo),
-            employee = selectedEmployee,
-            resignation_type = selectedResignationType,
-        )
+        try:
+            dto = ResignationDto(
+                employee_id=selectedEmployee.user_id,
+                resignation_type_id=selectedResignationType.id,
+                date = datetime.now(),
+                memo = str(Memo),
+                employee = selectedEmployee,
+                resignation_type = selectedResignationType,
+            )
+        except AttributeError:
+            dto = ResignationDto(
+                employee_id=None,
+                resignation_type_id=None,
+                date = None,
+                memo = None,
+                employee = None,
+                resignation_type = None,
+            )
 
         if self.__validator.execute(dto):
             entity = self.__controller.registerResignation(dto)
