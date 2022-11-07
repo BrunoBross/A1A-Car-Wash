@@ -36,7 +36,6 @@ class SchedulingController(metaclass=Singleton):
 
     def updateJobStateID(self, employeeId: int, scheduling: list, job_state: str) -> bool:
         if self.__validator.execute(scheduling, job_state):
-            print("DEU BOM!!!!")
             vehicle = scheduling[0]
             job = scheduling[1]
             date = scheduling[2]

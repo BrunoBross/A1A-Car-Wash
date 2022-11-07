@@ -50,8 +50,9 @@ class EmployeeSchedulingView(metaclass=Singleton):
         comboJustificativas.set_entry_text_column(0)
         justificativasList = self.__component.getAllSchedulingStates()
         for justificativa in justificativasList:
-            self.__justificativasDict[justificativa.description] = justificativa.id
-            comboJustificativas.append_text(justificativa.description)
+            if justificativa.id != 1:
+                self.__justificativasDict[justificativa.description] = justificativa.id
+                comboJustificativas.append_text(justificativa.description)
         comboJustificativasBox.pack_default(comboJustificativasLabel)
         comboJustificativasBox.pack_default(comboJustificativas)
         comboJustificativas.connect("changed", self.changeComboBoxInput)
