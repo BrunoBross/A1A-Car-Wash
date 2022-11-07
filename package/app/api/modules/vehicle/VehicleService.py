@@ -19,7 +19,7 @@ class VehicleService(metaclass=Singleton):
             return vehicleDto
         return None
 
-    def getVehicleByPlate(self, plate:int) -> Optional[VehicleDto]:
+    def getVehicleByPlate(self, plate: str) -> Optional[VehicleDto]:
         return self.__query.getVehicleByNumberPlate(plate)
 
     def getVehicleById(self, id:int) -> Optional[VehicleDto]:

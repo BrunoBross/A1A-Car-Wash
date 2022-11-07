@@ -10,3 +10,6 @@ class SchedulingStateService(metaclass=Singleton):
     def getAll(self) -> Optional[SchedulingStateDto]:
         return self.__SchedulingStateQuery.getAll()
 
+    def getSchedulingStateByDescription(self, description: str):
+        return self.__SchedulingStateQuery.getSchedulingStateByDescription(description)
+

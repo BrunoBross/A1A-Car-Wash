@@ -21,3 +21,6 @@ class JobService(metaclass=Singleton):
 
     def getJobById(self, id:int) -> Optional[JobDto]:
         return self.__query.getJobNyId(id)
+
+    def getJobByDescription(self, description: str):
+        return self.__query.getJobByDescription(description)

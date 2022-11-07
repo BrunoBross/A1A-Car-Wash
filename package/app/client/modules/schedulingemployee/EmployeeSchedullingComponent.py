@@ -11,6 +11,7 @@ from package.app.api.modules.job.dto.JobDto import JobDto
 from package.app.api.modules.vehicle.dto.VehicleDto import VehicleDto
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.client.state.UserContext import UserContext
+from package.app.client.utils.form import getEntryBuffer
 
 
 class EmployeeSchedulingComponent(metaclass=Singleton):
@@ -27,6 +28,10 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
     #esse cara faz a logica
     #Seleciona o cara na lista
     #Seleciona o estado dele
+
+    def getLoggedEmployee(self):
+        user_id = self.__userContext.get().id
+        return self.getEmployeeByUserID(user_id)
 
     def getAllSchedulingStates(self) -> SchedulingStateDto:
         return self.__SchedulingStateController.getAll()
@@ -49,16 +54,19 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
     def getSchedulingByEmployeeID(self, employeeID:int):
         return self.__SchedulingController.getByEmployeeId(employeeID)
     
-    def updateJobStateID(self, schedulingKeys:str, newJobStateID:int):
-        self.__SchedulingController.updateJobStateID(schedulingKeys, newJobStateID)
+    def updateJobStateID(self, scheduling: list, job_state: str):
+        self.__SchedulingController.updateJobStateID(self.getLoggedEmployee().id, scheduling, job_state)
 
     def getSchedulingList(self):
-        user_id = self.__userContext.get().id
-        employee = self.getEmployeeByUserID(user_id)
-        schedulings = self.getSchedulingByEmployeeID(employee.id)
+        schedulings = self.getSchedulingByEmployeeID(self.getLoggedEmployee().id)
         itemsList = []
         for i in schedulings:
             job = self.getJobById(i.job_id)
             vehicle = self.getVehicleById(i.vehicle_id)
-            itemsList.append((vehicle.numberPlate, job.description))
+            itemsList.append((vehicle.numberPlate, job.description, str(i.date)))
         return itemsList
+
+
+
+    def getState(self) -> ComponentState:
+        return self.__state

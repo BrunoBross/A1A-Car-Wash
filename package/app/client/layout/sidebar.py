@@ -30,7 +30,7 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterEmployeeView,
         roles={RoleEnum.GERENTE},
     ),
-    "Tela Teste Funcionário": SidebarItem(
+    "Agendamentos": SidebarItem(
         component=EmployeeSchedulingView,
         roles={RoleEnum.FUNCIONARIO},
     ),

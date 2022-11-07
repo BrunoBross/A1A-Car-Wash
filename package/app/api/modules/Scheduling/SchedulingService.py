@@ -16,10 +16,5 @@ class SchedulingService(metaclass=Singleton):
     def getByEmployeeId(self, employeeId:int) -> Optional[SchedulingDto]:
         return self.__SchedulingQuery.getByEmployeeId(employeeId)
 
-    def updateJobStateID(self, schedulingKeys:str, newJobStateId: int):
-        if self.__validator.execute(schedulingKeys, newJobStateId):
-            employeeID, jobID, vehicleID, SchedulingDate = schedulingKeys.split(" ")
-            self.__SchedulingQuery.updateJobStateID(employeeID, jobID, vehicleID, SchedulingDate, newJobStateId)
-        
-        #self.__SchedulingQuery.updateJobStateID(employeeId, jobID, vehicleId, date, newJobStateId)
-
+    def updateJobStateID(self, employeeId: int, jobId: int, vehicleId: int, date: str, newJobStateId: int):
+        self.__SchedulingQuery.updateJobStateID(employeeId, jobId, vehicleId, date, newJobStateId)

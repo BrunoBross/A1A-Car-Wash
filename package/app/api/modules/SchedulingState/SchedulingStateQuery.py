@@ -10,3 +10,6 @@ class SchedulingStateQuery(metaclass=Singleton):
 
     def getAll(self) -> Optional[SchedulingState]:
         return self.__dao.select(SchedulingState).all()
+
+    def getSchedulingStateByDescription(self, description: str):
+        return self.__dao.select(SchedulingState).where(SchedulingState.description == description).first()
