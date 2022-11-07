@@ -46,9 +46,10 @@ class ResignationView(metaclass=Singleton):
         
         employeeCombo = Gtk.ComboBoxText()
         employeeCombo.set_entry_text_column(0)
-        employeeCombo.append_text("Escolha um funcionário")
+        employeeCombo.append_text("0 - Escolha um funcionário")
         for employee in self.__employees:
-            employeeCombo.append_text(f"{employee.user_id}" + " - " + f"{employee.legal_name[0:28]}")
+            employeeCombo.append_text(
+                f"{employee.user_id}" + " - " + f"{employee.legal_name[0:28]}")
         employeeCombo.set_active(0)
         employeeCombo.set_size_request(275,30)
         employeeBox.pack_default(employeeCombo)
@@ -65,9 +66,10 @@ class ResignationView(metaclass=Singleton):
         
         resignationTypeCombo = Gtk.ComboBoxText()
         resignationTypeCombo.set_entry_text_column(0)
-        resignationTypeCombo.append_text("Selecione o tipo de causa")
+        resignationTypeCombo.append_text("0 - Selecione o tipo de causa")
         for resignationType in self.__resignationTypes:
-            resignationTypeCombo.append_text(resignationType.description)
+            resignationTypeCombo.append_text(
+                f"{resignationType.id}"+" - "+f"{resignationType.description}")
         resignationTypeCombo.set_active(0)
         resignationTypeCombo.set_size_request(285,30)
         resignationTypeBox.pack_default(resignationTypeCombo)
@@ -118,12 +120,12 @@ class ResignationView(metaclass=Singleton):
 
     def __onConfirm(self, button: Gtk.Widget):
         self.__selectedEmployeeUserId = self.getUserIdFromCombo()
-        self.__selectedResignationType = self.getResignationTypeFromCombo()
+        self.__selectedResignationTypeId = self.getResignationTypeFromCombo()
         self.__component.getState().addReference("memo", self.__memoInput)
 
         self.__component.requestRegistration(
             self.__selectedEmployeeUserId,
-            self.__selectedResignationType
+            self.__selectedResignationTypeId
         )
         return
 
@@ -139,4 +141,5 @@ class ResignationView(metaclass=Singleton):
 
     def getResignationTypeFromCombo(self) -> str:
         res_type = self.__resignationTypeCombo.get_active_text()
+        res_type = re.findall(r'\d+',f"{res_type}")[0]
         return res_type

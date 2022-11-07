@@ -25,9 +25,9 @@ class ResignationQuery(metaclass=Singleton):
         return self.__dao.select(ResignationType).all()
 
     def getEmployeeByUserId(self, employeeUserId: int) -> Employee:
-        return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()
+        return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()[0]
 
-    def getResignationTypeByDescription(self, resignationTypeDescription: str) -> ResignationType:
+    def getResignationTypeById(self, resignationTypeId: str) -> ResignationType:
         return self.__dao.select(ResignationType).where(
-            ResignationType.description == resignationTypeDescription).all()
+            ResignationType.id == resignationTypeId).all()[0]
         

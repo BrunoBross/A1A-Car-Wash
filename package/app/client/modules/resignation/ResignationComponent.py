@@ -22,19 +22,21 @@ class ResignationComponent(metaclass=Singleton):
         self.__controller = ResignationController()
         self.__dialogService = DialogService()
 
-    def requestRegistration(self, SelectedEmployeeUserId, SelectedResignationTypeDescription):
-        
+    def requestRegistration(self, selectedEmployeeUserId, selectedResignationTypeId):
+
         Memo = getEntryBuffer(self.__state.getReferenceById("memo"))
         selectedEmployee = self.getEmployeeByUserId(
-            SelectedEmployeeUserId)
-        selectedResignationType = self.getResignationTypeByDescription(
-            SelectedResignationTypeDescription)
+            selectedEmployeeUserId)
+        selectedResignationType = self.getResignationTypeById(
+            selectedResignationTypeId)
 
         dto = ResignationDto(
+            employee_id=selectedEmployee.user_id,
+            resignation_type_id=selectedResignationType.id,
+            date = datetime.now(),
+            memo = str(Memo),
             employee = selectedEmployee,
             resignation_type = selectedResignationType,
-            memo = str(Memo),
-            date = str(datetime.now())
         )
 
         if self.__validator.execute(dto):
@@ -61,6 +63,6 @@ class ResignationComponent(metaclass=Singleton):
     def getEmployeeByUserId(self, userID):
         return self.__controller.getEmployeeByUserId(userID)
 
-    def getResignationTypeByDescription(self, resignationDescription):
-        return self.__controller.getResignationTypeByDescription(
-            resignationDescription)
+    def getResignationTypeById(self, resignationId):
+        return self.__controller.getResignationTypeById(
+            resignationId)
