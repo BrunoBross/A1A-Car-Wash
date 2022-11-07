@@ -80,10 +80,10 @@ class BillingView(metaclass=Singleton):
 
         values = self.__component.getBilling(self.__months[_.get_active_text()])
 
-        self.__grossRevenues = values[0]
-        self.__netRevenues = values[1]
-        self.__employeeWages = values[2]
-        self.__taxes = values[3]
+        self.__grossRevenues = float(values[0])
+        self.__netRevenues = float(values[1])
+        self.__employeeWages = float(values[2])
+        self.__taxes = float(values[3])
 
         self.__grossRevenueLabel.set_markup(toBig(f"Faturamento Bruto: R$ {self.__grossRevenues}"))
         self.__employeeWagesLabel.set_markup(toBig(f"Salário de Funcionários: R$ {self.__employeeWages}"))
