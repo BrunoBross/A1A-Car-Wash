@@ -14,6 +14,8 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__justificativasDict = {}
         self.__comboJustificativasInput = None
         self.__listBoxInput = None
+        self.__listStore = None
+        
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -24,10 +26,10 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
         # LIST BOX
         grid = Gtk.Grid(column_homogeneous=True, row_spacing=45)
-        listStore = Gtk.ListStore(str, str, str)
+        self.__listStore = Gtk.ListStore(str, str, str)
         for item in self.__schedulingList:
-            listStore.append(list(item))
-        treeView = Gtk.TreeView(model=listStore)
+            self.__listStore.append(list(item))
+        treeView = Gtk.TreeView(model=self.__listStore)
         for i, title in enumerate(["Placa do Carro", "Tipo de Limpeza", "Data"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(title, renderer, text=i)
@@ -83,4 +85,10 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
     def onConfirm(self, _: Gtk.Widget):
         self.__component.updateJobStateID(self.__listBoxInput, self.__comboJustificativasInput)
-        
+        self.updateList()
+
+    def updateList(self):
+        self.__listStore.clear()
+        self.__schedulingList = self.__component.getSchedulingList()
+        for item in self.__schedulingList:
+            self.__listStore.append(list(item))
