@@ -14,8 +14,5 @@ class Employee(sqlalchemy_base):
     legal_name = Column(String(100), nullable=False)
     wage = Column(Float, default=Config.EMPLOYEE_WAGE_DEFAULT)
     active_register = Column(Boolean, nullable=False, default=True)
-    job_limit = Column(
-        Integer, nullable=False, default=Config.EMPLOYEE_MIN_JOBS_DEFAULT
-    )
-
+    job_limit = Column(Integer, nullable=False, default=Config.EMPLOYEE_MIN_JOBS_DEFAULT)
     user = relationship(User)

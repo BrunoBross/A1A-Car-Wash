@@ -12,6 +12,7 @@ from package.app.client.utils.form import getEntryBuffer
 from package.app.api.modules.resignation.dto.ResignationDto import ResignationDto
 from package.app.client.gui.imports import Gtk
 from package.app.validation.IValidator import IValidator
+from datetime import datetime
 
 
 class ResignationComponent(metaclass=Singleton):
@@ -21,28 +22,17 @@ class ResignationComponent(metaclass=Singleton):
         self.__controller = ResignationController()
         self.__dialogService = DialogService()
 
-    # NEED FIXING
     def requestRegistration(self):
-        description = getEntryBuffer(self.__state.getReferenceById("resignationName"))
-        cost_value = getEntryBuffer(self.__state.getReferenceById("resignationValue"))
+        selectedEmployee = getEntryBuffer(self.__state.getReferenceById("employee"))
+        selectedResignationType = getEntryBuffer(self.__state.getReferenceById("resignationType"))
+        typedMemo = getEntryBuffer(self.__state.getReferenceById("memo"))
 
-        try:
-            dto = ResignationDto(
-                description=description.upper(),
-                cost_value=float(cost_value),
-            )
-
-        except ValueError:
-            if cost_value == "":
-                dto = ResignationDto(
-                    description=description.upper(),
-                    cost_value=0,
-                )
-            else:
-                dto = ResignationDto(
-                    description=description.upper(),
-                    cost_value="invalid_cost",
-                )
+        dto = ResignationDto(
+            employee = selectedEmployee,
+            resignationType = selectedResignationType,
+            memo = str(typedMemo),
+            date = str(datetime.now())
+        )
 
         if self.__validator.execute(dto):
             entity = self.__controller.registerResignation(dto)
@@ -54,7 +44,13 @@ class ResignationComponent(metaclass=Singleton):
 
     def __displaySuccessMessage(self):
         content = Box()
-        content.pack_default(Gtk.Label("Serviço cadastrado com sucesso"))
+        content.pack_default(Gtk.Label("A dedmissão foi corretamente executada!"))
         self.__dialogService.displayInfoBox(
-            InfoBoxProps(title="Cadastro bem sucedido", content=content)
+            InfoBoxProps(title="Demissão executada", content=content)
         )
+
+    def getEmployees(self):
+        return self.__controller.getEmployees()
+
+    def getResignationTypes(self):
+        return self.__controller.getResignationTypes()

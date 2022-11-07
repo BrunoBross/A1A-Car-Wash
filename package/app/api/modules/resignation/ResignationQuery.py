@@ -3,6 +3,8 @@ from package.app.api.model.Resignation import Resignation
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
 from package.app.api.orm.DAO import DAO
+from package.app.api.model.Employee import Employee
+from package.app.api.model.ResignationType import ResignationType
 
 
 class ResignationQuery(metaclass=Singleton):
@@ -15,3 +17,9 @@ class ResignationQuery(metaclass=Singleton):
             return resignation
         except DatabaseIntegrityException:
             return None
+
+    def getEmployees(self):
+        return self.__dao.select(Employee).all()
+
+    def getResignationTypes(self):
+        return self.__dao.select(ResignationType).all()

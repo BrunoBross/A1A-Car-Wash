@@ -18,3 +18,9 @@ class ResignationService(metaclass=Singleton):
             self.__query.registerResignation(self.__mapper.mapDtoToResignation(resignationDto))
             return resignationDto
         return None
+
+    def getEmployees(self):
+        return self.__query.getEmployees()
+
+    def getResignationTypes(self):
+        return self.__query.getResignationTypes()

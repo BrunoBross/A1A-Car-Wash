@@ -10,3 +10,9 @@ class ResignationController(metaclass=Singleton):
 
     def registerResignation(self, resignation: ResignationDto) -> Optional[ResignationDto]:
         return self.__resignationService.registerResignation(resignation)
+
+    def getEmployees(self):
+        return self.__resignationService.getEmployees()
+
+    def getResignationTypes(self):
+        return self.__resignationService.getResignationTypes()

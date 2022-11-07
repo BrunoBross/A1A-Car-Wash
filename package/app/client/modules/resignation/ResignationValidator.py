@@ -7,13 +7,15 @@ from package.app.validation.ValidationObject import ValidationObject
 
 class ResignationValidator(metaclass=Singleton):
     
-    # NEED FIXING
     @validator_function
     def execute(self, resignationDto: ResignationDto, validation: ValidationObject) -> bool:
-        if not (bool(resignationDto.description) and bool(resignationDto.cost_value)):
-            validation.errors.add("Preencha todos os campos!")
+        if not (bool(resignationDto.employee)):
+            validation.errors.add("Selecione um funcionário!")
             return False
-        if not isinstance(resignationDto.cost_value, float):
-            validation.errors.add("Insira um valor numérico para o custo!")
+        if not bool(resignationDto.resignation_type):
+            validation.errors.add("Selecione um tipo de demissão!")
+            return False
+        if len(resignationDto.memo) > 255:
+            validation.errors.add("A observação excede o tamanho limite de 255 caracteres!")
             return False
         return True
