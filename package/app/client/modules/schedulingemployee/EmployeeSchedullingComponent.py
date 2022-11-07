@@ -64,9 +64,10 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
             job = self.getJobById(i.job_id)
             vehicle = self.getVehicleById(i.vehicle_id)
             itemsList.append((vehicle.numberPlate, job.description, str(i.date)))
-        return itemsList
-
-
+        if itemsList:
+            return itemsList
+        else:
+            return [["Nenhum agendamento pendente", None, None]]
 
     def getState(self) -> ComponentState:
         return self.__state

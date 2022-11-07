@@ -15,7 +15,6 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__comboJustificativasInput = None
         self.__listBoxInput = None
 
-
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
         title = Gtk.Label()
@@ -83,7 +82,4 @@ class EmployeeSchedulingView(metaclass=Singleton):
             self.__listBoxInput = value
 
     def onConfirm(self, _: Gtk.Widget):
-        print(self.__comboJustificativasInput)
-        print(self.__listBoxInput)
         self.__component.updateJobStateID(self.__listBoxInput, self.__comboJustificativasInput)
-        pass

@@ -15,18 +15,17 @@ class SchedulingQuery(metaclass=Singleton):
         return self.__dao.select(Scheduling).all()
 
     def getByEmployeeId(self, employeeId: int) -> Optional[Scheduling]:
-        return self.__dao.select(Scheduling).where(Scheduling.employee_id == employeeId)
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.employee_id == employeeId)\
+            .where(Scheduling.job_state_id == 1)\
+            .all()
 
     def updateJobStateID(self, employeeId: int, jobID: int, vehicleId: int, date: date, newJobStateId: int):
-        print(employeeId)
-        print(jobID)
-        print(vehicleId)
-        print(date)
         self.__session.query(Scheduling) \
-            .filter(Scheduling.employee_id == employeeId and
-                    Scheduling.job_id == jobID and
-                    Scheduling.vehicle_id == vehicleId and
-                    Scheduling.date == date) \
+            .where(Scheduling.employee_id == employeeId)\
+            .where(Scheduling.job_id == jobID)\
+            .where(Scheduling.vehicle_id == vehicleId)\
+            .where(Scheduling.date == date)\
             .update({"job_state_id": newJobStateId})
 
         self.__session.commit()
