@@ -83,3 +83,4 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
     def onConfirm(self, _: Gtk.Widget):
         self.__component.updateJobStateID(self.__listBoxInput, self.__comboJustificativasInput)
+        

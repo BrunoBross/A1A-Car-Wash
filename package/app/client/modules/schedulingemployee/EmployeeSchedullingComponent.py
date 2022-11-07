@@ -12,7 +12,10 @@ from package.app.api.modules.vehicle.dto.VehicleDto import VehicleDto
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.client.state.UserContext import UserContext
 from package.app.client.utils.form import getEntryBuffer
-
+from package.app.client.dialog.DialogService import DialogService
+from package.app.client.gui.box.Box import Box
+from package.app.client.gui.imports import Gtk
+from package.app.client.dialog.InfoBox import InfoBoxProps
 
 class EmployeeSchedulingComponent(metaclass=Singleton):
 
@@ -24,7 +27,7 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         self.__EmployeeController = EmployeeController()
         self.__state = ComponentState()
         self.__userContext = UserContext()
-
+        self.__dialogService = DialogService()
     #esse cara faz a logica
     #Seleciona o cara na lista
     #Seleciona o estado dele
@@ -55,7 +58,8 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         return self.__SchedulingController.getByEmployeeId(employeeID)
     
     def updateJobStateID(self, scheduling: list, job_state: str):
-        self.__SchedulingController.updateJobStateID(self.getLoggedEmployee().id, scheduling, job_state)
+        if self.__SchedulingController.updateJobStateID(self.getLoggedEmployee().id, scheduling, job_state):
+            self.__displaySuccessMessage()
 
     def getSchedulingList(self):
         schedulings = self.getSchedulingByEmployeeID(self.getLoggedEmployee().id)
@@ -71,3 +75,10 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
 
     def getState(self) -> ComponentState:
         return self.__state
+
+    def __displaySuccessMessage(self):
+        content = Box()
+        content.pack_default(Gtk.Label("Serviço finalizado com sucesso"))
+        self.__dialogService.displayInfoBox(
+            InfoBoxProps(title="Finalização bem sucedida", content=content)
+        )

@@ -11,9 +11,12 @@ class SchedulingToBeFinishedValidator(metaclass=Singleton):
         self.__query = SchedulingQuery()
 
     @validator_function
-    def execute(self, schedulingKeys:str, schedulingStateId:int, validation: ValidationObject) -> bool:
-        if schedulingKeys == None or schedulingStateId == None:
-            validation.errors.add("Por favor, selecione um agendamento ou uma situação")
+    def execute(self, schedulingInfo:list, jobStateId:int, validation: ValidationObject) -> bool:
+        if not isinstance(schedulingInfo, list) or schedulingInfo == None:
+            validation.errors.add("Por favor, selecione um agendamento.")
+            return False
+        elif not isinstance(jobStateId, str) or jobStateId == None:
+            validation.errors.add("Por favor, selecione um status.")
             return False
         return True
         #vai receber o id da justificativa e os dados do agendamento
