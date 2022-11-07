@@ -41,4 +41,5 @@ class EmployeeService(metaclass=Singleton):
         employee = self.__employeeQuery.registerEmployee(
             self.__mapper.mapDtoToEmployee(employeeDto)
         )
+
         return self.__mapper.mapEmployeeToDto(employee)

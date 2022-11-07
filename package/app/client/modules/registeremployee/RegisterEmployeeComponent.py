@@ -12,6 +12,7 @@ from package.app.client.state.ComponentState import ComponentState
 from package.app.client.utils.form import getEntryBuffer
 from package.app.client.gui.imports import Gtk
 from package.app.validation.IValidator import IValidator
+from datetime import datetime
 
 
 class RegisterEmployeeComponent(metaclass=Singleton):
