@@ -24,3 +24,9 @@ class ResignationService(metaclass=Singleton):
 
     def getResignationTypes(self):
         return self.__query.getResignationTypes()
+
+    def getEmployeeByUserId(self, employeeId):
+        return self.__query.getEmployeeByUserId(employeeId)
+
+    def getResignationTypeByDescription(self, ResignationDescription):
+        return self.__query.getResignationTypeByDescription(ResignationDescription)

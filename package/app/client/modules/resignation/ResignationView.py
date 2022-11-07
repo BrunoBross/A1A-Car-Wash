@@ -5,7 +5,7 @@ from package.app.meta.Singleton import Singleton
 from package.app.client.utils.markup import toBig
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
-
+import re
 
 class ResignationView(metaclass=Singleton):
     
@@ -18,6 +18,9 @@ class ResignationView(metaclass=Singleton):
 
         self.__employees = list
         self.__resignationTypes = list
+
+        self.__selectedEmployeeUserId = str 
+        self.__selectedResignationType = str
 
 
     def get(self) -> Gtk.Box:
@@ -64,7 +67,7 @@ class ResignationView(metaclass=Singleton):
         resignationTypeCombo.set_entry_text_column(0)
         resignationTypeCombo.append_text("Selecione o tipo de causa")
         for resignationType in self.__resignationTypes:
-            resignationTypeCombo.append_text(resignationType.description[0:28])
+            resignationTypeCombo.append_text(resignationType.description)
         resignationTypeCombo.set_active(0)
         resignationTypeCombo.set_size_request(285,30)
         resignationTypeBox.pack_default(resignationTypeCombo)
@@ -113,14 +116,27 @@ class ResignationView(metaclass=Singleton):
 
         return mainBox
 
-    def __onConfirm(self, _: Gtk.Widget):
-        self.__component.getState().addReference("employee", self.__employeeCombo)
-        self.__component.getState().addReference("resignationType", self.__resignationTypeCombo)
+    def __onConfirm(self, button: Gtk.Widget):
+        self.__selectedEmployeeUserId = self.getUserIdFromCombo()
+        self.__selectedResignationType = self.getResignationTypeFromCombo()
         self.__component.getState().addReference("memo", self.__memoInput)
 
-        self.__component.requestRegistration()
+        self.__component.requestRegistration(
+            self.__selectedEmployeeUserId,
+            self.__selectedResignationType
+        )
+        return
 
     def getData(self):
         self.__resignationTypes = self.__component.getResignationTypes()
         self.__employees = self.__component.getEmployees()
         return
+
+    def getUserIdFromCombo(self) -> int:
+        id = self.__employeeCombo.get_active_text()
+        id = int(re.findall(r'\d+',f"{id}")[0])
+        return id 
+
+    def getResignationTypeFromCombo(self) -> str:
+        res_type = self.__resignationTypeCombo.get_active_text()
+        return res_type

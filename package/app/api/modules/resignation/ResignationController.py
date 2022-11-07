@@ -16,3 +16,10 @@ class ResignationController(metaclass=Singleton):
 
     def getResignationTypes(self):
         return self.__resignationService.getResignationTypes()
+
+    def getEmployeeByUserId(self, userId):
+        return self.__resignationService.getEmployeeByUserId(userId)
+
+    def getResignationTypeByDescription(self, resignationDescription):
+        return self.__resignationService.getResignationTypeByDescription(
+            resignationDescription)

@@ -22,15 +22,18 @@ class ResignationComponent(metaclass=Singleton):
         self.__controller = ResignationController()
         self.__dialogService = DialogService()
 
-    def requestRegistration(self):
-        selectedEmployee = getEntryBuffer(self.__state.getReferenceById("employee"))
-        selectedResignationType = getEntryBuffer(self.__state.getReferenceById("resignationType"))
-        typedMemo = getEntryBuffer(self.__state.getReferenceById("memo"))
+    def requestRegistration(self, SelectedEmployeeUserId, SelectedResignationTypeDescription):
+        
+        Memo = getEntryBuffer(self.__state.getReferenceById("memo"))
+        selectedEmployee = self.getEmployeeByUserId(
+            SelectedEmployeeUserId)
+        selectedResignationType = self.getResignationTypeByDescription(
+            SelectedResignationTypeDescription)
 
         dto = ResignationDto(
             employee = selectedEmployee,
-            resignationType = selectedResignationType,
-            memo = str(typedMemo),
+            resignation_type = selectedResignationType,
+            memo = str(Memo),
             date = str(datetime.now())
         )
 
@@ -44,7 +47,7 @@ class ResignationComponent(metaclass=Singleton):
 
     def __displaySuccessMessage(self):
         content = Box()
-        content.pack_default(Gtk.Label("A dedmissão foi corretamente executada!"))
+        content.pack_default(Gtk.Label("A demissão foi corretamente executada!"))
         self.__dialogService.displayInfoBox(
             InfoBoxProps(title="Demissão executada", content=content)
         )
@@ -54,3 +57,10 @@ class ResignationComponent(metaclass=Singleton):
 
     def getResignationTypes(self):
         return self.__controller.getResignationTypes()
+
+    def getEmployeeByUserId(self, userID):
+        return self.__controller.getEmployeeByUserId(userID)
+
+    def getResignationTypeByDescription(self, resignationDescription):
+        return self.__controller.getResignationTypeByDescription(
+            resignationDescription)
