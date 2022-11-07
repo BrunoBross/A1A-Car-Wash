@@ -12,7 +12,7 @@ class ResignationValidator(metaclass=Singleton):
         if not (bool(resignationDto.employee and resignationDto.resignation_type)):
             validation.errors.add("Selecione um funcionário e um tipo de causa!")
             return False
-        if len(resignationDto.memo) > 255:
+        if len(resignationDto.memo.encode('utf-8')) > 255:
             validation.errors.add("A observação excede o tamanho limite de 255 caracteres!")
             return False
         return True
