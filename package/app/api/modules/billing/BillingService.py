@@ -11,7 +11,6 @@ class BillingService(metaclass=Singleton):
         self.__employeeQuery = EmployeeQuery()
 
     def getGrossRevenue(self, start_date: str, end_date: str):
-        # TA PEGANDO OS VALORES DOS SERVICOS
         grossRevenue = 0
         schedulings = self.__billingQuery.getGrossRevenue(start_date, end_date)
         for scheduling in schedulings:
@@ -23,19 +22,19 @@ class BillingService(metaclass=Singleton):
         return netRevenue
 
     def getEmployeeWages(self, end_date: str):
-        # TA PEGANDO O SALARIO DE TODOS OS FUNCIONARIOS ATIVOS
         employeeWages = 0
         employeeList = self.__billingQuery.getEmployeeWages(end_date)
         for employee in employeeList:
-            employeeWages += employee.wage
+            employeeWages += employee.wage - employee.wage * 0.15
         return employeeWages
 
     def getTaxes(self, start_date: str, end_date: str):
-        # TA PEGANDO AS DEMISSOES APENAS
         totalTaxes = 0
         taxes = self.__billingQuery.getTaxes(start_date, end_date)
         for tax in taxes:
             employee = self.__employeeQuery.getEmployeeById(tax.employee_id)
             if tax.resignation_type.description == "SEM_JUSTA_CAUSA":
                 totalTaxes += float(employee.wage) * 0.2
+        totalTaxes += self.getGrossRevenue(start_date, end_date) * 0.2
+        totalTaxes += self.getEmployeeWages(end_date) * 0.15
         return totalTaxes
