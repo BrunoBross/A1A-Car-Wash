@@ -10,6 +10,12 @@ class BillingService(metaclass=Singleton):
         self.__billingQuery = BillingQuery()
         self.__employeeQuery = EmployeeQuery()
 
+    def getBilling(self, start_date: str, end_date: str):
+        return [self.getGrossRevenue(start_date, end_date),
+                self.getNetRevenue(start_date, end_date),
+                self.getEmployeeWages(start_date, end_date),
+                self.getTaxes(start_date, end_date)]
+
     def getGrossRevenue(self, start_date: str, end_date: str):
         # PEGANDO O PREÇO DE TODOS OS SERVIÇOS FINALIZADOS NO MES
         grossRevenue = 0

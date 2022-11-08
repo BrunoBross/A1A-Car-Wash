@@ -7,17 +7,8 @@ class BillingController(metaclass=Singleton):
     def __init__(self):
         self.__billingService = BillingService()
 
-    def getGrossRevenue(self, start_date: str, end_date: str):
-        return self.__billingService.getGrossRevenue(start_date, end_date)
-
-    def getNetRevenue(self, start_date: str, end_date: str):
-        return self.__billingService.getNetRevenue(start_date, end_date)
-
-    def getEmployeeWages(self, start_date: str, end_date: str):
-        return self.__billingService.getEmployeeWages(start_date, end_date)
-
-    def getTaxes(self, start_date: str, end_date: str):
-        return self.__billingService.getTaxes(start_date, end_date)
+    def getBilling(self, start_date: str, end_date: str):
+        return self.__billingService.getBilling(start_date, end_date)
 
     def getStartMonthFormat(self, month: str):
         date = datetime.now().date()
