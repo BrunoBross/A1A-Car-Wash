@@ -24,9 +24,9 @@ class ResignationQuery(metaclass=Singleton):
     def getResignationTypes(self):
         return self.__dao.select(ResignationType).all()
 
-    def getEmployeeByUserId(self, employeeUserId: int):
+    def getEmployeeById(self, id: int):
         try:
-            return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()[0]
+            return self.__dao.select(Employee).where(Employee.id == id).all()[0]
         except IndexError:
             return None
 
@@ -37,9 +37,9 @@ class ResignationQuery(metaclass=Singleton):
         except IndexError:
             return None
 
-    def changeEmployeeRegisterStatus(self, employeeUserId:int):
+    def changeEmployeeRegisterStatus(self, id:int):
         try:
-            self.__dao.update(Employee, (Employee.user_id == employeeUserId), "active_register", False)
+            self.__dao.update(Employee, (Employee.id == id), "active_register", False)
             return None
         except DatabaseIntegrityException:
             return None

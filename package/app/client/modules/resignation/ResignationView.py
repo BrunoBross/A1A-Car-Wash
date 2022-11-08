@@ -12,15 +12,16 @@ class ResignationView(metaclass=Singleton):
     def __init__(self):
         self.__component = ResignationComponent()
 
-        self.__employeeCombo = Gtk.Widget
-        self.__resignationTypeCombo = Gtk.Widget
-        self.__memoInput = Gtk.Widget
+        self.__employeeCombo = Gtk.ComboBoxText
+        self.__resignationTypeCombo = Gtk.ComboBoxText
+        self.__memoInput = Gtk.Entry
 
         self.__employees = list
         self.__resignationTypes = list
 
-        self.__selectedEmployeeUserId = str 
-        self.__selectedResignationType = str
+        self.__selectedEmployeeId = int 
+        self.__selectedResignationTypeId = int
+        self.__memo = str
 
 
     def get(self) -> Gtk.Box:
@@ -40,7 +41,7 @@ class ResignationView(metaclass=Singleton):
         employeeBox.set_margin_top(5)
         
         employeeLabel = Gtk.Label()
-        employeeLabel.set_markup("Funcionário*:")
+        employeeLabel.set_markup("Funcionário*")
         employeeBox.pack_default(employeeLabel)
         
         employeeCombo = Gtk.ComboBoxText()
@@ -57,7 +58,7 @@ class ResignationView(metaclass=Singleton):
         resignationTypeBox.set_margin_top(5)
 
         resignationTypeLabel = Gtk.Label()
-        resignationTypeLabel.set_markup("Tipo de causa*:")
+        resignationTypeLabel.set_markup("Tipo de causa*")
         resignationTypeBox.pack_default(resignationTypeLabel)
         
         resignationTypeCombo = Gtk.ComboBoxText()
@@ -74,7 +75,7 @@ class ResignationView(metaclass=Singleton):
         memoBox.set_margin_bottom(5)
        
         memoLabel = Gtk.Label()
-        memoLabel.set_text("Observação:")
+        memoLabel.set_text("Observação")
         
         memoBox.pack_default(memoLabel)
         memoInput = Gtk.Entry()
@@ -94,7 +95,7 @@ class ResignationView(metaclass=Singleton):
         confirmButton = Gtk.Button(label="Demitir")
         confirmButton.set_margin_left(15)
         confirmButton.set_size_request(100,30)
-        confirmButton.connect("clicked", self.__onConfirm)
+        confirmButton.connect("clicked", self.onConfirm)
         ButtonsBox.pack_default(confirmButton)
 
 
@@ -111,19 +112,23 @@ class ResignationView(metaclass=Singleton):
 
         return mainBox
 
-    def __onConfirm(self, button: Gtk.Widget):
-        self.__selectedEmployeeUserId = self.getUserIdFromCombo()
+    def onConfirm(self, button: Gtk.Button) -> None:
+        self.__selectedEmployeeId = self.getEmployeeIdFromCombo()
         self.__selectedResignationTypeId = self.getResignationTypeFromCombo()
-        self.__component.getState().addReference("memo", self.__memoInput)
+        self.__memo = self.getMemo(self.__memoInput)
 
-        self.__component.requestRegistration(
-            self.__selectedEmployeeUserId,
-            self.__selectedResignationTypeId
+        registration = self.__component.requestRegistration(
+            self.__selectedEmployeeId,
+            self.__selectedResignationTypeId,
+            self.__memo
         )
-        self.__component.changeEmployeeRegisterStatus(
-            self.__selectedEmployeeUserId
-        )
+        if registration:
+            self.__component.changeEmployeeRegisterStatus(
+                self.__selectedEmployeeId
+            )
         self.refreshEmployeeCombo(self.__employeeCombo)
+        self.refreshResignationTypeCombo(self.__resignationTypeCombo)
+        self.refreshMemoInput(self.__memoInput)
         return
 
     def getData(self):
@@ -131,7 +136,7 @@ class ResignationView(metaclass=Singleton):
         self.__employees = self.__component.getEmployees()
         return
 
-    def getUserIdFromCombo(self) -> int:
+    def getEmployeeIdFromCombo(self) -> int:
         try:
             id = self.__employeeCombo.get_active_text()
             id = int(re.findall(r'\d+',f"{id}")[0])
@@ -147,22 +152,37 @@ class ResignationView(metaclass=Singleton):
         except IndexError:
             return 0
 
+    def getMemo(self, memoInput: Gtk.Entry) -> str:
+        return memoInput.get_text()
+
     def refreshEmployeeCombo(self, employeeCombo: Gtk.ComboBoxText) -> None:
         employeeCombo.remove_all()
         self.getData()
         self.fillEmployeeCombo(employeeCombo)
         return
 
+    def refreshResignationTypeCombo(self, resignationTypeCombo: Gtk.ComboBoxText) -> None:
+        resignationTypeCombo.remove_all()
+        self.getData()
+        self.fillResignationTypeCombo(resignationTypeCombo) 
+        return
+
+    def refreshMemoInput(self, memoInput: Gtk.Entry) -> None:
+        memoInput.set_text("")
+        return
+
     def fillEmployeeCombo(self, employeeCombo: Gtk.ComboBoxText) -> None:
         employeeCombo.append_text("0 - Escolha um funcionário")
         for employee in self.__employees:
             employeeCombo.append_text(
-                f"{employee.user_id}" + " - " + f"{employee.legal_name[0:28]}")
-        return None
+                f"{employee.id}" + " - " + f"{employee.legal_name[0:28]}")
+        return
 
     def fillResignationTypeCombo(self, resignationTypeCombo: Gtk.ComboBoxText) -> None:
         resignationTypeCombo.append_text("0 - Selecione o tipo de causa")
         for resignationType in self.__resignationTypes:
             resignationTypeCombo.append_text(
                 f"{resignationType.id}"+" - "+f"{resignationType.description}")
-        return None
+        return
+
+    

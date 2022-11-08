@@ -17,12 +17,12 @@ class ResignationController(metaclass=Singleton):
     def getResignationTypes(self):
         return self.__resignationService.getResignationTypes()
 
-    def getEmployeeByUserId(self, userId):
-        return self.__resignationService.getEmployeeByUserId(userId)
+    def getEmployeeById(self, id):
+        return self.__resignationService.getEmployeeById(id)
 
     def getResignationTypeById(self, resignationId):
         return self.__resignationService.getResignationTypeById(
             resignationId)
         
-    def changeEmployeeRegisterStatus(self, employeeUserId:int):
-        return self.__resignationService.changeEmployeeRegisterStatus(employeeUserId)
+    def changeEmployeeRegisterStatus(self, id:int):
+        return self.__resignationService.changeEmployeeRegisterStatus(id)

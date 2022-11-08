@@ -9,7 +9,7 @@ class EmployeeQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
-    def getEmployeeByUserId(self, user_id: int) -> Optional[Employee]:
+    def getEmployeeById(self, user_id: int) -> Optional[Employee]:
         return self.__dao.select(Employee).where(Employee.user_id == user_id).first()
 
     def registerEmployee(self, employee: Employee):

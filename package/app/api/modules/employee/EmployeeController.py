@@ -9,8 +9,8 @@ class EmployeeController(metaclass=Singleton):
     def __init__(self):
         self.__employeeService = EmployeeService()
 
-    def getEmployeeByUserId(self, id: int) -> EmployeeDto:
-        return self.__employeeService.getEmployeeByUserId(id)
+    def getEmployeeById(self, id: int) -> EmployeeDto:
+        return self.__employeeService.getEmployeeById(id)
 
     def registerEmployee(
         self, employeeDto: EmployeeDto, authDto: AuthDto

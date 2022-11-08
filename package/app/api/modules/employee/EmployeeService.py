@@ -19,8 +19,8 @@ class EmployeeService(metaclass=Singleton):
         self.__mapper = EmployeeDtoMapper()
         self.__validator: IValidator = EmployeeValidator()
 
-    def getEmployeeByUserId(self, id: int) -> Optional[EmployeeDto]:
-        employee = self.__employeeQuery.getEmployeeByUserId(id)
+    def getEmployeeById(self, id: int) -> Optional[EmployeeDto]:
+        employee = self.__employeeQuery.getEmployeeById(id)
         if employee:
             return self.__mapper.mapEmployeeToDto(employee)
 
@@ -36,8 +36,8 @@ class EmployeeService(metaclass=Singleton):
         )
         self.__userService.createUser(userDto)
 
-        userId = self.__userService.getUserByUsername(authDto.username).id
-        employeeDto.user = UserDto(id=userId)
+        id = self.__userService.getUserByUsername(authDto.username).id
+        employeeDto.user = UserDto(id=id)
 
         employee = self.__employeeQuery.registerEmployee(
             self.__mapper.mapDtoToEmployee(employeeDto)

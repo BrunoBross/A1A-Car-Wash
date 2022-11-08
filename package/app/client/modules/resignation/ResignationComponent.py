@@ -22,11 +22,11 @@ class ResignationComponent(metaclass=Singleton):
         self.__controller = ResignationController()
         self.__dialogService = DialogService()
 
-    def requestRegistration(self, selectedEmployeeUserId, selectedResignationTypeId):
+    def requestRegistration(self, selectedEmployeeId, selectedResignationTypeId, memoText) -> bool:
 
-        Memo = getEntryBuffer(self.__state.getReferenceById("memo"))
-        selectedEmployee = self.getEmployeeByUserId(
-            selectedEmployeeUserId)
+        memo = memoText
+        selectedEmployee = self.getEmployeeById(
+            selectedEmployeeId)
         selectedResignationType = self.getResignationTypeById(
             selectedResignationTypeId)
 
@@ -35,7 +35,7 @@ class ResignationComponent(metaclass=Singleton):
                 employee_id=selectedEmployee.user_id,
                 resignation_type_id=selectedResignationType.id,
                 date = datetime.now(),
-                memo = str(Memo),
+                memo = memo,
                 employee = selectedEmployee,
                 resignation_type = selectedResignationType,
             )
@@ -53,6 +53,9 @@ class ResignationComponent(metaclass=Singleton):
             entity = self.__controller.registerResignation(dto)
             if entity:
                 self.__displaySuccessMessage()
+            return True
+        
+        return False
 
     def getState(self) -> ComponentState:
         return self.__state
@@ -70,12 +73,12 @@ class ResignationComponent(metaclass=Singleton):
     def getResignationTypes(self):
         return self.__controller.getResignationTypes()
 
-    def getEmployeeByUserId(self, userID):
-        return self.__controller.getEmployeeByUserId(userID)
+    def getEmployeeById(self, id):
+        return self.__controller.getEmployeeById(id)
 
     def getResignationTypeById(self, resignationId):
         return self.__controller.getResignationTypeById(
             resignationId)
 
-    def changeEmployeeRegisterStatus(self, employeeUserId:int):
-        return self.__controller.changeEmployeeRegisterStatus(employeeUserId)
+    def changeEmployeeRegisterStatus(self, id:int):
+        return self.__controller.changeEmployeeRegisterStatus(id)

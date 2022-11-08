@@ -6,13 +6,13 @@ from package.app.validation.ValidationObject import ValidationObject
 
 
 class ResignationValidator(metaclass=Singleton):
-    
+
     @validator_function
     def execute(self, resignationDto: ResignationDto, validation: ValidationObject) -> bool:
-        if not (bool(resignationDto.employee and resignationDto.resignation_type)):
-            validation.errors.add("Selecione um funcionário e um tipo de causa!")
+        if not (resignationDto.employee and resignationDto.resignation_type):
+            validation.errors.add("Selecione um FUNCIONÁRIO e um TIPO DE CAUSA!")
             return False
-        if len(resignationDto.memo.encode('utf-8')) > 255:
-            validation.errors.add("A observação excede o tamanho limite de 255 caracteres!")
+        if len(resignationDto.memo.encode('utf-8')) > 256:
+            validation.errors.add("A observação excede o tamanho limite de 256 caracteres!")
             return False
         return True
