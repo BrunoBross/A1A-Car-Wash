@@ -1,3 +1,4 @@
+from datetime import datetime
 from package.app.meta.Singleton import Singleton
 from package.app.api.orm.DAO import DAO
 from package.app.api.model.Employee import Employee
@@ -12,6 +13,7 @@ class BillingQuery(metaclass=Singleton):
         self.__dao = DAO()
 
     def getGrossRevenue(self, start_date: str, end_date: str):
+        # PEGANDO O PREÇO DE TODOS OS SERVIÇOS FINALIZADOS NO MES
         return self.__dao.select(Scheduling) \
             .join(Job, Scheduling.job_id == Job.id) \
             .where(Scheduling.date >= start_date) \
@@ -40,4 +42,13 @@ class BillingQuery(metaclass=Singleton):
             .join(ResignationType, Resignation.resignation_type_id == ResignationType.id) \
             .where(Resignation.date >= start_date) \
             .where(Resignation.date <= end_date) \
+            .all()
+
+    def getSchedulingNotFinalized(self, start_date: str, end_date: str):
+        return self.__dao.select(Scheduling)\
+            .join(Job, Scheduling.job_id == Job.id) \
+            .where(Scheduling.date >= start_date) \
+            .where(Scheduling.date <= end_date) \
+            .where(Scheduling.job_state_id == 1)\
+            .where(Scheduling.date >= datetime.now().date())\
             .all()
