@@ -22,4 +22,4 @@ class EmployeeView(metaclass=Singleton):
 
     def __getEmployeeFullName(self) -> str:
         user_id = self.__userContext.get().id
-        return self.__component.getEmployeeById(user_id).legalName
+        return self.__component.getEmployeeByUserId(user_id).legalName

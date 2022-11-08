@@ -7,5 +7,5 @@ class EmployeeComponent(metaclass=Singleton):
     def __init__(self):
         self.__employeeController = EmployeeController()
 
-    def getEmployeeById(self, id: int) -> EmployeeDto:
-        return self.__employeeController.getEmployeeById(id)
+    def getEmployeeByUserId(self, id: int) -> EmployeeDto:
+        return self.__employeeController.getEmployeeByUserId(id)
