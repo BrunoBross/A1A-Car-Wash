@@ -24,5 +24,7 @@ class DAO(metaclass=Singleton):
         self.__session.commit()
 
     @safe_query
-    def update(self):  # TODO
-        pass
+    def update(self, model: Type[sqlalchemy_base], filter_condition, field, value) -> None:
+        self.__session.query(model).filter(filter_condition).update({field:value})
+        self.__session.commit()
+        

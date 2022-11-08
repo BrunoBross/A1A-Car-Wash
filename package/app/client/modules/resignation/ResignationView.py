@@ -24,7 +24,6 @@ class ResignationView(metaclass=Singleton):
 
 
     def get(self) -> Gtk.Box:
-
         self.getData()
         mainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
@@ -46,10 +45,7 @@ class ResignationView(metaclass=Singleton):
         
         employeeCombo = Gtk.ComboBoxText()
         employeeCombo.set_entry_text_column(0)
-        employeeCombo.append_text("0 - Escolha um funcionário")
-        for employee in self.__employees:
-            employeeCombo.append_text(
-                f"{employee.user_id}" + " - " + f"{employee.legal_name[0:28]}")
+        self.fillEmployeeCombo(employeeCombo)
         employeeCombo.set_active(0)
         employeeCombo.set_size_request(275,30)
         employeeBox.pack_default(employeeCombo)
@@ -66,10 +62,7 @@ class ResignationView(metaclass=Singleton):
         
         resignationTypeCombo = Gtk.ComboBoxText()
         resignationTypeCombo.set_entry_text_column(0)
-        resignationTypeCombo.append_text("0 - Selecione o tipo de causa")
-        for resignationType in self.__resignationTypes:
-            resignationTypeCombo.append_text(
-                f"{resignationType.id}"+" - "+f"{resignationType.description}")
+        self.fillResignationTypeCombo(resignationTypeCombo)
         resignationTypeCombo.set_active(0)
         resignationTypeCombo.set_size_request(285,30)
         resignationTypeBox.pack_default(resignationTypeCombo)
@@ -127,6 +120,10 @@ class ResignationView(metaclass=Singleton):
             self.__selectedEmployeeUserId,
             self.__selectedResignationTypeId
         )
+        self.__component.changeEmployeeRegisterStatus(
+            self.__selectedEmployeeUserId
+        )
+        self.refreshEmployeeCombo(self.__employeeCombo)
         return
 
     def getData(self):
@@ -135,11 +132,37 @@ class ResignationView(metaclass=Singleton):
         return
 
     def getUserIdFromCombo(self) -> int:
-        id = self.__employeeCombo.get_active_text()
-        id = int(re.findall(r'\d+',f"{id}")[0])
-        return id 
+        try:
+            id = self.__employeeCombo.get_active_text()
+            id = int(re.findall(r'\d+',f"{id}")[0])
+            return id 
+        except IndexError:
+            return 0
 
     def getResignationTypeFromCombo(self) -> str:
-        res_type = self.__resignationTypeCombo.get_active_text()
-        res_type = re.findall(r'\d+',f"{res_type}")[0]
-        return res_type
+        try:
+            res_type = self.__resignationTypeCombo.get_active_text()
+            res_type = re.findall(r'\d+',f"{res_type}")[0]
+            return res_type
+        except IndexError:
+            return 0
+
+    def refreshEmployeeCombo(self, employeeCombo: Gtk.ComboBoxText) -> None:
+        employeeCombo.remove_all()
+        self.getData()
+        self.fillEmployeeCombo(employeeCombo)
+        return
+
+    def fillEmployeeCombo(self, employeeCombo: Gtk.ComboBoxText) -> None:
+        employeeCombo.append_text("0 - Escolha um funcionário")
+        for employee in self.__employees:
+            employeeCombo.append_text(
+                f"{employee.user_id}" + " - " + f"{employee.legal_name[0:28]}")
+        return None
+
+    def fillResignationTypeCombo(self, resignationTypeCombo: Gtk.ComboBoxText) -> None:
+        resignationTypeCombo.append_text("0 - Selecione o tipo de causa")
+        for resignationType in self.__resignationTypes:
+            resignationTypeCombo.append_text(
+                f"{resignationType.id}"+" - "+f"{resignationType.description}")
+        return None

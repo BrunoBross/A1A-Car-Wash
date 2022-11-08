@@ -30,3 +30,6 @@ class ResignationService(metaclass=Singleton):
 
     def getResignationTypeById(self, ResignationId):
         return self.__query.getResignationTypeById(ResignationId)
+
+    def changeEmployeeRegisterStatus(self, employeeUserId:int):
+        return self.__query.changeEmployeeRegisterStatus(employeeUserId)

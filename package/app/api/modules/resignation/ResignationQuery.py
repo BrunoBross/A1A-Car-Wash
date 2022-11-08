@@ -24,15 +24,22 @@ class ResignationQuery(metaclass=Singleton):
     def getResignationTypes(self):
         return self.__dao.select(ResignationType).all()
 
-    def getEmployeeByUserId(self, employeeUserId: int) -> Employee:
+    def getEmployeeByUserId(self, employeeUserId: int):
         try:
             return self.__dao.select(Employee).where(Employee.user_id == employeeUserId).all()[0]
         except IndexError:
             return None
 
-    def getResignationTypeById(self, resignationTypeId: str) -> ResignationType:
+    def getResignationTypeById(self, resignationTypeId: int):
         try:
             return self.__dao.select(ResignationType).where(
                 ResignationType.id == resignationTypeId).all()[0]
         except IndexError:
+            return None
+
+    def changeEmployeeRegisterStatus(self, employeeUserId:int):
+        try:
+            self.__dao.update(Employee, (Employee.user_id == employeeUserId), "active_register", False)
+            return None
+        except DatabaseIntegrityException:
             return None

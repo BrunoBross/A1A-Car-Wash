@@ -76,3 +76,6 @@ class ResignationComponent(metaclass=Singleton):
     def getResignationTypeById(self, resignationId):
         return self.__controller.getResignationTypeById(
             resignationId)
+
+    def changeEmployeeRegisterStatus(self, employeeUserId:int):
+        return self.__controller.changeEmployeeRegisterStatus(employeeUserId)
