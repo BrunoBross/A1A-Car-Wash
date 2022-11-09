@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Dict, Type
 from sqlalchemy.orm import Query
 from package.app import sqlalchemy_session, sqlalchemy_base
 from package.app.decorators import safe_query
@@ -8,6 +8,10 @@ from package.app.meta.Singleton import Singleton
 class DAO(metaclass=Singleton):
     def __init__(self):
         self.__session = sqlalchemy_session
+
+    @safe_query
+    def get(self, model: Type[sqlalchemy_base], id: int) -> Type[sqlalchemy_base]:
+        return self.__session.query(model).get(id)
 
     @safe_query
     def select(self, model: Type[sqlalchemy_base]) -> Query:
@@ -24,5 +28,7 @@ class DAO(metaclass=Singleton):
         self.__session.commit()
 
     @safe_query
-    def update(self):  # TODO
-        pass
+    def update(self, model: Type[sqlalchemy_base], data: Dict):
+        model.update(data, synchronize_session=False)
+        self.__session.add(model)
+        self.__session.commit()

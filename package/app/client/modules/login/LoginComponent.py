@@ -5,6 +5,7 @@ from package.app.client.event.EventManager import EventManager
 from package.app.client.state.ComponentState import ComponentState
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.form import getEntryBuffer
+from package.app.decorators import post_endpoint
 from package.app.meta.Singleton import Singleton
 
 
@@ -14,6 +15,7 @@ class LoginComponent(metaclass=Singleton):
         self.__eventManager = EventManager()
         self.__state = ComponentState()
 
+    @post_endpoint
     def requestAuth(self):
         username = getEntryBuffer(self.__state.getReferenceById("username"))
         password = getEntryBuffer(self.__state.getReferenceById("password"))

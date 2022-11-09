@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Set
 from package.app.api.modules.job.JobDtoMapper import JobDtoMapper
 from package.app.api.modules.job.JobValidator import JobValidator
 from package.app.api.modules.job.dto.JobDto import JobDto
@@ -12,6 +12,12 @@ class JobService(metaclass=Singleton):
         self.__query = JobQuery()
         self.__mapper = JobDtoMapper()
         self.__validator: IValidator = JobValidator()
+
+    def getJobs(self) -> List[JobDto]:
+        result = list()
+        for job in self.__query.getJobs():
+            result.append(self.__mapper.mapJobToDto(job))
+        return result
 
     def registerJob(self, jobDto: JobDto) -> Optional[JobDto]:
         if self.__validator.execute(jobDto):
