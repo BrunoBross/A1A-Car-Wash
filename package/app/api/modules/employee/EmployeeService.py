@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Set
 from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.api.model.Employee import Employee
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
@@ -18,6 +18,12 @@ class EmployeeService(metaclass=Singleton):
         self.__employeeQuery = EmployeeQuery()
         self.__mapper = EmployeeDtoMapper()
         self.__validator: IValidator = EmployeeValidator()
+
+    def getEmployees(self) -> List[EmployeeDto]:
+        result = list()
+        for employee in self.__employeeQuery.getEmployees():
+            result.append(self.__mapper.mapEmployeeToDto(employee))
+        return result
 
     def getEmployeeByUserId(self, id: int) -> Optional[EmployeeDto]:
         employee = self.__employeeQuery.getEmployeeByUserId(id)
