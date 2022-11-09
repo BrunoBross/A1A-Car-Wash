@@ -3,6 +3,7 @@ from typing import Dict, Set, Type
 from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.client.modules.resignation.ResignationView import ResignationView
 from package.app.client.modules.registerjob.RegisterJobView import RegisterJobView
+from package.app.client.modules.billing.BillingView import BillingView
 from package.app.client.modules.registerscheduling.RegisterSchedulingView import (
     RegisterSchedulingView,
 )
@@ -35,6 +36,10 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterEmployeeView,
         roles={RoleEnum.GERENTE},
     ),
+    "Visualizar Faturamento": SidebarItem(
+        component=BillingView,
+        roles={RoleEnum.GERENTE},
+   ),
     "Cadastrar Agendamento": SidebarItem(
         component=RegisterSchedulingView,
         roles={RoleEnum.GERENTE},

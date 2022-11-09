@@ -104,4 +104,5 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__component.getState().addReference("password", self.__passwordFieldInput)
         self.__component.getState().addReference("salary", self.__salaryFieldInput)
         self.__component.getState().addReference("limit", self.__jobLimitFieldInput)
+
         self.__component.requestRegisterEmployee()
