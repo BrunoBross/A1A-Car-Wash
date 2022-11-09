@@ -10,6 +10,10 @@ class DAO(metaclass=Singleton):
         self.__session = sqlalchemy_session
 
     @safe_query
+    def get(self, model: Type[sqlalchemy_base], id: int) -> Type[sqlalchemy_base]:
+        return self.__session.query(model).get(id)
+
+    @safe_query
     def select(self, model: Type[sqlalchemy_base]) -> Query:
         return self.__session.query(model)
 

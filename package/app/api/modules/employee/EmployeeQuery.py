@@ -9,6 +9,9 @@ class EmployeeQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
+    def getEmployee(self, id: int) -> Optional[Employee]:
+        return self.__dao.get(Employee, id)
+
     def getEmployees(self) -> List[Employee]:
         return self.__dao.select(Employee).all()
 

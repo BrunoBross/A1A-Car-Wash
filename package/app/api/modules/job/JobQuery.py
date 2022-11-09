@@ -9,6 +9,9 @@ class JobQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
+    def getJob(self, id: int) -> Optional[Job]:
+        return self.__dao.get(Job, id)
+
     def getJobs(self) -> List[Job]:
         return self.__dao.select(Job).all()
 

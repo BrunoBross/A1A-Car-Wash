@@ -9,6 +9,9 @@ class VehicleQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
+    def getVehicle(self, id: int) -> Optional[Vehicle]:
+        return self.__dao.get(Vehicle, id)
+
     def getVehicles(self) -> List[Vehicle]:
         return self.__dao.select(Vehicle).all()
 
