@@ -1,6 +1,5 @@
-from typing import Optional
+from typing import List, Optional, Set
 from package.app.api.enum.RoleEnum import RoleEnum
-from package.app.api.model.Employee import Employee
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.EmployeeDtoMapper import EmployeeDtoMapper
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
@@ -19,6 +18,12 @@ class EmployeeService(metaclass=Singleton):
         self.__mapper = EmployeeDtoMapper()
         self.__validator: IValidator = EmployeeValidator()
 
+    def getEmployees(self) -> List[EmployeeDto]:
+        result = list()
+        for employee in self.__employeeQuery.getEmployees():
+            result.append(self.__mapper.mapEmployeeToDto(employee))
+        return result
+
     def getEmployeeByUserId(self, id: int) -> Optional[EmployeeDto]:
         employee = self.__employeeQuery.getEmployeeByUserId(id)
         if employee:
@@ -36,10 +41,11 @@ class EmployeeService(metaclass=Singleton):
         )
         self.__userService.createUser(userDto)
 
-        userId = self.__userService.getUserByUsername(authDto.username).id
-        employeeDto.user = UserDto(id=userId)
+        id = self.__userService.getUserByUsername(authDto.username).id
+        employeeDto.user = UserDto(id=id)
 
         employee = self.__employeeQuery.registerEmployee(
             self.__mapper.mapDtoToEmployee(employeeDto)
         )
+
         return self.__mapper.mapEmployeeToDto(employee)

@@ -1,3 +1,4 @@
+from traceback import print_tb
 from package.app.api.modules.job.JobController import JobController
 from package.app.client.dialog.DialogService import DialogService
 from package.app.client.dialog.InfoBox import InfoBoxProps
@@ -25,10 +26,23 @@ class RegisterJobComponent(metaclass=Singleton):
         description = getEntryBuffer(self.__state.getReferenceById("jobName"))
         cost_value = getEntryBuffer(self.__state.getReferenceById("jobValue"))
 
-        dto = JobDto(
-            description=description.upper(),
-            cost_value=float((cost_value) if bool(cost_value) else 0),
-        )
+        try:
+            dto = JobDto(
+                description=description.upper(),
+                cost_value=float(cost_value),
+            )
+            
+        except ValueError:
+            if cost_value == "":
+                dto = JobDto(
+                    description=description.upper(),
+                    cost_value=0,
+                )
+            else:
+                dto = JobDto(
+                    description=description.upper(),
+                    cost_value="invalid_cost",
+                )
 
         if self.__validator.execute(dto):
             entity = self.__controller.registerJob(dto)

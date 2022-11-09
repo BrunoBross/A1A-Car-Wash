@@ -34,3 +34,4 @@ class ComponentState:
     def __setup(self):
         self.__eventManager.subscribe(EventEnum.WINDOW_CLOSED, self.__handleEvent)
         self.__eventManager.subscribe(EventEnum.SWITCH_VIEW, self.__handleEvent)
+        self.__eventManager.subscribe(EventEnum.SUBMIT_SUCCESS, self.__handleEvent)

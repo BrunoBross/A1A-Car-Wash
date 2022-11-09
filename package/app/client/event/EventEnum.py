@@ -10,3 +10,6 @@ class EventEnum(Enum):
     WINDOW_OPENED = auto()
     WINDOW_CLOSED = auto()
     VALIDATION = auto()
+    SUBMIT_REQUEST = auto()
+    SUBMIT_FAILED = auto()
+    SUBMIT_SUCCESS = auto()
