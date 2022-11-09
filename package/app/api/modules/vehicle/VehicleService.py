@@ -1,4 +1,6 @@
-from typing import Optional
+from typing import List, Optional, Set
+
+from sqlalchemy.sql.ddl import SetTableComment
 from package.app.api.modules.vehicle.VehicleDtoMapper import VehicleDtoMapper
 from package.app.api.modules.vehicle.VehicleQuery import VehicleQuery
 from package.app.api.modules.vehicle.VehicleValidator import VehicleValidator
@@ -12,6 +14,12 @@ class VehicleService(metaclass=Singleton):
         self.__query = VehicleQuery()
         self.__mapper = VehicleDtoMapper()
         self.__validator: IValidator = VehicleValidator()
+
+    def getVehicles(self) -> List[VehicleDto]:
+        result = list()
+        for vehicle in self.__query.getVehicles():
+            result.append(self.__mapper.mapVehicleToDto(vehicle))
+        return result
 
     def createVehicle(self, vehicleDto: VehicleDto) -> Optional[VehicleDto]:
         if self.__validator.execute(vehicleDto):

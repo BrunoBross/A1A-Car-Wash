@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from package.app.api.model.Vehicle import Vehicle
 from package.app.api.orm.DAO import DAO
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
@@ -8,6 +8,9 @@ from package.app.meta.Singleton import Singleton
 class VehicleQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
+
+    def getVehicles(self) -> List[Vehicle]:
+        return self.__dao.select(Vehicle).all()
 
     def createVehicle(self, vehicle: Vehicle) -> Optional[Vehicle]:
         try:

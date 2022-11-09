@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Dict, Type
 from sqlalchemy.orm import Query
 from package.app import sqlalchemy_session, sqlalchemy_base
 from package.app.decorators import safe_query
@@ -24,5 +24,7 @@ class DAO(metaclass=Singleton):
         self.__session.commit()
 
     @safe_query
-    def update(self):  # TODO
-        pass
+    def update(self, model: Type[sqlalchemy_base], data: Dict):
+        model.update(data, synchronize_session=False)
+        self.__session.add(model)
+        self.__session.commit()

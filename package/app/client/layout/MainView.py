@@ -7,7 +7,7 @@ from package.app.client.layout.sidebar import sidebarItems
 from package.app.meta.Singleton import Singleton
 
 
-class MainView(metaclass=Singleton):  # TODO: logout
+class MainView(metaclass=Singleton):
     def __init__(self):
         self.__component = MainComponent()
 
