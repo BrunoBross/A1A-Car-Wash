@@ -16,6 +16,7 @@ class EmployeeDtoMapper(metaclass=Singleton):
             wage=employee.wage,
             activeRegister=employee.active_register,
             jobLimit=str(employee.job_limit),
+            admission_date=employee.admission_date,
         )
 
     def mapDtoToEmployee(self, dto: EmployeeDto) -> Employee:

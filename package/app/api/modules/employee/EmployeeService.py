@@ -1,6 +1,5 @@
 from typing import List, Optional, Set
 from package.app.api.enum.RoleEnum import RoleEnum
-from package.app.api.model.Employee import Employee
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.EmployeeDtoMapper import EmployeeDtoMapper
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
@@ -48,4 +47,5 @@ class EmployeeService(metaclass=Singleton):
         employee = self.__employeeQuery.registerEmployee(
             self.__mapper.mapDtoToEmployee(employeeDto)
         )
+
         return self.__mapper.mapEmployeeToDto(employee)

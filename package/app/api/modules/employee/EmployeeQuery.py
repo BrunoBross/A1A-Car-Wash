@@ -18,6 +18,9 @@ class EmployeeQuery(metaclass=Singleton):
     def getEmployeeByUserId(self, user_id: int) -> Optional[Employee]:
         return self.__dao.select(Employee).where(Employee.user_id == user_id).first()
 
+    def getEmployeeById(self, id: int) -> Optional[Employee]:
+        return self.__dao.select(Employee).where(Employee.id == id).first()
+
     def registerEmployee(self, employee: Employee):
         try:
             self.__dao.insert(employee)
