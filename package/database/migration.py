@@ -4,6 +4,11 @@ from package.app.api.model.Job import Job
 from package.app.api.model.ResignationType import ResignationType
 from package.app.api.model.Role import Role
 from package.app.api.model.SchedulingState import SchedulingState
+from package.app.api.model.Employee import Employee
+from package.app.api.model.Job import Job
+from package.app.api.model.Vehicle import Vehicle
+from package.app.api.model.Scheduling import Scheduling
+from datetime import datetime
 
 from package.app.api.model.User import User
 

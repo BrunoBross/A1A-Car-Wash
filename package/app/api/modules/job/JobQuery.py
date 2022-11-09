@@ -24,3 +24,6 @@ class JobQuery(metaclass=Singleton):
 
     def getJobByDescription(self, description: str) -> Optional[Job]:
         return self.__dao.select(Job).where(Job.description == description).first()
+
+    def getJobNyId(self, id: int) -> Optional[Job]:
+        return self.__dao.select(Job).where(Job.id == id).first()

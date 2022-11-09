@@ -15,3 +15,9 @@ class VehicleController(metaclass=Singleton):
     @post_endpoint
     def createVehicle(self, vehicleDto: VehicleDto) -> Optional[VehicleDto]:
         return self.__vehicleService.createVehicle(vehicleDto)
+
+    def getVehicleByPlate(self, plate:int) ->Optional[VehicleDto]:
+        return self.__vehicleService.getVehicleByPlate(plate)
+
+    def getVehicleById(self, id:int) -> Optional[VehicleDto]:
+        return self.__vehicleService.getVehicleById(id)

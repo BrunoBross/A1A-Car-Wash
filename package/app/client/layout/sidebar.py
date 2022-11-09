@@ -10,11 +10,13 @@ from package.app.client.modules.registerscheduling.RegisterSchedulingView import
 from package.app.client.modules.registervehicle.RegisterVehicleView import (
     RegisterVehicleView,
 )
-from package.app.client.modules.employee.EmployeeView import EmployeeView
 from package.app.client.modules.registeremployee.RegisterEmployeeView import (
     RegisterEmployeeView,
 )
 from package.app.template.IAppComponent import IAppComponent
+from package.app.client.modules.schedulingemployee.EmployeeSchedulingView import (
+    EmployeeSchedulingView,
+)
 
 
 @dataclass
@@ -36,17 +38,17 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterEmployeeView,
         roles={RoleEnum.GERENTE},
     ),
+    "Agendamentos": SidebarItem(
+        component=EmployeeSchedulingView,
+        roles={RoleEnum.FUNCIONARIO},
+    ),
     "Visualizar Faturamento": SidebarItem(
         component=BillingView,
         roles={RoleEnum.GERENTE},
-   ),
+    ),
     "Cadastrar Agendamento": SidebarItem(
         component=RegisterSchedulingView,
         roles={RoleEnum.GERENTE},
-    ),
-    "Tela Teste Funcionário": SidebarItem(
-        component=EmployeeView,
-        roles={RoleEnum.FUNCIONARIO},
     ),
     "Demitir Funcionário": SidebarItem(
         component=ResignationView,

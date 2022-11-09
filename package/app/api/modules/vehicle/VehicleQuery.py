@@ -23,6 +23,7 @@ class VehicleQuery(metaclass=Singleton):
             return None
 
     def getVehicleByNumberPlate(self, numberPlate: str) -> Optional[Vehicle]:
-        return (
-            self.__dao.select(Vehicle).where(Vehicle.numberPlate == numberPlate).first()
-        )
+        return self.__dao.select(Vehicle).where(Vehicle.numberPlate == numberPlate).first()
+
+    def getVehicleById(self, id:int) -> Optional[Vehicle]:
+        return self.__dao.select(Vehicle).where(Vehicle.id == id).first()

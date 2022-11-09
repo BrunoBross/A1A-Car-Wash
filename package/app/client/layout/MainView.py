@@ -19,8 +19,8 @@ class MainView(metaclass=Singleton):
         stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
         stack.set_transition_duration(500)
         for key, value in sidebarItems.items():
-            view = value.component()
             if user.role in value.roles:
+                view = value.component()
                 stack.add_titled(self.__wrapStackFrame(view.get()), key, key)
 
         switcher = Gtk.StackSwitcher(spacing=10)
