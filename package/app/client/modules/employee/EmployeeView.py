@@ -3,12 +3,10 @@ from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 from package.app.client.gui.box.Box import Box
-from package.app.client.state.UserContext import UserContext
 
 
 class EmployeeView(metaclass=Singleton):
     def __init__(self):
-        self.__userContext = UserContext()
         self.__component = EmployeeComponent()
 
     def get(self) -> Gtk.Box:
@@ -21,5 +19,5 @@ class EmployeeView(metaclass=Singleton):
         return mainBox
 
     def __getEmployeeFullName(self) -> str:
-        user_id = self.__userContext.get().id
+        user_id = self.component.getUserContext().get().id
         return self.__component.getEmployeeByUserId(user_id).legalName
