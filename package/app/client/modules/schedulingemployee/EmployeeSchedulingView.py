@@ -50,7 +50,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
         comboJustificativas.set_entry_text_column(0)
         justificativasList = self.__component.getAllSchedulingStates()
         for justificativa in justificativasList:
-            if justificativa.id != 1:
+            if justificativa.id != 1:#comparar tambem se a data do scheduling e igual a data de hoje
                 self.__justificativasDict[justificativa.description] = justificativa.id
                 comboJustificativas.append_text(justificativa.description)
         comboJustificativasBox.pack_default(comboJustificativasLabel)
