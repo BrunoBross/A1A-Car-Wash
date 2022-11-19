@@ -7,7 +7,7 @@ from package.app.client.layout.sidebar import sidebarItems
 from package.app.meta.Singleton import Singleton
 
 
-class MainView(metaclass=Singleton):  # TODO: logout
+class MainView(metaclass=Singleton):
     def __init__(self):
         self.__component = MainComponent()
 
@@ -19,8 +19,8 @@ class MainView(metaclass=Singleton):  # TODO: logout
         stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
         stack.set_transition_duration(500)
         for key, value in sidebarItems.items():
-            view = value.component()
             if user.role in value.roles:
+                view = value.component()
                 stack.add_titled(self.__wrapStackFrame(view.get()), key, key)
 
         switcher = Gtk.StackSwitcher(spacing=10)

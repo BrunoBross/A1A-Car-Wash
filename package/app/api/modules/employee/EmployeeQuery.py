@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from package.app.api.model.Employee import Employee
 from package.app.api.orm.DAO import DAO
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
@@ -9,8 +9,17 @@ class EmployeeQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
 
+    def getEmployee(self, id: int) -> Optional[Employee]:
+        return self.__dao.get(Employee, id)
+
+    def getEmployees(self) -> List[Employee]:
+        return self.__dao.select(Employee).all()
+
     def getEmployeeByUserId(self, user_id: int) -> Optional[Employee]:
         return self.__dao.select(Employee).where(Employee.user_id == user_id).first()
+
+    def getEmployeeById(self, id: int) -> Optional[Employee]:
+        return self.__dao.select(Employee).where(Employee.id == id).first()
 
     def registerEmployee(self, employee: Employee):
         try:

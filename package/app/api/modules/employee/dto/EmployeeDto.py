@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
-
 from package.app.api.modules.user.dto.UserDto import UserDto
+from sqlalchemy import Date
 
 
 @dataclass
@@ -12,3 +12,4 @@ class EmployeeDto:
     wage: Optional[str] = field(default=None)
     activeRegister: Optional[bool] = field(default=None)
     jobLimit: Optional[str] = field(default=None)
+    admission_date: Optional[Date] = field(default=None)

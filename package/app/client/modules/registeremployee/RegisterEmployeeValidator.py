@@ -88,7 +88,7 @@ class RegisterEmployeeValidator(metaclass=Singleton):
         if not job_limit.isnumeric():
             validation.errors.add("Digite um valor inteiro para o limite de serviços.")
             return False
-        if not (5 < int(job_limit) < 10):
+        if not (5 <= int(job_limit) <= 10):
             validation.errors.add(
                 f"O limite de serviços deve ser entre {Config.EMPLOYEE_MIN_JOBS_DEFAULT} e {Config.EMPLOYEE_MAX_JOBS_DEFAULT} serviços."
             )

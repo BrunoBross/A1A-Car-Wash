@@ -1,4 +1,6 @@
 from collections.abc import Callable
+from package.app.client.event.EventEnum import EventEnum
+from package.app.client.event.EventManager import EventManager
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app import sqlalchemy_session
 from package.app.validation.ValidationObject import ValidationObject
@@ -23,6 +25,20 @@ def validator_function(callback):
         validation = ValidationObject()
         result = callback(validation=validation, *args, **kwargs)
         validationService.post(validation)
+        return result
+
+    return wrapper
+
+
+def post_endpoint(callback):
+    eventManager = EventManager()
+
+    def wrapper(*args, **kwargs):
+        result = callback(*args, **kwargs)
+        if result:
+            eventManager.post(EventEnum.SUBMIT_SUCCESS)
+        else:
+            eventManager.post(EventEnum.SUBMIT_FAILED)
         return result
 
     return wrapper

@@ -2,7 +2,9 @@ from package.app.client.gui.box.Box import Box
 from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
-from package.app.client.modules.schedulingemployee.EmployeeSchedullingComponent import EmployeeSchedulingComponent
+from package.app.client.modules.schedulingemployee.EmployeeSchedullingComponent import (
+    EmployeeSchedulingComponent,
+)
 from package.app.client.state.UserContext import UserContext
 
 
@@ -15,7 +17,6 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__comboJustificativasInput = None
         self.__listBoxInput = None
         self.__listStore = None
-        
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -81,11 +82,17 @@ class EmployeeSchedulingView(metaclass=Singleton):
         (model, pathlist) = _.get_selected_rows()
         for path in pathlist:
             tree_iter = model.get_iter(path)
-            value = [model.get_value(tree_iter, 0), model.get_value(tree_iter, 1), model.get_value(tree_iter, 2)]
+            value = [
+                model.get_value(tree_iter, 0),
+                model.get_value(tree_iter, 1),
+                model.get_value(tree_iter, 2),
+            ]
             self.__listBoxInput = value
 
     def onConfirm(self, _: Gtk.Widget):
-        self.__component.updateJobStateID(self.__listBoxInput, self.__comboJustificativasInput)
+        self.__component.updateJobStateID(
+            self.__listBoxInput, self.__comboJustificativasInput
+        )
         self.updateList()
 
     def updateList(self):
