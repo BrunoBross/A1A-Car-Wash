@@ -1,15 +1,11 @@
 from typing import Any, List
 from package.app.api.crypt.utils import encrypt
-from package.app.api.model.Job import Job
 from package.app.api.model.ResignationType import ResignationType
 from package.app.api.model.Role import Role
 from package.app.api.model.SchedulingState import SchedulingState
 from package.app.api.model.Employee import Employee
 from package.app.api.model.Job import Job
-from package.app.api.model.Vehicle import Vehicle
-from package.app.api.model.Scheduling import Scheduling
-from datetime import datetime
-
+from datetime import date
 from package.app.api.model.User import User
 
 
@@ -18,6 +14,8 @@ def createMigration() -> List[Any]:
         Role(id=1, description="GERENTE"),
         Role(id=2, description="FUNCIONARIO"),
         User(username="admin", password=encrypt("senha"), role_id=1),
+        User(username="funcionario", password=encrypt("senha"), role_id=2),
+        Employee(user_id=2, legal_name="Bruno Barreto", wage=1500, active_register=1, job_limit=5, admission_date=date.today()),
         SchedulingState(id=1, description="PENDENTE"),
         SchedulingState(id=2, description="FINALIZADO"),
         SchedulingState(id=3, description="CLIENTE_AUSENTE"),

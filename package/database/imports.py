@@ -9,3 +9,4 @@ from package.app.api.model.Scheduling import Scheduling
 from package.app.api.model.SchedulingState import SchedulingState
 from package.app.api.model.Resignation import Resignation
 from package.app.api.model.ResignationType import ResignationType
+from package.app.api.model.Warning import Warning
