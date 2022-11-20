@@ -19,6 +19,7 @@ from package.app.client.dialog.DialogService import DialogService
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
 from package.app.client.dialog.InfoBox import InfoBoxProps
+from datetime import datetime
 
 
 class EmployeeSchedulingComponent(metaclass=Singleton):
@@ -71,9 +72,10 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         schedulings = self.getSchedulingByEmployeeID(self.getLoggedEmployee().id)
         itemsList = []
         for i in schedulings:
-            job = self.getJobById(i.job_id)
-            vehicle = self.getVehicleById(i.vehicle_id)
-            itemsList.append((vehicle.numberPlate, job.description, str(i.date)))
+            if i.date == datetime.today().date():
+                job = self.getJobById(i.job_id)
+                vehicle = self.getVehicleById(i.vehicle_id)
+                itemsList.append((vehicle.numberPlate, job.description, str(i.date)))
         if itemsList:
             return itemsList
         else:
