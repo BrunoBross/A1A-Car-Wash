@@ -17,6 +17,7 @@ from package.app.template.IAppComponent import IAppComponent
 from package.app.client.modules.schedulingemployee.EmployeeSchedulingView import (
     EmployeeSchedulingView,
 )
+from package.app.client.modules.employeeReport.employeeReportView import EmployeeReportView
 
 
 @dataclass
@@ -52,6 +53,10 @@ sidebarItems: Dict[str, SidebarItem] = {
     ),
     "Demitir Funcionário": SidebarItem(
         component=ResignationView,
+        roles={RoleEnum.GERENTE},
+    ),
+    "Emitir Relatorio de funcionario": SidebarItem(
+        component=EmployeeReportView,
         roles={RoleEnum.GERENTE},
     ),
 }
