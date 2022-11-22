@@ -12,10 +12,10 @@ class EmployeeReportValidator(metaclass=Singleton):
 
     @validator_function
     def execute(self, employeeID: int, month:str, validation: ValidationObject) -> bool:
-        if not isinstance(employeeID, int) or employeeID == None:
+        if not isinstance(employeeID, int) or employeeID == None or employeeID == 0:
             validation.errors.add("Por favor, selecione um funcionario")
             return False
-        elif not isinstance(month, str) or month == None:
+        elif not isinstance(month, str) or month == None or month == "":
             validation.errors.add("Por favor, selecione um mês.")
             return False
         return True

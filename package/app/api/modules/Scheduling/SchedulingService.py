@@ -16,5 +16,11 @@ class SchedulingService(metaclass=Singleton):
     def getByEmployeeId(self, employeeId:int) -> Optional[SchedulingDto]:
         return self.__SchedulingQuery.getByEmployeeId(employeeId)
 
+    def getAllByEmployeeId(self, employeeID: int) -> Optional[SchedulingDto]:
+        return self.__SchedulingQuery.getAllByEmployeeID(employeeID)
+
     def updateJobStateID(self, employeeId: int, jobId: int, vehicleId: int, date: str, newJobStateId: int):
         self.__SchedulingQuery.updateJobStateID(employeeId, jobId, vehicleId, date, newJobStateId)
+
+    def getSchedulingByEmployeeIDAndDate(self, employeeID:int, startMonth:str, endMonth:str) -> Optional[SchedulingDto]:
+        return self.__SchedulingQuery.getSchedulingByEmployeeIDAndDate(employeeID, startMonth, endMonth)

@@ -19,8 +19,19 @@ class EmployeeReportController(metaclass=Singleton):
         return new_month
 
     def getEmployeeReport(self, employeeID:int, month: str):
+        print("CONTROLLER")
+        print("ID")
+        print(employeeID)
+        print("MES")
+        print(month)
         if self.__employeeReportValidator.execute(employeeID, month):
             startMonth = self.getStartMonthFormat(month)
             endMonth = self.getEndMonthFormat(month)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
+            print("START MONTH:")
+            print(startMonth)
+            print("ENDMONTH:")
+            print(endMonth)
+            print("<<<<<<<<<<<<<<<<<<<<<<<<<")
             return self.__employeeReportService.getEmployeeReport(employeeID, startMonth, endMonth)
 

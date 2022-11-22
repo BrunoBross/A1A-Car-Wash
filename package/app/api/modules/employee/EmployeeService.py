@@ -49,3 +49,8 @@ class EmployeeService(metaclass=Singleton):
         )
 
         return self.__mapper.mapEmployeeToDto(employee)
+
+    def getEmployeeById(self,  employeeID:int) -> Optional[EmployeeDto]:
+        employee = self.__employeeQuery.getEmployeeById(employeeID)
+        if employee:
+            return self.__mapper.mapEmployeeToDto(employee)

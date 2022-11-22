@@ -20,6 +20,11 @@ class SchedulingQuery(metaclass=Singleton):
             .where(Scheduling.job_state_id == 1)\
             .all()
 
+    def getAllByEmployeeID(self, employeeID: int) -> Optional[Scheduling]:
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.employee_id == employeeID)\
+            .all()
+
     def updateJobStateID(self, employeeId: int, jobID: int, vehicleId: int, date: date, newJobStateId: int):
         self.__session.query(Scheduling) \
             .where(Scheduling.employee_id == employeeId)\
@@ -29,3 +34,10 @@ class SchedulingQuery(metaclass=Singleton):
             .update({"job_state_id": newJobStateId})
 
         self.__session.commit()
+
+    def getSchedulingByEmployeeIDAndDate(self, employeeId: int, startMonth:date, endMonth:date) -> Optional[Scheduling]: 
+        return self.__dao.select(Scheduling) \
+            .where(Scheduling.employee_id == employeeId) \
+            .where(Scheduling.date >= startMonth) \
+            .where(Scheduling.date <= endMonth) \
+            .all()

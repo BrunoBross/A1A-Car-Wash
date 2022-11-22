@@ -1,37 +1,48 @@
 from package.app.meta.Singleton import Singleton
 from package.app.api.orm.DAO import DAO
 from package.app.api.modules.billing.BillingQuery import BillingQuery
-from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
-from package.app.api.modules.scheduling.SchedulingQuery import SchedulingQuery
-from package.app.api.modules.job.JobQuery import JobQuery
+from package.app.api.modules.employee.EmployeeService import EmployeeService
+from package.app.api.modules.Scheduling.SchedulingService import SchedulingService
+from package.app.api.modules.job.JobService import JobService
 from datetime import datetime
 
 class EmployeeReportService(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
         self.__billingQuery = BillingQuery()
-        self.__employeeQuery = EmployeeQuery()
-        self.__schedulingQuery = SchedulingQuery()
-        self.__jobQuery = JobQuery()
+        self.__employeeService = EmployeeService()
+        self.__schedulingService = SchedulingService()
+        self.__jobService = JobService()
 
 
     def getEmployeeReport(self, employeeID:int, startMonth:str, endMonth:str):
-        employee = self.__employeeQuery.getEmployeeById(employeeID)
+        print(employeeID)
+        print(startMonth)
+        print(endMonth)
+        employee = self.__employeeService.getEmployeeById(employeeID)
+        print("EMPLOYEE OBJ")
+        print(employee)
+        print("EMPLOYEE ID")
+        print(employee.id)
+        print("EMPLOYEE NAME")
+        print(employee.legalName)
         
         valorSchedulingsTotal = 0
         totalComissoes = 0
         SalarioBruto = employee.wage
         totalPenalidades = 0
 
-        schedulings = self.__schedulingQuery.getSchedulingByEmployeeIDAndDate(employeeID, startMonth, endMonth)
-        print("SCHEDULIGNS")
+        schedulings = self.__schedulingService.getSchedulingByEmployeeIDAndDate(employeeID, startMonth,endMonth)
+        print("SCHEDULIGNS**************************************")
         print(schedulings)
         for item in schedulings:
-            print("ITENS")
+            print("ITENS BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
             print(item)
+            print(item.job_id)
+            print(item.job_state_id)
             if item.job_state_id == 2:
-                job = self.__jobQuery.getJobNyId(item.job_id)
-                print("FINALIZADO")
+                job = self.__jobService.getJobById(item.job_id)
+                print("FINALIZADO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 print("CONSULTA")
                 print(job)
                 print(job.description)
@@ -41,10 +52,10 @@ class EmployeeReportService(metaclass=Singleton):
                 print("COMISSAO")
                 print(comissao)
                 totalComissoes += comissao
-            elif item.job_state_id == 1 and item.date < datetime.today():
+            elif item.job_state_id == 1 and item.date < datetime.today().date():
                 print("PENDENTE")
                 print("CONSULTA")
-                job = self.__jobQuery.getJobNyId(item.job_id)
+                job = self.__jobService.getJobById(item.job_id)
                 print(job)
                 print(job.description)
                 print(job.cost_value)

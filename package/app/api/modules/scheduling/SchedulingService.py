@@ -24,3 +24,6 @@ class SchedulingService(metaclass=Singleton):
             self.__mapper.mapDtoToScheduling(schedulingDto)
         )
         return schedulingDto
+
+    def getSchedulingByEmployeeIDAndDate(self, employeeID:int, startMonth:str, endMonth:str) -> Optional[SchedulingDto]:
+        return self.__schedulingQuery.getSchedulingByEmployeeIDAndDate(employeeID, startMonth, endMonth)

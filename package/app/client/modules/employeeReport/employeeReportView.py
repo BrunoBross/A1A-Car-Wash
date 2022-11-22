@@ -116,8 +116,10 @@ class EmployeeReportView(metaclass=Singleton):
             return 0
 
     def updateSelectedMonth(self, _):
-        self.__selectedMonth = _.get_active_text()
+        selectedMonthText = _.get_active_text()
+        self.__selectedMonth = self.__months[selectedMonthText]
         print("===================================")
         print("MES SELECIONADO")
+        print(selectedMonthText)
         print(self.__selectedMonth)
         print("===================================")
