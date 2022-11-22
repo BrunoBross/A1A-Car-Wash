@@ -30,17 +30,24 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
         # LIST BOX DE AVISOS
         grid_warning = Gtk.Grid(column_homogeneous=True, row_spacing=45)
-        self.__listStore_warning = Gtk.ListStore(str, bool)
+        self.__listStore_warning = Gtk.ListStore(int, str, bool)
         for item in self.__warningList:
             self.__listStore_warning.append(list(item))
         treeview = Gtk.TreeView(model=self.__listStore_warning)
+
+        renderer_text_id = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
+        column_text_id = Gtk.TreeViewColumn("ID", renderer_text_id, text=0)
+        column_text_id.set_fixed_width(30)
+        treeview.append_column(column_text_id)
+
         renderer_text = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
-        column_text = Gtk.TreeViewColumn("Quadro de avisos do dia", renderer_text, text=0)
-        column_text.set_fixed_width(350)
+        column_text = Gtk.TreeViewColumn("Quadro de avisos do dia", renderer_text, text=1)
+        column_text.set_fixed_width(320)
         treeview.append_column(column_text)
+
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
-        column_toggle = Gtk.TreeViewColumn("Lido", renderer_toggle, active=1)
+        column_toggle = Gtk.TreeViewColumn("Lido", renderer_toggle, active=2)
         treeview.append_column(column_toggle)
         scrollableTreeList_warning = Gtk.ScrolledWindow()
         scrollableTreeList_warning.set_vexpand(True)
@@ -131,6 +138,6 @@ class EmployeeSchedulingView(metaclass=Singleton):
         for item in self.__schedulingList:
             self.__listStore.append(list(item))
 
-    def on_cell_toggled(self, widget: Gtk.CellRendererToggle, path):
-        self.__listStore_warning[path][1] = not self.__listStore_warning[path][1]
-
+    def on_cell_toggled(self, widget, path):
+        self.__listStore_warning[path][2] = not self.__listStore_warning[path][2]
+        self.__component.changeWarningReadStatus(self.__listStore_warning[path][0], self.__listStore_warning[path][2])

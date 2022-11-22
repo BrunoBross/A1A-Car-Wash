@@ -8,3 +8,6 @@ class WarningService(metaclass=Singleton):
 
     def getWarningList(self, employee_id: int):
         return self.__query.getWarningList(employee_id)
+
+    def changeWarningReadStatus(self, warning_id: int, read_bool: bool):
+        self.__query.updateWarningReadStatus(warning_id, read_bool)
