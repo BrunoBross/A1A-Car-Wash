@@ -43,9 +43,12 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         warningList = []
         for warning in warnings:
             warningList.append([warning.description, False])
+
+        print(warningList)
+
         if len(warningList) > 0:
             return warningList
-        return [["Nenhum aviso disponível"]]
+        return [["Nenhum aviso disponível", False]]
 
     def getLoggedEmployee(self):
         user_id = self.__userContext.get().id

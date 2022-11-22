@@ -28,28 +28,24 @@ class EmployeeSchedulingView(metaclass=Singleton):
         title.set_margin_bottom(30)
         mainBox.pack_start(title, False, False, 0)
 
-        # LIST BOX WARNING
+        # LIST BOX DE AVISOS
         grid_warning = Gtk.Grid(column_homogeneous=True, row_spacing=45)
         self.__listStore_warning = Gtk.ListStore(str, bool)
         for item in self.__warningList:
             self.__listStore_warning.append(list(item))
-        treeView_warning = Gtk.TreeView(model=self.__listStore_warning)
-
-        renderer_text = Gtk.CellRendererText()
+        treeview = Gtk.TreeView(model=self.__listStore_warning)
+        renderer_text = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
         column_text = Gtk.TreeViewColumn("Quadro de avisos", renderer_text, text=0)
-        treeView_warning.append_column(column_text)
-
+        column_text.set_fixed_width(350)
+        treeview.append_column(column_text)
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
         column_toggle = Gtk.TreeViewColumn("Lido", renderer_toggle, active=1)
-        treeView_warning.append_column(column_toggle)
-
+        treeview.append_column(column_toggle)
         scrollableTreeList_warning = Gtk.ScrolledWindow()
         scrollableTreeList_warning.set_vexpand(True)
-        grid_warning.attach(scrollableTreeList_warning, 0, 0, 300, 10)
-        scrollableTreeList_warning.add(treeView_warning)
-        tree_selection_warning = treeView_warning.get_selection()
-        tree_selection_warning.connect("changed", self.checkAsRead)
+        grid_warning.attach(scrollableTreeList_warning, 0, 0, 400, 10)
+        scrollableTreeList_warning.add(treeview)
 
         # LIST BOX
         grid = Gtk.Grid(column_homogeneous=True, row_spacing=45)
@@ -63,7 +59,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
             treeView.append_column(column)
         scrollableTreeList = Gtk.ScrolledWindow()
         scrollableTreeList.set_vexpand(True)
-        grid.attach(scrollableTreeList, 0, 0, 300, 10)
+        grid.attach(scrollableTreeList, 0, 0, 400, 10)
         scrollableTreeList.add(treeView)
         tree_selection = treeView.get_selection()
         tree_selection.connect("changed", self.changeListBoxInput)
@@ -91,17 +87,18 @@ class EmployeeSchedulingView(metaclass=Singleton):
         # INPUTS
         self.__comboJustificativasInput = comboJustificativas
         self.__listBoxInput = scrollableTreeList
-        self.__listBoxInput_warning = scrollableTreeList_warning
-        self.__listStore_warning = scrollableTreeList_warning
 
         # ADICIONAR NA TELA
-        divHorizontal = Box(orientation=Gtk.Orientation.HORIZONTAL)
-        divHorizontal.pack_start(grid_warning, False, False, 10)
-        divHorizontal.pack_start(grid, False, False, 0)
+        divVertical = Box(orientation=Gtk.Orientation.VERTICAL)
+        divVertical.pack_start(grid, True, False, 0)
+        divVertical.pack_start(comboJustificativasBox, True, False, 0)
+        divVertical.pack_start(confirmButton, True, False, 0)
 
-        mainBox.pack_start(divHorizontal, False, False, 0)
-        mainBox.pack_start(comboJustificativasBox, False, False, 0)
-        mainBox.pack_start(confirmButton, False, False, 0)
+        divHorizontal = Box(orientation=Gtk.Orientation.HORIZONTAL)
+        divHorizontal.pack_start(grid_warning, True, False, 10)
+        divHorizontal.pack_start(divVertical, True, False, 0)
+
+        mainBox.pack_start(divHorizontal, True, False, 0)
 
         return mainBox
 
@@ -132,9 +129,6 @@ class EmployeeSchedulingView(metaclass=Singleton):
         for item in self.__schedulingList:
             self.__listStore.append(list(item))
 
-    def checkAsRead(self, _):
-        self.__listBoxInput_warning = _.get_selected_rows()
-
-    def on_cell_toggled(self, widget, path):
+    def on_cell_toggled(self, widget: Gtk.CellRendererToggle, path):
         self.__listStore_warning[path][1] = not self.__listStore_warning[path][1]
 
