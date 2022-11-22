@@ -96,11 +96,11 @@ class EmployeeReportView(metaclass=Singleton):
         print("MES SELECIONADO")
         print(self.__selectedMonth)
         print("===================================")
-        listaTeste = self.__component.getEmployeeReport(self.__selectedEmployeeId, self.__selectedMonth)
-        print("------------------------------------")
-        print(listaTeste)
-        print("----------------------------------")
-        
+        #listaTeste = self.__component.getEmployeeReport(self.__selectedEmployeeId, self.__selectedMonth)
+        #print("------------------------------------")
+        #print(listaTeste)
+        #print("----------------------------------")
+        self.__component.getEmployeeReport(self.__selectedEmployeeId, self.__selectedMonth)
 
     
     def getEmployeeIdFromCombo(self) -> int:

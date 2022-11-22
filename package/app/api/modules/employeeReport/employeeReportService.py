@@ -26,6 +26,7 @@ class EmployeeReportService(metaclass=Singleton):
         print(employee.id)
         print("EMPLOYEE NAME")
         print(employee.legalName)
+        employeeNome = employee.legalName
         
         valorSchedulingsTotal = 0
         totalComissoes = 0
@@ -78,4 +79,4 @@ class EmployeeReportService(metaclass=Singleton):
         print("TOTAL PENALIDADES")
         print(totalPenalidades)
 
-        return [valorSchedulingsTotal, SalarioBruto, SalarioLiquido, totalComissoes, totalPenalidades]
+        return [employeeNome, valorSchedulingsTotal, SalarioBruto, SalarioLiquido, totalComissoes, totalPenalidades]
