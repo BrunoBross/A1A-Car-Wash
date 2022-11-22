@@ -3,11 +3,13 @@ from package.app.api.model.Employee import Employee
 from package.app.api.orm.DAO import DAO
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
+from package.app import sqlalchemy_session
 
 
 class EmployeeQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
+        self.__session = sqlalchemy_session
 
     def getEmployee(self, id: int) -> Optional[Employee]:
         return self.__dao.get(Employee, id)
@@ -27,3 +29,12 @@ class EmployeeQuery(metaclass=Singleton):
             return employee
         except DatabaseIntegrityException:
             return None
+
+    def updateEmployee(self, employeeUpdates: list, user_id: int):
+        for update in employeeUpdates:
+            self.__session.query(Employee)\
+                .where(Employee.user_id == user_id)\
+                .update(update)
+
+            self.__session.commit()
+
