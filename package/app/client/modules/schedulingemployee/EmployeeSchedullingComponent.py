@@ -35,10 +35,13 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         self.__warningService = WarningService()
 
     def getWarningList(self):
-        warning_table = self.__warningService.getWarningList(self.getLoggedEmployee().id)
         warningList = []
+        warning_table = self.__warningService.getWarningList(self.getLoggedEmployee().id)
         for item in warning_table:
-            warningList.append([item.warning_id, item.warning.description, item.read])
+            warningList.append([item.id, item.warning.description, item.read])
+        print("#####################################")
+        print(f"PRINT MALUCO: {warningList}")
+        print("#####################################")
         if len(warningList) > 0:
             return warningList
         return [["Nenhum aviso disponível", False]]

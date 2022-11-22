@@ -13,7 +13,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__userContext = UserContext()
         self.__component = EmployeeSchedulingComponent()
         self.__schedulingList = self.__component.getSchedulingList()
-        self.__warningList = self.__component.getWarningList()
+        self.__warningList = None
         self.__justificativasDict = {}
         self.__comboJustificativasInput = None
         self.__listBoxInput = None
@@ -27,6 +27,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
         title.set_markup(toBig("Agendamentos"))
         title.set_margin_bottom(30)
         mainBox.pack_start(title, False, False, 0)
+        self.__warningList = self.__component.getWarningList()
 
         # LIST BOX DE AVISOS
         grid_warning = Gtk.Grid(column_homogeneous=True, row_spacing=45)
