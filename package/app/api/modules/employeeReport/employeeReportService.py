@@ -79,4 +79,4 @@ class EmployeeReportService(metaclass=Singleton):
         print("TOTAL PENALIDADES")
         print(totalPenalidades)
 
-        return [employeeNome, valorSchedulingsTotal, SalarioBruto, SalarioLiquido, totalComissoes, totalPenalidades]
+        return [employeeNome, f'R${valorSchedulingsTotal}', f'R${SalarioBruto}', f'R${SalarioLiquido}', f'R${totalComissoes}', f'R${totalPenalidades}']
