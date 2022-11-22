@@ -21,7 +21,7 @@ class WarningQuery(metaclass=Singleton):
 
     def updateWarningReadStatus(self, warning_id: int, read_bool: bool):
         self.__session.query(WarningTable)\
-            .where(WarningTable.warning_id == warning_id)\
+            .where(WarningTable.id == warning_id)\
             .update({"read": read_bool})
 
         self.__session.commit()

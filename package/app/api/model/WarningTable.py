@@ -10,8 +10,8 @@ class WarningTable(sqlalchemy_base):
     __tablename__ = "tb_warning_table"
 
     id = Column(Integer, primary_key=True)
-    employee_id = Column(Integer, ForeignKey("tb_employee.id"), nullable=False, unique=True)
-    warning_id = Column(Integer, ForeignKey("tb_warning.id"), nullable=False, unique=True)
+    employee_id = Column(Integer, ForeignKey("tb_employee.id"), nullable=False)
+    warning_id = Column(Integer, ForeignKey("tb_warning.id"), nullable=False)
     read = Column(Boolean, nullable=False, default=False)
 
     employee = relationship(Employee)
