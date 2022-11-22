@@ -28,3 +28,12 @@ class SchedulingQuery(metaclass=Singleton):
             scheduling
         except DatabaseIntegrityException:
             return None
+
+    def getSchedulingByEmployeeIDAndDate(self, employeeId: int, startMonth:str, endMonth:str) -> Optional[Scheduling]:
+        return self.__dao.select(Scheduling) \
+            .where(Scheduling.employee_id == employeeId) \
+            .where(Scheduling.date >= startMonth) \
+            .where(Scheduling.date <= endMonth) \
+            .all()
+
+    

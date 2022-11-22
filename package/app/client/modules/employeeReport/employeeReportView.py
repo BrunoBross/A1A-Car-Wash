@@ -3,12 +3,15 @@ from package.app.meta.Singleton import Singleton
 from package.app.client.gui.imports import Gtk
 from package.app.client.utils.markup import toBig
 from package.app.client.gui.box.Box import Box
+import re
 
 class EmployeeReportView(metaclass=Singleton):
     def __init__(self):
         self.__component = EmployeeReportComponent()
         self.__employees = self.__component.getEmployees()
-        
+        self.__selectedEmployeeId = 0
+        self.__selectedMonth = ""
+        self.__employeeCombo = Gtk.ComboBoxText
         self.__months = {
             "Selecione um mês": 0,
             "Janeiro": "01",
@@ -28,7 +31,7 @@ class EmployeeReportView(metaclass=Singleton):
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
         title = Gtk.Label()
-        title.set_markup(toBig("Agendamentos"))
+        title.set_markup(toBig("Emitir Relatorio de Funcionario"))
         title.set_margin_bottom(30)
         mainBox.pack_start(title, False, False, 0)
 
@@ -36,7 +39,6 @@ class EmployeeReportView(metaclass=Singleton):
         comboEmployeeBox = Box(Gtk.Orientation.HORIZONTAL)
         comboEmployeeBox.set_margin_bottom(5)
         comboEmployeeBox.set_margin_top(5)
-        #comboEmployeeBoxSelectLabel = Gtk.Label()
         comboEmployeeLabel = Gtk.Label()
         comboEmployeeLabel.set_markup(toBig("Funcionário*"))
         comboEmployeeBox.pack_default(comboEmployeeLabel)
@@ -60,22 +62,62 @@ class EmployeeReportView(metaclass=Singleton):
         for month in self.__months:
             comboMesesSelectComboBox.append_text(month)
         comboMesesSelectComboBox.set_active(0)
+        comboMesesSelectComboBox.connect("changed", self.updateSelectedMonth)
         comboMesesBox.pack_default(comboMesesSelectLabel)
         comboMesesBox.pack_default(comboMesesSelectComboBox)
+        
         #Botao de comfirmar
         confirmButton = Gtk.Button(label="Emitir Relatorio")
         confirmButton.set_margin_top(30)
+        confirmButton.connect("clicked", self.onConfirm)
+        
+        self.__employeeCombo = employeeCombo
+
         #packStarts
         mainBox.pack_start(comboEmployeeBox, False, False, 0)
         mainBox.pack_start(comboMesesBox, False, False, 0)
         mainBox.pack_start(confirmButton, False, False, 0)
+        
         #o que falta
-        #fazer as coisas da view
+        
         #fazer funcs no component
         #pegar os dados
         #gerar o CSV
 
         return mainBox
 
+    def onConfirm(self, _):
+        self.__selectedEmployeeId = self.getEmployeeIdFromCombo()
+        print("++++++++++++++++++++++++++++++++++++")
+        print("ID SELECIONADO")
+        print(self.__selectedEmployeeId)
+        print("++++++++++++++++++++++++++++++++++++")
+        print("===================================")
+        print("MES SELECIONADO")
+        print(self.__selectedMonth)
+        print("===================================")
+        listaTeste = self.__component.getEmployeeReport(self.__selectedEmployeeId, self.__selectedMonth)
+        print("------------------------------------")
+        print(listaTeste)
+        print("----------------------------------")
+        
 
     
+    def getEmployeeIdFromCombo(self) -> int:
+        try:
+            id = self.__employeeCombo.get_active_text()
+            id = int(re.findall(r'\d+',f"{id}")[0])
+            print("*************************")
+            print("ID")
+            print(id)
+            print("*************************")
+            return id 
+        except IndexError:
+            return 0
+
+    def updateSelectedMonth(self, _):
+        self.__selectedMonth = _.get_active_text()
+        print("===================================")
+        print("MES SELECIONADO")
+        print(self.__selectedMonth)
+        print("===================================")
