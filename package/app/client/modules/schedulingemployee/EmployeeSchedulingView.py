@@ -35,7 +35,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
             self.__listStore_warning.append(list(item))
         treeview = Gtk.TreeView(model=self.__listStore_warning)
         renderer_text = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
-        column_text = Gtk.TreeViewColumn("Quadro de avisos", renderer_text, text=0)
+        column_text = Gtk.TreeViewColumn("Quadro de avisos do dia", renderer_text, text=0)
         column_text.set_fixed_width(350)
         treeview.append_column(column_text)
         renderer_toggle = Gtk.CellRendererToggle()
@@ -66,9 +66,11 @@ class EmployeeSchedulingView(metaclass=Singleton):
 
         # COMBO BOX
         comboJustificativasBox = Box(Gtk.Orientation.HORIZONTAL)
+        comboJustificativasBox.set_margin_top(10)
         comboJustificativas = Gtk.ComboBoxText()
         comboJustificativasLabel = Gtk.Label()
         comboJustificativasLabel.set_markup(toBig("Selecione um status:"))
+        comboJustificativasLabel.set_margin_right(10)
         comboJustificativas.set_entry_text_column(0)
         justificativasList = self.__component.getAllSchedulingStates()
         for justificativa in justificativasList:

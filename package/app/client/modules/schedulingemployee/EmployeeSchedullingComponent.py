@@ -34,18 +34,11 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         self.__dialogService = DialogService()
         self.__warningService = WarningService()
 
-    # esse cara faz a logica
-    # Seleciona o cara na lista
-    # Seleciona o estado dele
-
     def getWarningList(self):
-        warnings = self.__warningService.getWarningList()
+        warning_table = self.__warningService.getWarningList(self.getLoggedEmployee().id)
         warningList = []
-        for warning in warnings:
-            warningList.append([warning.description, False])
-
-        print(warningList)
-
+        for item in warning_table:
+            warningList.append([item.warning.description, item.read])
         if len(warningList) > 0:
             return warningList
         return [["Nenhum aviso disponível", False]]
