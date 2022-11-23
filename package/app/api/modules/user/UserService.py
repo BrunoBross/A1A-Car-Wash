@@ -22,3 +22,6 @@ class UserService(metaclass=Singleton):
 
     def updateUser(self, userUpdates: list, user_id: int):
         self.__query.updateUser(userUpdates, user_id)
+
+    def deleteUser(self, user_id: int):
+        self.__query.deleteUser(user_id)

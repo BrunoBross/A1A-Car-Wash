@@ -2,6 +2,7 @@ from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.client.dialog.DialogService import DialogService
 from package.app.client.dialog.InfoBox import InfoBoxProps
+from package.app.client.dialog.Modal import ModalProps
 from package.app.client.gui.box.Box import Box
 from package.app.client.modules.registeremployee.RegisterEmployeeValidator import (
     RegisterEmployeeValidator,
@@ -12,6 +13,7 @@ from package.app.client.state.ComponentState import ComponentState
 from package.app.client.utils.form import getEntryBuffer
 from package.app.client.gui.imports import Gtk
 from package.app.validation.IValidator import IValidator
+from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 
 
 class RegisterEmployeeComponent(metaclass=Singleton):
@@ -39,9 +41,12 @@ class RegisterEmployeeComponent(metaclass=Singleton):
             if entity:
                 self.__displaySuccessMessage("Funcionário cadastrado com sucesso", "Cadastro bem sucedido")
 
-    def requestEditEmployee(self, user_id: int):
-        if user_id is None:
+    def requestEditEmployee(self, employee: list):
+        if employee is None:
+            self.__displaySuccessMessage("Nenhum funcionário selecionado", "Erro")
             return
+
+        user_id = employee[0]
 
         employeeDto = EmployeeDto(
             legalName=getEntryBuffer(self.__state.getReferenceById("fullnameEdit")),
@@ -54,10 +59,27 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         )
 
         if self.__validator.execute(employeeDto, authDto, True):
+            if self.__displayConfirmBox(employee, "editar"):
+                try:
+                    self.__employeeController.editEmployee(employeeDto=employeeDto, authDto=authDto, user_id=user_id)
+                    return self.__displaySuccessMessage("Funcionário editado com sucesso", "Edição bem sucedida")
+                except DatabaseIntegrityException as e:
+                    print(e)
+                    return self.__displaySuccessMessage("Erro na edição, tente novamente", "Erro")
+            else:
+                return
+
+    def requestDeleteEmployee(self, employee: list):
+        user_id = employee[0]
+        if self.__displayConfirmBox(employee, "deletar"):
             try:
-                self.__employeeController.editEmployee(employeeDto=employeeDto, authDto=authDto, user_id=user_id)
-            finally:
-                self.__displaySuccessMessage("Funcionário editado com sucesso", "Edição bem sucedida")
+                self.__employeeController.deleteEmployee(user_id)
+                return self.__displaySuccessMessage("Funcionário deletado com sucesso", "Deleção bem sucedida")
+            except DatabaseIntegrityException as e:
+                print(e)
+                return self.__displaySuccessMessage("Erro na deleçao, tente novamente", "Erro")
+        else:
+            return
 
     def getEmployeeData(self, user_id: int):
         return self.__employeeController.getEmployeeByUserId(user_id)
@@ -66,7 +88,8 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         employees = self.__employeeController.getEmployees()
         employeeList = []
         for employee in employees:
-            employeeList.append([employee.user.id, employee.user.username, employee.legalName])
+            employeeList.append([employee.user.id, employee.user.username, employee.legalName,
+                                 str(employee.wage), employee.jobLimit, str(employee.admission_date)])
         return employeeList
 
     def getEmployees(self):
@@ -80,4 +103,11 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         content.pack_default(Gtk.Label(message))
         self.__dialogService.displayInfoBox(
             InfoBoxProps(title=title_message, content=content)
+        )
+
+    def __displayConfirmBox(self, employee: list, label: str):
+        content = Box()
+        content.pack_default(Gtk.Label(f"Tem certeza que você deseja {label} o funcionário {employee[2]}?"))
+        return self.__dialogService.displayModal(
+            ModalProps(title="Confirmação", content=content, cancelLabel="Cancelar", okLabel="Confirmar")
         )

@@ -24,6 +24,7 @@ class RegisterEmployeeView(metaclass=Singleton):
 
         self.__listStore = None
         self.__employeeCombo = None
+        self.__employeeComboDelete = None
         self.__employeeList = self.__component.getEmployeeList()
         self.__listBoxInput = None
         self.__employees = self.__component.getEmployees()
@@ -45,11 +46,11 @@ class RegisterEmployeeView(metaclass=Singleton):
         list_label.set_margin_bottom(30)
 
         grid_list = Gtk.Grid(column_homogeneous=True, row_spacing=45)
-        self.__listStore = Gtk.ListStore(int, str, str)
+        self.__listStore = Gtk.ListStore(int, str, str, str, str, str)
         for item in self.__employeeList:
             self.__listStore.append(list(item))
         treeView = Gtk.TreeView(model=self.__listStore)
-        for i, title in enumerate(["ID", "Usuário", "Nome Completo"]):
+        for i, title in enumerate(["ID", "Usuário", "Nome Completo", "Salário", "Limite de Serviços", "Admissão"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(title, renderer, text=i)
             treeView.append_column(column)
@@ -57,12 +58,17 @@ class RegisterEmployeeView(metaclass=Singleton):
         scrollableTreeList.set_vexpand(True)
         grid_list.attach(scrollableTreeList, 0, 0, 400, 10)
         scrollableTreeList.add(treeView)
+        tree_selection = treeView.get_selection()
+        tree_selection.connect("changed", self.changeListBoxInput)
 
-        self.__listBoxInput = scrollableTreeList
+        delete_button = Gtk.Button(label="Deletar Funcionário")
+        delete_button.connect("clicked", self.__deleteEmployee)
+        delete_button.set_margin_top(30)
 
         listar = Box(orientation=Gtk.Orientation.VERTICAL)
         listar.pack_start(list_label, False, False, 0)
         listar.pack_start(grid_list, False, False, 0)
+        listar.pack_start(delete_button, False, False, 0)
         # FINAL DA LISTAGEM
 
         # INICO DO CADASTRO
@@ -77,37 +83,14 @@ class RegisterEmployeeView(metaclass=Singleton):
         # FINAL DO CADASTRO
 
         # INICIO EDICAO
-        edit_label = Gtk.Label()
-        edit_label.set_markup(toBig("Editar Funcionário"))
-        edit_label.set_margin_bottom(30)
-
-        employeeBox = Box(Gtk.Orientation.HORIZONTAL)
-        employeeBox.set_margin_bottom(5)
-        employeeBox.set_margin_top(5)
-
-        employeeLabel = Gtk.Label()
-        employeeLabel.set_markup("Funcionário")
-        employeeBox.pack_default(employeeLabel)
-
-        self.__employeeCombo = Gtk.ComboBoxText()
-        self.__employeeCombo.set_entry_text_column(0)
-        self.__employees = self.__component.getEmployees()
-        if len(self.__component.getEmployees()) == 0:
-            self.__employeeCombo.append_text("Nenhum funcionário cadastrado")
-        else:
-            self.__employeeCombo.append_text("Selecione um funcionário")
-            for employee in self.__component.getEmployees():
-                self.__employeeCombo.append_text(f"{employee.user.id} - {employee.user.username}")
-
-        self.__employeeCombo.set_active(0)
-        self.__employeeCombo.set_size_request(275, 30)
-        self.__employeeCombo.connect("changed", self.changeComboBoxInput)
-        employeeBox.pack_default(self.__employeeCombo)
+        self.__edit_label = Gtk.Label()
+        self.__edit_label.set_markup(toBig("Editar Funcionário"))
+        self.__edit_label.set_margin_bottom(30)
 
         edicaoForm = self.getForm(isEdit=True)
         editar = Box(orientation=Gtk.Orientation.VERTICAL)
-        editar.pack_start(edit_label, False, False, 0)
-        editar.pack_start(employeeBox, False, False, 0)
+        editar.pack_start(self.__edit_label, False, False, 0)
+        # editar.pack_start(employeeBox, False, False, 0)
         editar.pack_start(edicaoForm, False, False, 0)
         # FINAL EDICAO
 
@@ -120,6 +103,24 @@ class RegisterEmployeeView(metaclass=Singleton):
         mainBox.pack_start(stack, False, False, 0)
 
         return mainBox
+
+    def changeListBoxInput(self, _):
+        self.__listBoxInput = _.get_selected_rows()
+        (model, pathlist) = _.get_selected_rows()
+        for path in pathlist:
+            tree_iter = model.get_iter(path)
+            value = [
+                model.get_value(tree_iter, 0),
+                model.get_value(tree_iter, 1),
+                model.get_value(tree_iter, 2),
+            ]
+            self.__listBoxInput = value
+
+    def __deleteEmployee(self, _: Gtk.Button):
+        try:
+            self.__component.requestDeleteEmployee(self.__listBoxInput)
+        finally:
+            self.updateList()
 
     def changeComboBoxInput(self, _: Gtk.ComboBoxText):
         try:
@@ -148,10 +149,9 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__component.getState().addReference("limitEdit", self.__jobLimitFieldEditInput)
 
         try:
-            self.__component.requestEditEmployee(self.__selectedEmployee)
+            self.__component.requestEditEmployee(self.__listBoxInput)
         finally:
             self.updateList()
-            self.updateEmployeeCombo()
 
     def updateList(self):
         self.__listStore.clear()

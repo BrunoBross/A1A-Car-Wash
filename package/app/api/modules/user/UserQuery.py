@@ -21,3 +21,6 @@ class UserQuery(metaclass=Singleton):
             self.__session.query(User).where(User.id == user_id).update(update)
 
             self.__session.commit()
+
+    def deleteUser(self, user_id: int):
+        self.__dao.delete(User).where(User.id == user_id)

@@ -36,6 +36,14 @@ class RegisterEmployeeValidator(metaclass=Singleton):
         self, employeeDto: EmployeeDto, authDto: AuthDto, isEdit: bool, validation=ValidationObject
     ):
         if isEdit:
+            if not(
+                bool(authDto.username)
+                or bool(authDto.password)
+                or bool(employeeDto.legalName)
+                or bool(employeeDto.wage)
+            ):
+                validation.errors.add("Preencha pelo menos um campo!")
+                return False
             return True
         if not (
             bool(authDto.username)

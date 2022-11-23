@@ -69,3 +69,7 @@ class EmployeeService(metaclass=Singleton):
 
         if len(userUpdates) > 0:
             self.__userService.updateUser(userUpdates, user_id)
+
+    def deleteEmployee(self, user_id):
+        self.__employeeQuery.deleteEmployee(user_id)
+        self.__userService.deleteUser(user_id)
