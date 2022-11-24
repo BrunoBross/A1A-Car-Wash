@@ -73,8 +73,9 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         user_id = employee[0]
         if self.__displayConfirmBox(employee, "deletar"):
             try:
-                self.__employeeController.deleteEmployee(user_id)
-                return self.__displaySuccessMessage("Funcionário deletado com sucesso", "Deleção bem sucedida")
+                if self.__employeeController.deleteEmployee(user_id):
+                    return self.__displaySuccessMessage("Funcionário deletado com sucesso", "Deleção bem sucedida")
+                return self.__displaySuccessMessage("O funcionário possui agendamentos cadastrados", "Erro")
             except DatabaseIntegrityException as e:
                 print(e)
                 return self.__displaySuccessMessage("Erro na deleçao, tente novamente", "Erro")
@@ -88,8 +89,12 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         employees = self.__employeeController.getEmployees()
         employeeList = []
         for employee in employees:
+            if employee.activeRegister:
+                admission = str(employee.admission_date)
+            else:
+                admission = "Demitido"
             employeeList.append([employee.user.id, employee.user.username, employee.legalName,
-                                 str(employee.wage), employee.jobLimit, str(employee.admission_date)])
+                                 str(employee.wage), employee.jobLimit, admission])
         return employeeList
 
     def getEmployees(self):

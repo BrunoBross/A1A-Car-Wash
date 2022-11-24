@@ -40,5 +40,5 @@ class EmployeeQuery(metaclass=Singleton):
             self.__session.commit()
 
     def deleteEmployee(self, user_id: int):
-        self.__dao.select(Employee).where(Employee.user_id == user_id).delete()
+        self.__dao.delete(self.__dao.select(Employee).where(Employee.user_id == user_id).first())
 

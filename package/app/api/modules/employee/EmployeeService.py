@@ -3,9 +3,11 @@ from package.app.api.enum.RoleEnum import RoleEnum
 from package.app.api.modules.auth.dto.AuthDto import AuthDto
 from package.app.api.modules.employee.EmployeeDtoMapper import EmployeeDtoMapper
 from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
+from package.app.api.modules.scheduling.SchedulingQuery import SchedulingQuery
 from package.app.api.modules.employee.EmployeeValidator import EmployeeValidator
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.api.modules.user.UserService import UserService
+from package.app.api.modules.warning.WarningService import WarningService
 from package.app.api.modules.user.dto.UserDto import UserDto
 from package.app.meta.Singleton import Singleton
 from package.app.validation.IValidator import IValidator
@@ -14,7 +16,9 @@ from package.app.validation.IValidator import IValidator
 class EmployeeService(metaclass=Singleton):
     def __init__(self):
         self.__userService = UserService()
+        self.__warningService = WarningService()
         self.__employeeQuery = EmployeeQuery()
+        self.__schedulingQuery = SchedulingQuery()
         self.__mapper = EmployeeDtoMapper()
         self.__validator: IValidator = EmployeeValidator()
 
@@ -71,5 +75,10 @@ class EmployeeService(metaclass=Singleton):
             self.__userService.updateUser(userUpdates, user_id)
 
     def deleteEmployee(self, user_id):
+        employee_id = self.getEmployeeByUserId(user_id).id
+        if len(self.__schedulingQuery.getSchedulingsByEmployeeId(employee_id)) > 0:
+            return False
+        self.__warningService.deleteWarningByEmployeeId(employee_id)
         self.__employeeQuery.deleteEmployee(user_id)
         self.__userService.deleteUser(user_id)
+        return True

@@ -11,3 +11,6 @@ class WarningService(metaclass=Singleton):
 
     def changeWarningReadStatus(self, warning_id: int, read_bool: bool):
         self.__query.updateWarningReadStatus(warning_id, read_bool)
+
+    def deleteWarningByEmployeeId(self, employee_id: int):
+        self.__query.deleteWarningByEmployeeId(employee_id)

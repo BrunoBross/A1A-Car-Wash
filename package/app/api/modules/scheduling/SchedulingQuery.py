@@ -28,3 +28,9 @@ class SchedulingQuery(metaclass=Singleton):
             scheduling
         except DatabaseIntegrityException:
             return None
+
+    def getSchedulingsByEmployeeId(self, employee_id):
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.employee_id == employee_id)\
+            .where(Scheduling.job_state_id == 1)\
+            .all()
