@@ -54,3 +54,22 @@ class EmployeeService(metaclass=Singleton):
         employee = self.__employeeQuery.getEmployeeById(employeeID)
         if employee:
             return self.__mapper.mapEmployeeToDto(employee)
+    def editEmployee(self, employeeDto: EmployeeDto, authDto: AuthDto, user_id: int):
+        userUpdates = []
+        employeeUpdates = []
+        if authDto.username != "":
+            userUpdates.append({"username": authDto.username})
+        if authDto.password != "":
+            userUpdates.append({"password": authDto.password})
+        if employeeDto.legalName != "":
+            employeeUpdates.append({"legal_name": employeeDto.legalName})
+        if employeeDto.wage != "":
+            employeeUpdates.append({"wage": employeeDto.wage})
+        if employeeDto.jobLimit != "":
+            employeeUpdates.append({"job_limit": employeeDto.jobLimit})
+
+        if len(employeeUpdates) > 0:
+            self.__employeeQuery.updateEmployee(employeeUpdates, user_id)
+
+        if len(userUpdates) > 0:
+            self.__userService.updateUser(userUpdates, user_id)

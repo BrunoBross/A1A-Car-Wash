@@ -12,7 +12,6 @@ from package.app.client.state.ComponentState import ComponentState
 from package.app.client.utils.form import getEntryBuffer
 from package.app.client.gui.imports import Gtk
 from package.app.validation.IValidator import IValidator
-from datetime import datetime
 
 
 class RegisterEmployeeComponent(metaclass=Singleton):
@@ -33,19 +32,52 @@ class RegisterEmployeeComponent(metaclass=Singleton):
             password=getEntryBuffer(self.__state.getReferenceById("password")),
         )
 
-        if self.__validator.execute(employeeDto, authDto):
+        if self.__validator.execute(employeeDto, authDto, False):
             entity = self.__employeeController.registerEmployee(
                 employeeDto=employeeDto, authDto=authDto
             )
             if entity:
-                self.__displaySuccessMessage()
+                self.__displaySuccessMessage("Funcionário cadastrado com sucesso", "Cadastro bem sucedido")
+
+    def requestEditEmployee(self, user_id: int):
+        if user_id is None:
+            return
+
+        employeeDto = EmployeeDto(
+            legalName=getEntryBuffer(self.__state.getReferenceById("fullnameEdit")),
+            wage=getEntryBuffer(self.__state.getReferenceById("salaryEdit")),
+            jobLimit=getEntryBuffer(self.__state.getReferenceById("limitEdit")),
+        )
+        authDto = AuthDto(
+            username=getEntryBuffer(self.__state.getReferenceById("usernameEdit")),
+            password=getEntryBuffer(self.__state.getReferenceById("passwordEdit")),
+        )
+
+        if self.__validator.execute(employeeDto, authDto, True):
+            try:
+                self.__employeeController.editEmployee(employeeDto=employeeDto, authDto=authDto, user_id=user_id)
+            finally:
+                self.__displaySuccessMessage("Funcionário editado com sucesso", "Edição bem sucedida")
+
+    def getEmployeeData(self, user_id: int):
+        return self.__employeeController.getEmployeeByUserId(user_id)
+
+    def getEmployeeList(self):
+        employees = self.__employeeController.getEmployees()
+        employeeList = []
+        for employee in employees:
+            employeeList.append([employee.user.id, employee.user.username, employee.legalName])
+        return employeeList
+
+    def getEmployees(self):
+        return self.__employeeController.getEmployees()
 
     def getState(self) -> ComponentState:
         return self.__state
 
-    def __displaySuccessMessage(self):
+    def __displaySuccessMessage(self, message: str, title_message: str):
         content = Box()
-        content.pack_default(Gtk.Label("Funcionário cadastrado com sucesso"))
+        content.pack_default(Gtk.Label(message))
         self.__dialogService.displayInfoBox(
-            InfoBoxProps(title="Cadastro bem sucedido", content=content)
+            InfoBoxProps(title=title_message, content=content)
         )

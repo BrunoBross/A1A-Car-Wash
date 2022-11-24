@@ -16,6 +16,7 @@ from package.app.api.modules.vehicle.dto.VehicleDto import VehicleDto
 from package.app.api.modules.employee.dto.EmployeeDto import EmployeeDto
 from package.app.client.state.UserContext import UserContext
 from package.app.client.dialog.DialogService import DialogService
+from package.app.api.modules.warning.WarningService import WarningService
 from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
 from package.app.client.dialog.InfoBox import InfoBoxProps
@@ -32,10 +33,19 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
         self.__state = ComponentState()
         self.__userContext = UserContext()
         self.__dialogService = DialogService()
+        self.__warningService = WarningService()
 
-    # esse cara faz a logica
-    # Seleciona o cara na lista
-    # Seleciona o estado dele
+    def getWarningList(self):
+        warningList = []
+        warning_table = self.__warningService.getWarningList(self.getLoggedEmployee().id)
+        for item in warning_table:
+            warningList.append([item.id, item.warning.description, item.read])
+        if len(warningList) > 0:
+            return warningList
+        return [["Nenhum aviso disponível", False]]
+
+    def changeWarningReadStatus(self, warning_id: int, read_bool: bool):
+        self.__warningService.changeWarningReadStatus(warning_id, read_bool)
 
     def getLoggedEmployee(self):
         user_id = self.__userContext.get().id

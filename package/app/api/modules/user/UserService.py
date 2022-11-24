@@ -19,3 +19,6 @@ class UserService(metaclass=Singleton):
 
     def createUser(self, userDto: UserDto):
         return self.__query.createUser(self.__userDtoMapper.mapDtoToUser(userDto))
+
+    def updateUser(self, userUpdates: list, user_id: int):
+        self.__query.updateUser(userUpdates, user_id)

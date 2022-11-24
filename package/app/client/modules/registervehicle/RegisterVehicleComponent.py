@@ -40,3 +40,31 @@ class RegisterVehicleComponent(metaclass=Singleton):
         self.__dialogService.displayInfoBox(
             InfoBoxProps(title="Cadastro bem sucedido", content=content)
         )
+
+    def getAllVehicles(self) -> VehicleDto:
+        return self.__controller.getAllVehicles()
+
+    def getVehicleList(self):
+        vehicles = self.__controller.getAllVehicles()
+        vehicleList = []
+        for vehicle in vehicles:
+            vehicleList.append([vehicle.id, vehicle.numberPlate])
+        return vehicleList
+
+    def requestEditVehicle(self, vehicle_id: int):
+        if vehicle_id is None:
+            return
+
+        #vehicleDto = VehicleDto(
+        #    numberPlate=getEntryBuffer(
+         #       self.__state.getReferenceById("numberPlateEdit")
+          #  )
+       #)
+        
+        newNumberPlate = self.__state.getReferenceById("numberPlateEdit")
+
+        if self.__validator.execute(newNumberPlate):
+            try:
+                self.__controller.updateVehicle(newNumberPlate, vehicle_id)
+            finally:
+                self.__displaySuccessMessage("Veiculo editado com sucesso", "Edição bem sucedida")

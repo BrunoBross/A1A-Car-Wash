@@ -21,3 +21,9 @@ class VehicleController(metaclass=Singleton):
 
     def getVehicleById(self, id:int) -> Optional[VehicleDto]:
         return self.__vehicleService.getVehicleById(id)
+
+    def getAllVehicles(self) -> Optional[VehicleDto]:
+        return self.__vehicleService.getAllVehicles()
+
+    def updateVehicle(self, vehicleUpdates: str, vehicle_id: int):
+        self.__vehicleService.updateVehicle( vehicleUpdates, vehicle_id)

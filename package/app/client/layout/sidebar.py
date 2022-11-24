@@ -35,8 +35,12 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterVehicleView,
         roles={RoleEnum.GERENTE},
     ),
-    "Cadastrar Funcionário": SidebarItem(
+    "Funcionários": SidebarItem(
         component=RegisterEmployeeView,
+        roles={RoleEnum.GERENTE},
+    ),
+    "Veiculos": SidebarItem(
+        component=RegisterVehicleView,
         roles={RoleEnum.GERENTE},
     ),
     "Agendamentos": SidebarItem(

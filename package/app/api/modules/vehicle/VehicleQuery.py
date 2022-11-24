@@ -27,3 +27,10 @@ class VehicleQuery(metaclass=Singleton):
 
     def getVehicleById(self, id:int) -> Optional[Vehicle]:
         return self.__dao.select(Vehicle).where(Vehicle.id == id).first()
+
+    def getAllVehicles(self) -> Optional[Vehicle]:
+        return self.__dao.select(Vehicle).all()
+
+    def updateVehicle(self, vehicleUpdates: dict, vehicle_id: int):
+            self.__session.query(Vehicle).where(Vehicle.id == vehicle_id).update(vehicleUpdates)
+            self.__session.commit()

@@ -10,31 +10,33 @@ from package.app.validation.ValidationObject import ValidationObject
 class RegisterEmployeeValidator(metaclass=Singleton):
     @validator_function
     def execute(
-        self, employeeDto: EmployeeDto, authDto: AuthDto, validation: ValidationObject
+        self, employeeDto: EmployeeDto, authDto: AuthDto, isEdit: bool, validation: ValidationObject
     ) -> bool:
         return (
-            self.__validateNullFields(employeeDto, authDto, validation)
-            and self.__validateAuthDto(authDto, validation)
-            and self.__validateEmployeeDto(employeeDto, validation)
+            self.__validateNullFields(employeeDto, authDto, isEdit, validation)
+            and self.__validateAuthDto(authDto, isEdit, validation)
+            and self.__validateEmployeeDto(employeeDto, isEdit, validation)
         )
 
     def __validateEmployeeDto(
-        self, employeeDto: EmployeeDto, validation: ValidationObject
+        self, employeeDto: EmployeeDto, isEdit: bool, validation: ValidationObject
     ) -> bool:
         return (
-            self.__validateLegalName(employeeDto.legalName, validation)
-            and self.__validateWage(employeeDto.wage, validation)
-            and self.__validateJobLimit(employeeDto.jobLimit, validation)
+            self.__validateLegalName(employeeDto.legalName, isEdit, validation)
+            and self.__validateWage(employeeDto.wage, isEdit, validation)
+            and self.__validateJobLimit(employeeDto.jobLimit, isEdit, validation)
         )
 
-    def __validateAuthDto(self, authDto: AuthDto, validation: ValidationObject) -> bool:
+    def __validateAuthDto(self, authDto: AuthDto, isEdit: bool, validation: ValidationObject) -> bool:
         return self.__validateUsername(
-            authDto.username, validation
-        ) and self.__validatePassword(authDto.password, validation)
+            authDto.username, isEdit, validation
+        ) and self.__validatePassword(authDto.password, isEdit, validation)
 
     def __validateNullFields(
-        self, employeeDto: EmployeeDto, authDto: AuthDto, validation=ValidationObject
+        self, employeeDto: EmployeeDto, authDto: AuthDto, isEdit: bool, validation=ValidationObject
     ):
+        if isEdit:
+            return True
         if not (
             bool(authDto.username)
             and bool(authDto.password)
@@ -45,7 +47,9 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
-    def __validateWage(self, salary: str, validation: ValidationObject):
+    def __validateWage(self, salary: str, isEdit: bool, validation: ValidationObject):
+        if salary == "" and isEdit:
+            return True
         if not salary.isnumeric():
             validation.errors.add("Digite um valor inteiro para o salário")
             return False
@@ -56,7 +60,9 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
-    def __validatePassword(self, password: str, validation: ValidationObject):
+    def __validatePassword(self, password: str, isEdit: bool, validation: ValidationObject):
+        if password == "" and isEdit:
+            return True
         if len(password) < 8 or len(password) > 255:
             validation.errors.add(
                 "Uma senha deve possuir no mínimo 8 e no máximo 255 caracteres"
@@ -64,7 +70,9 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
-    def __validateUsername(self, username: str, validation: ValidationObject):
+    def __validateUsername(self, username: str, isEdit: bool, validation: ValidationObject):
+        if username == "" and isEdit:
+            return True
         if len(username) < 5:
             validation.errors.add("Digite um username com pelo menos 5 caracteres")
             return False
@@ -73,7 +81,10 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
-    def __validateLegalName(self, fullname: str, validation: ValidationObject):
+    def __validateLegalName(self, fullname: str, isEdit: bool, validation: ValidationObject):
+        if fullname == "" and isEdit:
+            return True
+
         name_split: List = fullname.split(" ")
         for name in name_split:
             if len(name) < 2:
@@ -84,7 +95,9 @@ class RegisterEmployeeValidator(metaclass=Singleton):
             return False
         return True
 
-    def __validateJobLimit(self, job_limit: str, validation: ValidationObject):
+    def __validateJobLimit(self, job_limit: str, isEdit: bool, validation: ValidationObject):
+        if job_limit == "" and isEdit:
+            return True
         if not job_limit.isnumeric():
             validation.errors.add("Digite um valor inteiro para o limite de serviços.")
             return False

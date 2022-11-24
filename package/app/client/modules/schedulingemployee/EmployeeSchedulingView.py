@@ -13,10 +13,13 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__userContext = UserContext()
         self.__component = EmployeeSchedulingComponent()
         self.__schedulingList = self.__component.getSchedulingList()
+        self.__warningList = None
         self.__justificativasDict = {}
         self.__comboJustificativasInput = None
         self.__listBoxInput = None
+        self.__listBoxInput_warning = None
         self.__listStore = None
+        self.__listStore_warning = None
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -24,6 +27,33 @@ class EmployeeSchedulingView(metaclass=Singleton):
         title.set_markup(toBig("Agendamentos"))
         title.set_margin_bottom(30)
         mainBox.pack_start(title, False, False, 0)
+        self.__warningList = self.__component.getWarningList()
+
+        # LIST BOX DE AVISOS
+        grid_warning = Gtk.Grid(column_homogeneous=True, row_spacing=45)
+        self.__listStore_warning = Gtk.ListStore(int, str, bool)
+        for item in self.__warningList:
+            self.__listStore_warning.append(list(item))
+        treeview = Gtk.TreeView(model=self.__listStore_warning)
+
+        renderer_text_id = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
+        column_text_id = Gtk.TreeViewColumn("ID", renderer_text_id, text=0)
+        column_text_id.set_fixed_width(30)
+        treeview.append_column(column_text_id)
+
+        renderer_text = Gtk.CellRendererText(wrap_width=200, wrap_mode=True)
+        column_text = Gtk.TreeViewColumn("Quadro de avisos do dia", renderer_text, text=1)
+        column_text.set_fixed_width(320)
+        treeview.append_column(column_text)
+
+        renderer_toggle = Gtk.CellRendererToggle()
+        renderer_toggle.connect("toggled", self.on_cell_toggled)
+        column_toggle = Gtk.TreeViewColumn("Lido", renderer_toggle, active=2)
+        treeview.append_column(column_toggle)
+        scrollableTreeList_warning = Gtk.ScrolledWindow()
+        scrollableTreeList_warning.set_vexpand(True)
+        grid_warning.attach(scrollableTreeList_warning, 0, 0, 400, 10)
+        scrollableTreeList_warning.add(treeview)
 
         # LIST BOX
         grid = Gtk.Grid(column_homogeneous=True, row_spacing=45)
@@ -35,19 +65,20 @@ class EmployeeSchedulingView(metaclass=Singleton):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(title, renderer, text=i)
             treeView.append_column(column)
-
         scrollableTreeList = Gtk.ScrolledWindow()
         scrollableTreeList.set_vexpand(True)
-        grid.attach(scrollableTreeList, 0, 0, 4, 10)
+        grid.attach(scrollableTreeList, 0, 0, 400, 10)
         scrollableTreeList.add(treeView)
         tree_selection = treeView.get_selection()
         tree_selection.connect("changed", self.changeListBoxInput)
 
         # COMBO BOX
         comboJustificativasBox = Box(Gtk.Orientation.HORIZONTAL)
+        comboJustificativasBox.set_margin_top(10)
         comboJustificativas = Gtk.ComboBoxText()
         comboJustificativasLabel = Gtk.Label()
         comboJustificativasLabel.set_markup(toBig("Selecione um status:"))
+        comboJustificativasLabel.set_margin_right(10)
         comboJustificativas.set_entry_text_column(0)
         justificativasList = self.__component.getAllSchedulingStates()
         for justificativa in justificativasList:
@@ -68,9 +99,16 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__listBoxInput = scrollableTreeList
 
         # ADICIONAR NA TELA
-        mainBox.pack_start(grid, False, False, 0)
-        mainBox.pack_start(comboJustificativasBox, False, False, 0)
-        mainBox.pack_start(confirmButton, False, False, 0)
+        divVertical = Box(orientation=Gtk.Orientation.VERTICAL)
+        divVertical.pack_start(grid, True, False, 0)
+        divVertical.pack_start(comboJustificativasBox, True, False, 0)
+        divVertical.pack_start(confirmButton, True, False, 0)
+
+        divHorizontal = Box(orientation=Gtk.Orientation.HORIZONTAL)
+        divHorizontal.pack_start(grid_warning, True, False, 10)
+        divHorizontal.pack_start(divVertical, True, False, 0)
+
+        mainBox.pack_start(divHorizontal, True, False, 0)
 
         return mainBox
 
@@ -100,3 +138,7 @@ class EmployeeSchedulingView(metaclass=Singleton):
         self.__schedulingList = self.__component.getSchedulingList()
         for item in self.__schedulingList:
             self.__listStore.append(list(item))
+
+    def on_cell_toggled(self, widget, path):
+        self.__listStore_warning[path][2] = not self.__listStore_warning[path][2]
+        self.__component.changeWarningReadStatus(self.__listStore_warning[path][0], self.__listStore_warning[path][2])
