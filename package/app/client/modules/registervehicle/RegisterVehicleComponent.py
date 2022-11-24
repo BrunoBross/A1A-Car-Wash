@@ -55,16 +55,16 @@ class RegisterVehicleComponent(metaclass=Singleton):
         if vehicle_id is None:
             return
 
-        #vehicleDto = VehicleDto(
-        #    numberPlate=getEntryBuffer(
-         #       self.__state.getReferenceById("numberPlateEdit")
-          #  )
-       #)
+        vehicleDto = VehicleDto(
+            numberPlate=getEntryBuffer(
+                self.__state.getReferenceById("numberPlateEdit")
+            )
+       )
         
-        newNumberPlate = self.__state.getReferenceById("numberPlateEdit")
+        #newNumberPlate = self.__state.getReferenceById("numberPlateEdit")
 
-        if self.__validator.execute(newNumberPlate):
+        if self.__validator.execute(vehicleDto):
             try:
-                self.__controller.updateVehicle(newNumberPlate, vehicle_id)
+                self.__controller.updateVehicle(vehicleDto, vehicle_id)
             finally:
                 self.__displaySuccessMessage("Veiculo editado com sucesso", "Edição bem sucedida")

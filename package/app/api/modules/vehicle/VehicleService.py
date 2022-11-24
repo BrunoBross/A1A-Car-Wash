@@ -36,6 +36,6 @@ class VehicleService(metaclass=Singleton):
     def getAllVehicles(self) -> Optional[VehicleDto]:
         return self.__query.getAllVehicles()
 
-    def updateVehicle(self, vehicleUpdates: str, vehicle_id: int):
-        vehicleUpdatesDict = {"number_plate": vehicleUpdates}
+    def updateVehicle(self, vehicleUpdates: VehicleDto, vehicle_id: int):
+        vehicleUpdatesDict = {"number_plate": vehicleUpdates.numberPlate}
         self.__query.updateVehicle(vehicleUpdatesDict, vehicle_id)

@@ -38,11 +38,12 @@ class RegisterVehicleView(metaclass=Singleton):
         list_label.set_margin_bottom(30)
 
         grid_list = Gtk.Grid(column_homogeneous=True, row_spacing=45)
-        self.__listStore = Gtk.ListStore(int, str, str)
+        self.__listStore = Gtk.ListStore(int, str)
+        print(self.__vehicleList)
         for item in self.__vehicleList:
             self.__listStore.append(list(item))
         treeView = Gtk.TreeView(model=self.__listStore)
-        for i, title in enumerate(["ID", "Usuário", "Nome Completo"]):
+        for i, title in enumerate(["ID", "Placa"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(title, renderer, text=i)
             treeView.append_column(column)
@@ -129,9 +130,9 @@ class RegisterVehicleView(metaclass=Singleton):
             self.updateVehicleCombo()
 
     def __editVehicle(self, _: Gtk.Widget):
-        self.__component.getState().addReference("numberPlateEdit", self.__numberPlateFieldInput)
+        self.__component.getState().addReference("numberPlateEdit", self.__numberPlateFieldEditInput)
         try:
-            self.__component.requestEditEmployee(self.__selectedVehicle)
+            self.__component.requestEditVehicle(self.__selectedVehicle)
         finally:
             self.updateList()
             self.updateVehicleCombo()

@@ -9,7 +9,9 @@ class RegisterVehicleValidator(metaclass=Singleton):
     @validator_function
     def execute(self, vehicleDto: VehicleDto, validation: ValidationObject) -> bool:
         pattern = re.compile(r"[a-zA-Z]{3}\d(\d|[a-zA-Z])\d{2}")
-
+        print("***********************************************")
+        print(vehicleDto)
+        print(vehicleDto.numberPlate)
         if vehicleDto.numberPlate:
             valid = pattern.match(vehicleDto.numberPlate)
             if valid:
