@@ -37,3 +37,14 @@ class SchedulingQuery(metaclass=Singleton):
             .all()
 
     
+    def getSchedulingsByEmployeeId(self, employee_id):
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.employee_id == employee_id)\
+            .where(Scheduling.job_state_id == 1)\
+            .all()
+
+    def getSchedulingsByVehicleId(self, vehicle_id):
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.vehicle_id == vehicle_id)\
+            .where(Scheduling.job_state_id == 1)\
+            .all()

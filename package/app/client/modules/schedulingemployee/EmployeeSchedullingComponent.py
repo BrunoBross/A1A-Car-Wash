@@ -38,11 +38,12 @@ class EmployeeSchedulingComponent(metaclass=Singleton):
     def getWarningList(self):
         warningList = []
         warning_table = self.__warningService.getWarningList(self.getLoggedEmployee().id)
+        print(warning_table)
         for item in warning_table:
             warningList.append([item.id, item.warning.description, item.read])
         if len(warningList) > 0:
             return warningList
-        return [["Nenhum aviso disponível", False]]
+        return [[0, "Nenhum aviso disponível", False]]
 
     def changeWarningReadStatus(self, warning_id: int, read_bool: bool):
         self.__warningService.changeWarningReadStatus(warning_id, read_bool)

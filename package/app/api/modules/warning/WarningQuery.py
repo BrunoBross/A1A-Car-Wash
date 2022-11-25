@@ -25,3 +25,8 @@ class WarningQuery(metaclass=Singleton):
             .update({"read": read_bool})
 
         self.__session.commit()
+
+    def deleteWarningByEmployeeId(self, employee_id: int):
+        warning_list = self.__dao.select(WarningTable).where(WarningTable.employee_id == employee_id).all()
+        for warning in warning_list:
+            self.__dao.delete(warning)

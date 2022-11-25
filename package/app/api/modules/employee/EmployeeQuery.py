@@ -4,6 +4,7 @@ from package.app.api.orm.DAO import DAO
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
 from package.app import sqlalchemy_session
+from sqlalchemy import delete
 
 
 class EmployeeQuery(metaclass=Singleton):
@@ -37,4 +38,7 @@ class EmployeeQuery(metaclass=Singleton):
                 .update(update)
 
             self.__session.commit()
+
+    def deleteEmployee(self, user_id: int):
+        self.__dao.delete(self.__dao.select(Employee).where(Employee.user_id == user_id).first())
 

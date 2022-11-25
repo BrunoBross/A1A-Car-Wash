@@ -27,8 +27,8 @@ class InfoBox(Gtk.Dialog):
         self.show_all()
 
     def __wrapContents(self, content: Box) -> Box:
-        content.set_margin_top(5)
-        content.set_margin_right(5)
-        content.set_margin_bottom(5)
-        content.set_margin_left(5)
+        content.set_margin_top(30)
+        content.set_margin_right(30)
+        content.set_margin_bottom(30)
+        content.set_margin_left(30)
         return content

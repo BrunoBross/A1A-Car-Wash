@@ -1,6 +1,6 @@
 from typing import Optional
 from dataclasses import dataclass, field
-from package.Config import Config
+from package.app.client.gui.box.Box import Box
 from package.app.client.gui.imports import Gtk
 
 
@@ -30,3 +30,10 @@ class Modal(Gtk.Dialog):
         self.__content = self.get_content_area()
         self.__content.add(self.__wrapContents(props.content))
         self.show_all()
+
+    def __wrapContents(self, content: Box) -> Box:
+        content.set_margin_top(30)
+        content.set_margin_right(30)
+        content.set_margin_bottom(30)
+        content.set_margin_left(30)
+        return content

@@ -26,3 +26,6 @@ class EmployeeController(metaclass=Singleton):
 
     def editEmployee(self, employeeDto: EmployeeDto, authDto: AuthDto, user_id: int):
         self.__employeeService.editEmployee(employeeDto=employeeDto, authDto=authDto, user_id=user_id)
+
+    def deleteEmployee(self, user_id: int):
+        return self.__employeeService.deleteEmployee(user_id)

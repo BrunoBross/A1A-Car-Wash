@@ -27,3 +27,6 @@ class VehicleController(metaclass=Singleton):
 
     def updateVehicle(self, vehicleUpdates: VehicleDto, vehicle_id: int):
         self.__vehicleService.updateVehicle( vehicleUpdates, vehicle_id)
+    
+    def deleteVehicle(self, vehicle_id: int):
+        return self.__vehicleService.deleteVehicle(vehicle_id)

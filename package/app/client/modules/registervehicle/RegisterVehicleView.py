@@ -10,7 +10,7 @@ from package.app.client.modules.registervehicle.RegisterVehicleComponent import 
 class RegisterVehicleView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterVehicleComponent()
-        self.__numberPlateInput: Gtk.Widget
+        
 
         self.__listStore = None
         self.__vehicleCombo = None
@@ -51,12 +51,19 @@ class RegisterVehicleView(metaclass=Singleton):
         scrollableTreeList.set_vexpand(True)
         grid_list.attach(scrollableTreeList, 0, 0, 400, 10)
         scrollableTreeList.add(treeView)
+        tree_selection = treeView.get_selection()
+        tree_selection.connect("changed", self.changeListBoxInput)
+
+        delete_button = Gtk.Button(label="Deletar Veiculo")
+        delete_button.connect("clicked", self.__deleteVehicle)
+        delete_button.set_margin_top(30)
 
         self.__listBoxInput = scrollableTreeList
 
         listar = Box(orientation=Gtk.Orientation.VERTICAL)
         listar.pack_start(list_label, False, False, 0)
         listar.pack_start(grid_list, False, False, 0)
+        listar.pack_start(delete_button, False, False, 0)
         #fim da listagem
 
         # INICO DO CADASTRO
@@ -83,20 +90,7 @@ class RegisterVehicleView(metaclass=Singleton):
         vehicleLabel.set_markup("Veiculo")
         vehicleBox.pack_default(vehicleLabel)
 
-        self.__vehicleCombo = Gtk.ComboBoxText()
-        self.__vehicleCombo.set_entry_text_column(0)
-        self.__vehicles = self.__component.getAllVehicles()
-        if len(self.__component.getAllVehicles()) == 0:
-            self.__vehicleCombo.append_text("Nenhum veiculo cadastrado")
-        else:
-            self.__vehicleCombo.append_text("Selecione um veiculo")
-            for vehicle in self.__component.getAllVehicles():
-                self.__vehicleCombo.append_text(f"{vehicle.id} - {vehicle.numberPlate}")
-
-        self.__vehicleCombo.set_active(0)
-        self.__vehicleCombo.set_size_request(275, 30)
-        self.__vehicleCombo.connect("changed", self.changeComboBoxInput)
-        vehicleBox.pack_default(self.__vehicleCombo)
+        
 
         edicaoForm = self.getForm(isEdit=True)
         editar = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -127,31 +121,52 @@ class RegisterVehicleView(metaclass=Singleton):
             self.__component.requestCreateVehicle()
         finally:
             self.updateList()
-            self.updateVehicleCombo()
+            
 
     def __editVehicle(self, _: Gtk.Widget):
         self.__component.getState().addReference("numberPlateEdit", self.__numberPlateFieldEditInput)
         try:
-            self.__component.requestEditVehicle(self.__selectedVehicle)
+            print("========================================")
+            print(self.__listBoxInput)
+            print("edit input")
+            print(self.__numberPlateFieldEditInput)
+            
+            self.__component.requestEditVehicle(self.__listBoxInput)
         finally:
             self.updateList()
-            self.updateVehicleCombo()
+           
 
-    def changeComboBoxInput(self, _: Gtk.ComboBoxText):
+    def __deleteVehicle(self, _: Gtk.Button):
         try:
-            self.__selectedVehicle = int(_.get_active_text()[0])
-        except ValueError:
-            return
+            self.__component.requestDeleteVehicle(self.__listBoxInput)
+        finally:
+            self.updateList()
 
-    def updateVehicleCombo(self):
-        self.__vehicles = self.__component.getAllVehicles()
-        self.get()
+    
 
     def updateList(self):
         self.__listStore.clear()
         self.__vehicleList = self.__component.getVehicleList()
         for item in self.__vehicleList:
             self.__listStore.append(list(item))
+
+    
+    def changeListBoxInput(self, _):
+        self.__listBoxInput = _.get_selected_rows()
+        (model, pathlist) = _.get_selected_rows()
+        for path in pathlist:
+            tree_iter = model.get_iter(path)
+            value = [
+                model.get_value(tree_iter, 0),
+                model.get_value(tree_iter, 1),
+            ]
+            self.__listBoxInput = value
+        print("------------------------------------")
+        print("VEICULO SELECIONADO")
+        print(self.__listBoxInput)
+        print("------------------------------------")
+
+
 
     def getForm(self, isEdit:bool):
         numberPlateFieldBox = Box(Gtk.Orientation.HORIZONTAL)

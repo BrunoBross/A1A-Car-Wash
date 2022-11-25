@@ -31,14 +31,14 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterJobView,
         roles={RoleEnum.GERENTE},
     ),
-    "Funcionários": SidebarItem(
-        component=RegisterEmployeeView,
-        roles={RoleEnum.GERENTE},
-    ),
     "Veiculos": SidebarItem(
         component=RegisterVehicleView,
         roles={RoleEnum.GERENTE},
     ),
+    "Funcionários": SidebarItem(
+        component=RegisterEmployeeView,
+        roles={RoleEnum.GERENTE},
+    ),  
     "Agendamentos": SidebarItem(
         component=EmployeeSchedulingView,
         roles={RoleEnum.FUNCIONARIO},
