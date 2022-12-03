@@ -25,7 +25,6 @@ class SchedulingQuery(metaclass=Singleton):
     def createScheduling(self, scheduling):
         try:
             self.__dao.insert(scheduling)
-            scheduling
         except DatabaseIntegrityException:
             return None
 
@@ -36,7 +35,6 @@ class SchedulingQuery(metaclass=Singleton):
             .where(Scheduling.date <= endMonth) \
             .all()
 
-    
     def getSchedulingsByEmployeeId(self, employee_id):
         return self.__dao.select(Scheduling)\
             .where(Scheduling.employee_id == employee_id)\
@@ -48,3 +46,8 @@ class SchedulingQuery(metaclass=Singleton):
             .where(Scheduling.vehicle_id == vehicle_id)\
             .where(Scheduling.job_state_id == 1)\
             .all()
+
+    def deleteSchedulingByEmployeeId(self, employee_id):
+        schedulings = self.__dao.select(Scheduling).where(Scheduling.employee_id == employee_id).all()
+        for scheduling in schedulings:
+            self.__dao.delete(scheduling)

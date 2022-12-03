@@ -11,12 +11,14 @@ from package.app.api.modules.warning.WarningService import WarningService
 from package.app.api.modules.user.dto.UserDto import UserDto
 from package.app.meta.Singleton import Singleton
 from package.app.validation.IValidator import IValidator
+from package.app.api.modules.resignation.ResignationService import ResignationService
 
 
 class EmployeeService(metaclass=Singleton):
     def __init__(self):
         self.__userService = UserService()
         self.__warningService = WarningService()
+        self.__resignationService = ResignationService()
         self.__employeeQuery = EmployeeQuery()
         self.__schedulingQuery = SchedulingQuery()
         self.__mapper = EmployeeDtoMapper()
@@ -58,6 +60,7 @@ class EmployeeService(metaclass=Singleton):
         employee = self.__employeeQuery.getEmployeeById(employeeID)
         if employee:
             return self.__mapper.mapEmployeeToDto(employee)
+
     def editEmployee(self, employeeDto: EmployeeDto, authDto: AuthDto, user_id: int):
         userUpdates = []
         employeeUpdates = []
@@ -82,6 +85,8 @@ class EmployeeService(metaclass=Singleton):
         employee_id = self.getEmployeeByUserId(user_id).id
         if len(self.__schedulingQuery.getSchedulingsByEmployeeId(employee_id)) > 0:
             return False
+        self.__schedulingQuery.deleteSchedulingByEmployeeId(employee_id)
+        self.__resignationService.deleteResignationByEmployeeId(employee_id)
         self.__warningService.deleteWarningByEmployeeId(employee_id)
         self.__employeeQuery.deleteEmployee(user_id)
         self.__userService.deleteUser(user_id)

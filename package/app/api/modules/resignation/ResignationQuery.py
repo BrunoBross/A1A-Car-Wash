@@ -43,3 +43,9 @@ class ResignationQuery(metaclass=Singleton):
             return None
         except DatabaseIntegrityException:
             return None
+
+    def deleteResignationByEmployeeId(self, employee_id):
+        try:
+            self.__dao.delete(self.__dao.select(Resignation).where(Resignation.employee_id == employee_id).first())
+        except DatabaseIntegrityException:
+            return None
