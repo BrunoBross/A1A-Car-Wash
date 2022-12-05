@@ -83,14 +83,13 @@ class RegisterEmployeeView(metaclass=Singleton):
         # FINAL DO CADASTRO
 
         # INICIO EDICAO
-        self.__edit_label = Gtk.Label()
-        self.__edit_label.set_markup(toBig("Editar Funcionário"))
-        self.__edit_label.set_margin_bottom(30)
+        edit_label = Gtk.Label()
+        edit_label.set_markup(toBig("Editar Funcionário"))
+        edit_label.set_margin_bottom(30)
 
         edicaoForm = self.getForm(isEdit=True)
         editar = Box(orientation=Gtk.Orientation.VERTICAL)
-        editar.pack_start(self.__edit_label, False, False, 0)
-        # editar.pack_start(employeeBox, False, False, 0)
+        editar.pack_start(edit_label, False, False, 0)
         editar.pack_start(edicaoForm, False, False, 0)
         # FINAL EDICAO
 
@@ -122,12 +121,6 @@ class RegisterEmployeeView(metaclass=Singleton):
         finally:
             self.updateList()
 
-    def changeComboBoxInput(self, _: Gtk.ComboBoxText):
-        try:
-            self.__selectedEmployee = int(_.get_active_text()[0])
-        except ValueError:
-            return
-
     def __registerEmployee(self, _: Gtk.Widget):
         self.__component.getState().addReference("username", self.__usernameFieldInput)
         self.__component.getState().addReference("fullname", self.__fullnameFieldInput)
@@ -139,7 +132,6 @@ class RegisterEmployeeView(metaclass=Singleton):
             self.__component.requestRegisterEmployee()
         finally:
             self.updateList()
-            
 
     def __editEmployee(self, _: Gtk.Widget):
         self.__component.getState().addReference("usernameEdit", self.__usernameFieldEditInput)
@@ -158,8 +150,6 @@ class RegisterEmployeeView(metaclass=Singleton):
         self.__employeeList = self.__component.getEmployeeList()
         for item in self.__employeeList:
             self.__listStore.append(list(item))
-
-   
 
     def getForm(self, isEdit: bool):
         usernameFieldBox = Box(Gtk.Orientation.HORIZONTAL)

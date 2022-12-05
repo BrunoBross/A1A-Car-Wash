@@ -3,11 +3,13 @@ from package.app.api.model.Job import Job
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
 from package.app.api.orm.DAO import DAO
+from package.app import sqlalchemy_session
 
 
 class JobQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
+        self.__session = sqlalchemy_session
 
     def getJob(self, id: int) -> Optional[Job]:
         return self.__dao.get(Job, id)
@@ -27,3 +29,11 @@ class JobQuery(metaclass=Singleton):
 
     def getJobNyId(self, id: int) -> Optional[Job]:
         return self.__dao.select(Job).where(Job.id == id).first()
+
+    def updateJob(self, jobUpdates: list, jobId: int):
+        for update in jobUpdates:
+            self.__session.query(Job).where(Job.id == jobId).update(update)
+            self.__session.commit()
+
+    def deleteJob(self, jobId: int):
+        return self.__dao.delete(self.__dao.select(Job).where(Job.id == jobId).first())

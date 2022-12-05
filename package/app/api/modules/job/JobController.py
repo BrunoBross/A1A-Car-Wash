@@ -16,5 +16,11 @@ class JobController(metaclass=Singleton):
     def registerJob(self, job: JobDto) -> Optional[JobDto]:
         return self.__jobService.registerJob(job)
 
-    def getJobById(self, id:int) -> Optional[JobDto]:
+    def editJob(self, jobDto: JobDto, jobId: int):
+        self.__jobService.editJob(jobDto=jobDto, jobId=jobId)
+
+    def getJobById(self, id: int) -> Optional[JobDto]:
         return self.__jobService.getJobById(id)
+
+    def deleteJob(self, jobId: int):
+        return self.__jobService.deleteJob(jobId)

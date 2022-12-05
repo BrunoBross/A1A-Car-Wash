@@ -47,6 +47,12 @@ class SchedulingQuery(metaclass=Singleton):
             .where(Scheduling.job_state_id == 1)\
             .all()
 
+    def getSchedulingsByJobId(self, jobId: int):
+        return self.__dao.select(Scheduling)\
+            .where(Scheduling.job_id == jobId)\
+            .where(Scheduling.job_state_id == 1)\
+            .all()
+
     def deleteSchedulingByEmployeeId(self, employee_id):
         schedulings = self.__dao.select(Scheduling).where(Scheduling.employee_id == employee_id).all()
         for scheduling in schedulings:

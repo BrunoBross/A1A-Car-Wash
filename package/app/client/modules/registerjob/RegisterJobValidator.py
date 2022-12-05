@@ -7,8 +7,16 @@ from package.app.validation.ValidationObject import ValidationObject
 
 class RegisterJobValidator(metaclass=Singleton):
     @validator_function
-    def execute(self, jobDto: JobDto, validation: ValidationObject) -> bool:
-        if not (bool(jobDto.description) and bool(jobDto.cost_value)):
+    def execute(self, jobDto: JobDto, isEdit: bool, validation: ValidationObject) -> bool:
+        if isEdit:
+            if not(
+                bool(jobDto.cost_value)
+                or bool(jobDto.description)
+            ):
+                validation.errors.add("Preencha pelo menos um campo!")
+                return False
+            return True
+        if not (bool(jobDto.description) and bool(jobDto.cost_value) and not isEdit):
             validation.errors.add("Preencha todos os campos!")
             return False
         if not isinstance(jobDto.cost_value, float):

@@ -4,7 +4,6 @@ from package.app.api.orm.DAO import DAO
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.meta.Singleton import Singleton
 from package.app import sqlalchemy_session
-from sqlalchemy import delete
 
 
 class EmployeeQuery(metaclass=Singleton):

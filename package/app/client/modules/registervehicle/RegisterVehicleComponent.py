@@ -14,6 +14,7 @@ from package.app.validation.IValidator import IValidator
 from package.app.exception.DatabaseIntegrityException import DatabaseIntegrityException
 from package.app.client.dialog.Modal import ModalProps
 
+
 class RegisterVehicleComponent(metaclass=Singleton):
     def __init__(self):
         self.__controller = VehicleController()
@@ -27,8 +28,6 @@ class RegisterVehicleComponent(metaclass=Singleton):
                 self.__state.getReferenceById("numberPlate")
             ).upper()
         )
-        print("-------------------------------------")
-        print(dto)
         if self.__validator.execute(dto):
             entity = self.__controller.createVehicle(dto)
             if entity:
@@ -44,8 +43,6 @@ class RegisterVehicleComponent(metaclass=Singleton):
             InfoBoxProps(title=title_message, content=content)
         )
 
-
-
     def getAllVehicles(self) -> VehicleDto:
         return self.__controller.getAllVehicles()
 
@@ -57,20 +54,15 @@ class RegisterVehicleComponent(metaclass=Singleton):
         return vehicleList
 
     def requestEditVehicle(self, vehicle: list):
-        print(vehicle)
         if vehicle is None:
             return
 
         vehicle_id = vehicle[0]
-        print(vehicle_id)
         vehicleDto = VehicleDto(
             numberPlate=getEntryBuffer(
                 self.__state.getReferenceById("numberPlateEdit")
-            )
+            ).upper()
        )
-        print("************************************")
-        print(vehicleDto)
-        print(self.__state.getReferenceById("numberPlateEdit"))
         if self.__validator.execute(vehicleDto):
             try:
                 self.__controller.updateVehicle(vehicleDto, vehicle_id)
@@ -80,8 +72,6 @@ class RegisterVehicleComponent(metaclass=Singleton):
                     return self.__displaySuccessMessage("Erro na edição, tente novamente", "Erro")
 
     def requestDeleteVehicle(self, vehicle:list):
-        print("=========================DELETE====================")
-        print(vehicle)
         vehicle_id = vehicle[0]
         if self.__displayConfirmBox(vehicle, "deletar"):
             try:

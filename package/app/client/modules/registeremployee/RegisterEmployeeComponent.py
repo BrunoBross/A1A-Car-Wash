@@ -94,7 +94,7 @@ class RegisterEmployeeComponent(metaclass=Singleton):
             else:
                 admission = "Demitido"
             employeeList.append([employee.user.id, employee.user.username, employee.legalName,
-                                 str(employee.wage), employee.jobLimit, admission])
+                                 f'R${employee.wage}', employee.jobLimit, admission])
         return employeeList
 
     def getEmployees(self):
