@@ -56,8 +56,8 @@ class RegisterJobComponent(metaclass=Singleton):
 
         job_id = job[0]
 
-        description = getEntryBuffer(self.__state.getReferenceById("jobName"))
-        cost_value = getEntryBuffer(self.__state.getReferenceById("jobValue"))
+        description = getEntryBuffer(self.__state.getReferenceById("editedJobName"))
+        cost_value = getEntryBuffer(self.__state.getReferenceById("editedJobValue"))
 
         try:
             dto = JobDto(
@@ -77,7 +77,9 @@ class RegisterJobComponent(metaclass=Singleton):
                     cost_value="invalid_cost",
                 )
 
-        if self.__validator.execute(dto, True):
+        already_exists = self.__controller.jobAlreadyExists(dto.description)
+
+        if self.__validator.execute(dto, True, already_exists):
             if self.__displayConfirmBox(job, "editar"):
                 try:
                     self.__controller.editJob(jobDto=dto, jobId=job_id)

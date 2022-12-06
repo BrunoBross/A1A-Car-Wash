@@ -7,7 +7,7 @@ from package.app.validation.ValidationObject import ValidationObject
 
 class RegisterJobValidator(metaclass=Singleton):
     @validator_function
-    def execute(self, jobDto: JobDto, isEdit: bool, validation: ValidationObject) -> bool:
+    def execute(self, jobDto: JobDto, isEdit: bool, already_exists: bool, validation: ValidationObject) -> bool:
         if isEdit:
             if not(
                 bool(jobDto.cost_value)
@@ -15,7 +15,10 @@ class RegisterJobValidator(metaclass=Singleton):
             ):
                 validation.errors.add("Preencha pelo menos um campo!")
                 return False
-            return True
+            if already_exists:
+                validation.errors.add(
+                    "Já existe um serviço com este nome! Escolha outro nome ou altere o nome do serviço já existente.")
+                return False
         if not (bool(jobDto.description) and bool(jobDto.cost_value) and not isEdit):
             validation.errors.add("Preencha todos os campos!")
             return False

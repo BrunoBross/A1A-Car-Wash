@@ -24,3 +24,6 @@ class JobController(metaclass=Singleton):
 
     def deleteJob(self, jobId: int):
         return self.__jobService.deleteJob(jobId)
+
+    def jobAlreadyExists(self, desc: str) -> bool:
+        return self.__jobService.jobAlreadyExists(desc)

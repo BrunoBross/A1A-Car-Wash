@@ -39,11 +39,12 @@ class JobService(metaclass=Singleton):
     def getJobById(self, id:int) -> Optional[JobDto]:
         return self.__query.getJobNyId(id)
 
-    def getJobByDescription(self, description: str):
-        return self.__query.getJobByDescription(description)
+    def jobAlreadyExists(self, description: str) -> bool:
+        return self.__query.jobAlreadyExists(description)
 
     def deleteJob(self, jobId: int):
         if len(self.__schedulingQuery.getSchedulingsByJobId(jobId)) > 0:
             return False
         self.__query.deleteJob(jobId)
         return True
+

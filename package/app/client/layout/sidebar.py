@@ -27,7 +27,7 @@ class SidebarItem:
 
 
 sidebarItems: Dict[str, SidebarItem] = {
-    "Cadastrar Serviço": SidebarItem(
+    "Serviços": SidebarItem(
         component=RegisterJobView,
         roles={RoleEnum.GERENTE},
     ),

@@ -37,3 +37,7 @@ class JobQuery(metaclass=Singleton):
 
     def deleteJob(self, jobId: int):
         return self.__dao.delete(self.__dao.select(Job).where(Job.id == jobId).first())
+
+    def jobAlreadyExists(self, desc: str) -> bool:
+        return True if self.getJobByDescription(desc) else False
+

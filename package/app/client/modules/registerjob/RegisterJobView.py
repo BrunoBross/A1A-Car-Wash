@@ -103,8 +103,8 @@ class RegisterJobView(metaclass=Singleton):
             self.updateList()
 
     def __editJob(self, _: Gtk.Widget):
-        self.__component.getState().addReference("jobName", self.__jobNameEditInput)
-        self.__component.getState().addReference("jobValue", self.__jobValueEditInput)
+        self.__component.getState().addReference("editedJobName", self.__jobNameEditInput)
+        self.__component.getState().addReference("editedJobValue", self.__jobValueEditInput)
 
         try:
             self.__component.requestEdit(self.__listBoxInput)
@@ -118,6 +118,7 @@ class RegisterJobView(metaclass=Singleton):
             self.updateList()
 
     def getForm(self, isEdit: bool):
+        # JOB NAME BOX
         jobNameBox = Box(Gtk.Orientation.HORIZONTAL)
         jobNameLabel = Gtk.Label()
         jobNameInput = Gtk.Entry()
@@ -132,6 +133,7 @@ class RegisterJobView(metaclass=Singleton):
         jobNameBox.pack_default(jobNameLabel)
         jobNameBox.pack_default(jobNameInput)
 
+        # JOB VALUE BOX
         jobValueBox = Box(Gtk.Orientation.HORIZONTAL)
         jobValueLabel = Gtk.Label()
         jobValueInput = Gtk.Entry()
@@ -146,6 +148,7 @@ class RegisterJobView(metaclass=Singleton):
         jobValueBox.pack_default(jobValueLabel)
         jobValueBox.pack_default(jobValueInput)
 
+        # CONFIRM BUTTON
         if isEdit:
             confirmButton = Gtk.Button(label="Editar")
             confirmButton.connect("clicked", self.__editJob)
