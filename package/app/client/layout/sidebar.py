@@ -18,6 +18,7 @@ from package.app.client.modules.schedulingemployee.EmployeeSchedulingView import
     EmployeeSchedulingView,
 )
 from package.app.client.modules.employeeReport.employeeReportView import EmployeeReportView
+from package.app.client.modules.generalreport.generalReportView import GeneralReportView
 
 
 @dataclass
@@ -55,8 +56,12 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=ResignationView,
         roles={RoleEnum.GERENTE},
     ),
-    "Emitir Relatorio de funcionario": SidebarItem(
+    "Emitir Relatorio de Funcionário": SidebarItem(
         component=EmployeeReportView,
+        roles={RoleEnum.GERENTE},
+    ),
+    "Emitir Relatório Geral": SidebarItem(
+        component=GeneralReportView,
         roles={RoleEnum.GERENTE},
     ),
 }
