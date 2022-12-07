@@ -8,7 +8,7 @@ class WarningService(metaclass=Singleton):
         self.__query = WarningQuery()
 
     def registerWarning(self, warningDto: WarningDto):
-        self.__query.registerWarning(warningDto)
+        return self.__query.registerWarning(warningDto)
 
     def editWarning(self, warningDto: WarningDto, warningId: int):
         self.__query.updateWarning(warningId, warningDto)

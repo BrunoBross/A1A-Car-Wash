@@ -55,6 +55,8 @@ class RegisterWarningComponent(metaclass=Singleton):
                 self.__displayInfoModal(
                     "Aviso cadastrado com sucesso", "Cadastro bem sucedido"
                 )
+            else:
+                self.__displayInfoModal("Erro na realização do cadastro", "Erro")
 
     def requestEditWarning(self, warning: WarningDto) -> None:
         print(warning)

@@ -14,7 +14,7 @@ class WarningController(metaclass=Singleton):
 
     @post_endpoint
     def registerWarning(self, warningDto: WarningDto) -> Optional[WarningDto]:
-        self.__service.registerWarning(warningDto)
+        return self.__service.registerWarning(warningDto)
 
     @post_endpoint
     def editWarning(self, warningDto: WarningDto, warningId: int):

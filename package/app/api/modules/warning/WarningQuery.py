@@ -2,6 +2,7 @@ from datetime import date, datetime
 from typing import List
 from package.app.api.model.Warning import Warning
 from package.app.api.model.WarningTable import WarningTable
+from package.app.api.modules.employee.EmployeeQuery import EmployeeQuery
 from package.app.api.modules.warning.dto.WarningDto import WarningDto
 from package.app.api.orm.DAO import DAO
 from package.app.meta.Singleton import Singleton
@@ -12,14 +13,25 @@ class WarningQuery(metaclass=Singleton):
     def __init__(self):
         self.__dao = DAO()
         self.__session = sqlalchemy_session
+        self.__employeeQuery = EmployeeQuery()
 
     def registerWarning(self, warningDto: WarningDto):
-        self.__dao.insert(
-            Warning(
-                description=warningDto.description,
-                date=datetime.strptime(warningDto.date, "%Y-%m-%d").date(),
+        try:
+            self.__dao.insert(
+                Warning(
+                    description=warningDto.description,
+                    date=datetime.strptime(warningDto.date, "%Y-%m-%d").date(),
+                )
             )
-        )
+        except:
+            return None
+        warning = self.__dao.select(Warning).order_by(Warning.id.desc()).first()
+        employees = self.__employeeQuery.getEmployees()
+        for employee in employees:
+            self.__dao.insert(
+                WarningTable(employee_id=employee.id, warning_id=warning.id)
+            )
+        return warning
 
     def deleteWarning(self, warningId: int):
         return self.__dao.delete(self.__dao.get(Warning, warningId))
