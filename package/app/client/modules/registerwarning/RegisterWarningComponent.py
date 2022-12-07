@@ -49,7 +49,7 @@ class RegisterWarningComponent(metaclass=Singleton):
             description=getEntryBuffer(self.__state.getReferenceById("description")),
         )
 
-        if self.__validator.execute(warningDto, False):
+        if self.__validator.execute(warningDto):
             entity = self.__controller.registerWarning(warningDto=warningDto)
             if entity:
                 self.__displayInfoModal(
@@ -68,7 +68,7 @@ class RegisterWarningComponent(metaclass=Singleton):
             ),
         )
 
-        if self.__validator.execute(warningDto, True):
+        if self.__validator.execute(warningDto):
             if self.__displayConfirmBox():
                 try:
                     self.__controller.editWarning(
