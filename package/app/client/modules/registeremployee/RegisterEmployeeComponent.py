@@ -39,7 +39,9 @@ class RegisterEmployeeComponent(metaclass=Singleton):
                 employeeDto=employeeDto, authDto=authDto
             )
             if entity:
-                self.__displaySuccessMessage("Funcionário cadastrado com sucesso", "Cadastro bem sucedido")
+                self.__displaySuccessMessage(
+                    "Funcionário cadastrado com sucesso", "Cadastro bem sucedido"
+                )
 
     def requestEditEmployee(self, employee: list):
         if employee is None:
@@ -61,11 +63,17 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         if self.__validator.execute(employeeDto, authDto, True):
             if self.__displayConfirmBox(employee, "editar"):
                 try:
-                    self.__employeeController.editEmployee(employeeDto=employeeDto, authDto=authDto, user_id=user_id)
-                    return self.__displaySuccessMessage("Funcionário editado com sucesso", "Edição bem sucedida")
+                    self.__employeeController.editEmployee(
+                        employeeDto=employeeDto, authDto=authDto, user_id=user_id
+                    )
+                    return self.__displaySuccessMessage(
+                        "Funcionário editado com sucesso", "Edição bem sucedida"
+                    )
                 except DatabaseIntegrityException as e:
                     print(e)
-                    return self.__displaySuccessMessage("Erro na edição, tente novamente", "Erro")
+                    return self.__displaySuccessMessage(
+                        "Erro na edição, tente novamente", "Erro"
+                    )
             else:
                 return
 
@@ -74,11 +82,17 @@ class RegisterEmployeeComponent(metaclass=Singleton):
         if self.__displayConfirmBox(employee, "deletar"):
             try:
                 if self.__employeeController.deleteEmployee(user_id):
-                    return self.__displaySuccessMessage("Funcionário deletado com sucesso", "Deleção bem sucedida")
-                return self.__displaySuccessMessage("O funcionário possui agendamentos cadastrados", "Erro")
+                    return self.__displaySuccessMessage(
+                        "Funcionário deletado com sucesso", "Deleção bem sucedida"
+                    )
+                return self.__displaySuccessMessage(
+                    "O funcionário possui agendamentos cadastrados", "Erro"
+                )
             except DatabaseIntegrityException as e:
                 print(e)
-                return self.__displaySuccessMessage("Erro na deleçao, tente novamente", "Erro")
+                return self.__displaySuccessMessage(
+                    "Erro na deleçao, tente novamente", "Erro"
+                )
         else:
             return
 
@@ -93,8 +107,16 @@ class RegisterEmployeeComponent(metaclass=Singleton):
                 admission = str(employee.admission_date)
             else:
                 admission = "Demitido"
-            employeeList.append([employee.user.id, employee.user.username, employee.legalName,
-                                 f'R${employee.wage}', employee.jobLimit, admission])
+            employeeList.append(
+                [
+                    employee.user.id,
+                    employee.user.username,
+                    employee.legalName,
+                    f"R${employee.wage}",
+                    employee.jobLimit,
+                    admission,
+                ]
+            )
         return employeeList
 
     def getEmployees(self):
@@ -112,7 +134,16 @@ class RegisterEmployeeComponent(metaclass=Singleton):
 
     def __displayConfirmBox(self, employee: list, label: str):
         content = Box()
-        content.pack_default(Gtk.Label(f"Tem certeza que você deseja {label} o funcionário {employee[2]}?"))
+        content.pack_default(
+            Gtk.Label(
+                f"Tem certeza que você deseja {label} o funcionário {employee[2]}?"
+            )
+        )
         return self.__dialogService.displayModal(
-            ModalProps(title="Confirmação", content=content, cancelLabel="Cancelar", okLabel="Confirmar")
+            ModalProps(
+                title="Confirmação",
+                content=content,
+                cancelLabel="Cancelar",
+                okLabel="Confirmar",
+            )
         )

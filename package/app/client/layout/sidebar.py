@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import Dict, Set, Type
 from package.app.api.enum.RoleEnum import RoleEnum
+from package.app.client.modules.registerwarning.RegisterWarningView import (
+    RegisterWarningView,
+)
 from package.app.client.modules.resignation.ResignationView import ResignationView
 from package.app.client.modules.registerjob.RegisterJobView import RegisterJobView
 from package.app.client.modules.billing.BillingView import BillingView
@@ -17,8 +20,13 @@ from package.app.template.IAppComponent import IAppComponent
 from package.app.client.modules.schedulingemployee.EmployeeSchedulingView import (
     EmployeeSchedulingView,
 )
-from package.app.client.modules.employeeReport.employeeReportView import EmployeeReportView
+from package.app.client.modules.employeeReport.employeeReportView import (
+    EmployeeReportView,
+)
 from package.app.client.modules.generalreport.generalReportView import GeneralReportView
+from package.app.client.modules.employeeReport.employeeReportView import (
+    EmployeeReportView,
+)
 
 
 @dataclass
@@ -36,10 +44,14 @@ sidebarItems: Dict[str, SidebarItem] = {
         component=RegisterVehicleView,
         roles={RoleEnum.GERENTE},
     ),
+    "Avisos": SidebarItem(
+        component=RegisterWarningView,
+        roles={RoleEnum.GERENTE},
+    ),
     "Funcionários": SidebarItem(
         component=RegisterEmployeeView,
         roles={RoleEnum.GERENTE},
-    ),  
+    ),
     "Agendamentos": SidebarItem(
         component=EmployeeSchedulingView,
         roles={RoleEnum.FUNCIONARIO},

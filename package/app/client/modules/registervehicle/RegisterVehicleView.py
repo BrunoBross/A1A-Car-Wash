@@ -10,8 +10,6 @@ from package.app.client.modules.registervehicle.RegisterVehicleComponent import 
 class RegisterVehicleView(metaclass=Singleton):
     def __init__(self):
         self.__component = RegisterVehicleComponent()
-        
-
         self.__listStore = None
         self.__vehicleCombo = None
         self.__vehicleList = self.__component.getVehicleList()
@@ -20,8 +18,6 @@ class RegisterVehicleView(metaclass=Singleton):
         self.__vehicles = self.__component.getAllVehicles()
         self.__numberPlateFieldInput: Gtk.Widget
         self.__numberPlateFieldEditInput: Gtk.Widget
-        
-        
 
     def get(self) -> Gtk.Box:
         mainBox = Box(orientation=Gtk.Orientation.VERTICAL)
@@ -64,7 +60,7 @@ class RegisterVehicleView(metaclass=Singleton):
         listar.pack_start(list_label, False, False, 0)
         listar.pack_start(grid_list, False, False, 0)
         listar.pack_start(delete_button, False, False, 0)
-        #fim da listagem
+        # fim da listagem
 
         # INICO DO CADASTRO
         register_label = Gtk.Label()
@@ -90,8 +86,6 @@ class RegisterVehicleView(metaclass=Singleton):
         vehicleLabel.set_markup("Veiculo")
         vehicleBox.pack_default(vehicleLabel)
 
-        
-
         edicaoForm = self.getForm(isEdit=True)
         editar = Box(orientation=Gtk.Orientation.VERTICAL)
         editar.pack_start(edit_label, False, False, 0)
@@ -99,7 +93,7 @@ class RegisterVehicleView(metaclass=Singleton):
         editar.pack_start(edicaoForm, False, False, 0)
         # FINAL EDICAO
 
-        #stacks
+        # stacks
         stack.add_titled(listar, "visualizar", "Visualizar")
         stack.add_titled(cadastrar, "cadastrar", "Cadastrar")
         stack.add_titled(editar, "editar", "Editar")
@@ -111,30 +105,34 @@ class RegisterVehicleView(metaclass=Singleton):
         return mainBox
 
     def __onConfirm(self, _: Gtk.Widget):
-        self.__component.getState().addReference("numberPlate", self.__numberPlateFieldInput)
+        self.__component.getState().addReference(
+            "numberPlate", self.__numberPlateFieldInput
+        )
         self.__component.requestCreateVehicle()
 
     def __registerVehicle(self, _: Gtk.Widget):
-        self.__component.getState().addReference("numberPlate", self.__numberPlateFieldInput)
+        self.__component.getState().addReference(
+            "numberPlate", self.__numberPlateFieldInput
+        )
 
         try:
             self.__component.requestCreateVehicle()
         finally:
             self.updateList()
-            
 
     def __editVehicle(self, _: Gtk.Widget):
-        self.__component.getState().addReference("numberPlateEdit", self.__numberPlateFieldEditInput)
+        self.__component.getState().addReference(
+            "numberPlateEdit", self.__numberPlateFieldEditInput
+        )
         try:
             print("========================================")
             print(self.__listBoxInput)
             print("edit input")
             print(self.__numberPlateFieldEditInput)
-            
+
             self.__component.requestEditVehicle(self.__listBoxInput)
         finally:
             self.updateList()
-           
 
     def __deleteVehicle(self, _: Gtk.Button):
         try:
@@ -142,15 +140,12 @@ class RegisterVehicleView(metaclass=Singleton):
         finally:
             self.updateList()
 
-    
-
     def updateList(self):
         self.__listStore.clear()
         self.__vehicleList = self.__component.getVehicleList()
         for item in self.__vehicleList:
             self.__listStore.append(list(item))
 
-    
     def changeListBoxInput(self, _):
         self.__listBoxInput = _.get_selected_rows()
         (model, pathlist) = _.get_selected_rows()
@@ -166,9 +161,7 @@ class RegisterVehicleView(metaclass=Singleton):
         print(self.__listBoxInput)
         print("------------------------------------")
 
-
-
-    def getForm(self, isEdit:bool):
+    def getForm(self, isEdit: bool):
         numberPlateFieldBox = Box(Gtk.Orientation.HORIZONTAL)
         numberPlateFieldLabel = Gtk.Label()
         numberPlateFieldInput = Gtk.Entry()
@@ -183,12 +176,11 @@ class RegisterVehicleView(metaclass=Singleton):
         numberPlateFieldBox.pack_default(numberPlateFieldLabel)
         numberPlateFieldBox.pack_default(numberPlateFieldInput)
 
-
         if isEdit:
             confirmButton = Gtk.Button(label="Editar")
             confirmButton.connect("clicked", self.__editVehicle)
             self.__numberPlateFieldEditInput = numberPlateFieldInput
-            
+
         else:
             confirmButton = Gtk.Button(label="Cadastrar")
             confirmButton.connect("clicked", self.__registerVehicle)
