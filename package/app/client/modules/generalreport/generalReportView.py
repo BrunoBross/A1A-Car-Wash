@@ -9,7 +9,6 @@ class GeneralReportView(metaclass=Singleton):
     def __init__(self):
         self.__component = GeneralReportComponent()
         self.__selectedMonth = ""
-        self.__employeeCombo = Gtk.ComboBoxText
         self.__months = {
             "Selecione um mês": 0,
             "Janeiro": "01",
@@ -57,8 +56,7 @@ class GeneralReportView(metaclass=Singleton):
         return mainBox
 
     def onConfirm(self, _):
-        self.__selectedEmployeeId = self.getEmployeeIdFromCombo()
-        self.__component.getEmployeeReport(self.__selectedEmployeeId, self.__selectedMonth)
+        self.__component.getGeneralReport(self.__selectedMonth)
 
     def updateSelectedMonth(self, _):
         selectedMonthText = _.get_active_text()

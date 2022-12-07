@@ -26,6 +26,9 @@ class ResignationService(metaclass=Singleton):
     def getResignationTypeById(self, ResignationId):
         return self.__query.getResignationTypeById(ResignationId)
 
+    def getResignatedEmployeeAfterDateId(self, startMonth):
+        return self.__query.getResignatedEmployeeAfterDateId(startMonth)
+
     def changeEmployeeRegisterStatus(self, id:int):
         return self.__query.changeEmployeeRegisterStatus(id)
 

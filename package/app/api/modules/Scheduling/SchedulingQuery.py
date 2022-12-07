@@ -41,3 +41,26 @@ class SchedulingQuery(metaclass=Singleton):
             .where(Scheduling.date >= startMonth) \
             .where(Scheduling.date <= endMonth) \
             .all()
+
+    def getAllVehiclesServicedByMonth(self, startMonth, endMonth):
+        return self.__dao.select(Scheduling.vehicle_id) \
+            .where(Scheduling.date >= startMonth) \
+            .where(Scheduling.date <= endMonth) \
+            .all() \
+
+    def getAllFinishedByMonth(self, startMonth, endMonth):
+        return self.__dao.select(Scheduling) \
+            .where(Scheduling.date >= startMonth) \
+            .where(Scheduling.date <= endMonth) \
+            .where(Scheduling.job_state_id == 2) \
+            .all()
+
+    def getAllClientAbscencesByMonth(self, startMonth, endMonth):
+        return self.__dao.select(Scheduling) \
+            .where(Scheduling.date >= startMonth) \
+            .where(Scheduling.date <= endMonth) \
+            .where(Scheduling.job_state_id == 3) \
+            .all()
+
+
+            

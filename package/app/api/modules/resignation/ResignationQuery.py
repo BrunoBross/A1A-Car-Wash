@@ -37,6 +37,11 @@ class ResignationQuery(metaclass=Singleton):
         except IndexError:
             return None
 
+    def getResignatedEmployeeAfterDateId(self, date):
+        return self.__dao.select(Resignation.employee_id) \
+            .where(Resignation.date > date) \
+            .all()
+
     def changeEmployeeRegisterStatus(self, id:int):
         try:
             self.__dao.update(Employee, (Employee.id == id), "active_register", False)

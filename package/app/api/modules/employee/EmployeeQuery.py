@@ -23,6 +23,11 @@ class EmployeeQuery(metaclass=Singleton):
     def getEmployeeById(self, id: int) -> Optional[Employee]:
         return self.__dao.select(Employee).where(Employee.id == id).first()
 
+    def getEmployeesByAdmissionDate(self, endMonth):
+        return self.__dao.select(Employee) \
+            .where(Employee.admission_date <= endMonth) \
+            .all()
+
     def registerEmployee(self, employee: Employee):
         try:
             self.__dao.insert(employee)

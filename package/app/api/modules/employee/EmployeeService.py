@@ -35,6 +35,9 @@ class EmployeeService(metaclass=Singleton):
         if employee:
             return self.__mapper.mapEmployeeToDto(employee)
 
+    def getEmployeesByAdmissionDate(self, endMonth):
+        return self.__employeeQuery.getEmployeesByAdmissionDate(endMonth)
+
     def createEmployee(
         self, employeeDto: EmployeeDto, authDto: AuthDto
     ) -> Optional[EmployeeDto]:

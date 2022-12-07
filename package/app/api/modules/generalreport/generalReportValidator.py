@@ -11,5 +11,8 @@ class GeneralReportValidator(metaclass=Singleton):
         self.__query = SchedulingQuery()
 
     @validator_function
-    def execute(self, employeeID: int, month:str, validation: ValidationObject) -> bool:
+    def execute(self, month:str, validation: ValidationObject) -> bool:
+        if month == "":
+            validation.errors.add("Por favor, selecione um mês.")
+            return False
         return True

@@ -24,3 +24,12 @@ class SchedulingService(metaclass=Singleton):
 
     def getSchedulingByEmployeeIDAndDate(self, employeeID:int, startMonth:str, endMonth:str) -> Optional[SchedulingDto]:
         return self.__SchedulingQuery.getSchedulingByEmployeeIDAndDate(employeeID, startMonth, endMonth)
+
+    def getAllVehiclesServicedByMonth(self, startMonth, endMonth):
+        return self.__SchedulingQuery.getAllVehiclesServicedByMonth(startMonth, endMonth)
+
+    def getAllFinishedByMonth(self, startMonth, endMonth):
+        return self.__SchedulingQuery.getAllFinishedByMonth(startMonth, endMonth)
+
+    def getAllClientAbscencesByMonth(self, selfstartMonth, endMonth):
+        return self.__SchedulingQuery.getAllClientAbscencesByMonth(selfstartMonth, endMonth)
